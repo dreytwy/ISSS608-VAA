@@ -4,4 +4,8 @@ title: "ISSS608-VAA"
 
 Welcome to **ISSS608** **Visual Analytics and Applications** homepage. In this website, you will find my coursework prepared for this course.
 
-
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(magick)
+img <- image_read("https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") 
+plot(img)
+```
