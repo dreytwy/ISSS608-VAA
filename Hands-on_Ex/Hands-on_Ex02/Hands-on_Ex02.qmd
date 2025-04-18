@@ -302,21 +302,27 @@ To learn more about, refer to [Plot Assembly](https://patchwork.data-imaginist.
 In order to identify subplots in text, **patchwork** also provides auto-tagging capabilities as shown in the figure below.
 
 ### Roman Numerals- Uppercase
+
 'I' for uppercase and 'i' for lower case roman numerals
+
 ```{r}
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = 'I')
 ```
 
 ### Latin Letters- Uppercase
+
 'A' for uppercase and 'a' for lower case Latin letters
+
 ```{r}
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = 'A')
 ```
 
 ### Arabic Numerals
+
 '1' for Arabic numerals
+
 ```{r}
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = '1')
@@ -327,6 +333,7 @@ In order to identify subplots in text, **patchwork** also provides auto-taggin
 Beside providing functions to place plots next to each other based on the provided layout. With [`inset_element()`](https://patchwork.data-imaginist.com/reference/inset_element.html) of **patchwork**, we can place one or several plots or graphic elements freely on top or below another plot.
 
 ### Insert P2 to Top Left
+
 ```{r}
 p3 + inset_element(p2, 
                    left = 0.02, 
@@ -336,6 +343,7 @@ p3 + inset_element(p2,
 ```
 
 ### Insert P1 to Bottom Right
+
 ```{r}
 p3 + inset_element(p1, 
                    left = 0.6, 
@@ -361,7 +369,7 @@ patchwork & theme_economist()&
   )
 ```
 
-## **2.6 Reference**
+# **2.6 Reference**
 
 -   [Patchwork R package goes nerd viral](https://www.littlemissdata.com/blog/patchwork)
 
