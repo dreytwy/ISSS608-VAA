@@ -306,7 +306,7 @@ The code chunk below plots two kernel density lines by using *colour* or *fill* 
 ggplot(data=exam_data, 
        aes(x = MATHS, 
            colour = GENDER)) +
-  geom_density()
+  geom_density(aes(fill = GENDER), alpha = 0.5)
 ```
 
 ## 1.7.7 Geometric Objects: geom_boxplot
@@ -319,7 +319,7 @@ The code chunk below plots boxplots by using [`geom_boxplot()`](https://ggplot2.
 ggplot(data=exam_data, 
        aes(y = MATHS,       
            x= GENDER)) +    
-  geom_boxplot()   
+  geom_boxplot(aes(fill = GENDER), alpha = 0.5)   
 ```
 
 [**Notches**](https://sites.google.com/site/davidsstatistics/home/notched-box-plots) are used in box plots to help visually assess whether the medians of distributions differ. If the notches do not overlap, this is evidence that the medians are different.
@@ -330,7 +330,7 @@ The code chunk below plots the distribution of Maths scores by gender in notched
 ggplot(data=exam_data, 
        aes(y = MATHS, 
            x= GENDER)) +
-  geom_boxplot(notch=TRUE)
+  geom_boxplot(aes(fill = GENDER), alpha = 0.5, notch=TRUE)
 ```
 
 ## 1.7.8 Geometric Objects: geom_violin
@@ -343,7 +343,7 @@ The code below plot the distribution of Maths score by gender in violin plot.
 ggplot(data=exam_data, 
        aes(y = MATHS, 
            x= GENDER)) +
-  geom_violin()
+  geom_violin(aes(fill = GENDER), alpha = 0.5)
 ```
 
 ## 1.7.9 Geometric Objects: geom_point()
@@ -355,8 +355,9 @@ The code chunk below plots a scatterplot showing the Maths and English grades of
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS, 
-           y=ENGLISH)) +
-  geom_point()        
+           y=ENGLISH,
+           color=GENDER)) +
+  geom_point(aes(fill = GENDER), alpha = 0.5)        
 ```
 
 ## 1.7.10 geom objects can be combined
@@ -364,12 +365,13 @@ ggplot(data=exam_data,
 The code chunk below plots the data points on the boxplots by using both `geom_boxplot()` and `geom_point()`.
 
 ```{r}
-ggplot(data=exam_data, 
-       aes(y = MATHS, 
-           x= GENDER)) +
-  geom_boxplot() +                    
-  geom_point(position="jitter", 
-             size = 0.5)  
+ggplot(data = exam_data, 
+       aes(x = GENDER, y = MATHS)) +
+  geom_boxplot(aes(fill = GENDER), alpha = 0.5) +   # color-filled 
+  geom_jitter(aes(color = GENDER),              
+              width = 0.2, size = 0.8, alpha = 0.7) +
+  ggtitle("Maths Scores by Gender") +
+  theme_minimal()
 ```
 
 # 1.8 Essential Grammatical Elements in ggplot2: stat
@@ -405,7 +407,7 @@ The code chunk below adds mean values by using [`stat_summary()`](https://ggplo
 ```{r}
 ggplot(data=exam_data, 
        aes(y = MATHS, x= GENDER)) +
-  geom_boxplot() +
+  geom_boxplot(aes(fill = GENDER), alpha = 0.5) +
   stat_summary(geom = "point",       
                fun = "mean",         
                colour ="red",        
@@ -419,7 +421,7 @@ The code chunk below adding mean values by using `geom_()` function and overri
 ```{r}
 ggplot(data=exam_data, 
        aes(y = MATHS, x= GENDER)) +
-  geom_boxplot() +
+  geom_boxplot(aes(fill = GENDER), alpha = 0.5) +
   geom_point(stat="summary",        
              fun="mean",           
              colour="red",          
@@ -592,6 +594,18 @@ ggplot(data=exam_data,
   geom_bar() +
   coord_flip() +
   theme_minimal()
+```
+
+### Black and White
+
+The code chunk below plot a horizontal bar chart using `theme_bw()`
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x=RACE)) +
+  geom_bar() +
+  coord_flip() +
+  theme_bw()
 ```
 
 # 1.12 Reference

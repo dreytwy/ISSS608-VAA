@@ -28,6 +28,13 @@
     "text": "1.3.1 R Graphics VS ggplot\n\nR Graphics\n\nhist(exam_data$MATHS)\n\n\n\n\n\n\n\n\nThe code is simpler for R Graphics as compared to ggplot.\n\n\nGGPLOT2\n\nggplot(data = exam_data, aes(x = MATHS)) +\n  geom_histogram(bins = 10,\n                 boundary = 100,\n                 color = \"black\",\n                 fill=\"mediumorchid\")+\n  ggtitle(\"Distribution of Maths Scores\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\nHowever, here are a few advantages of ggplot2:\n\nNo need to make own legends.\nAble to perform faceting (Covered in section 1.9 here) to display data in multiple subplots.\nAble to use tidydata to do exploratory data analysis through data.table or dplyr.\nggplot2 looks better\n\nAs pointed out by Hadley Wickham :\nThe transferable skills from ggplot2 are not the idiosyncrasies of plotting syntax, but a powerful way of thinking about visualisation, as a way of mapping between variables and the visual properties of geometric objects that you can perceive."
   },
   {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#a-layered-grammar-of-graphics",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#a-layered-grammar-of-graphics",
+    "title": "Hands-on Exercise 1",
+    "section": "1.4.1 A Layered Grammar of Graphics",
+    "text": "1.4.1 A Layered Grammar of Graphics\nggplot2 is an implementation of Leland Wilkinson’s Grammar of Graphics. Figure below shows the seven grammars of ggplot2.\n\nimg &lt;- image_read(\"https://r4va.netlify.app/chap01/img/image4.jpg\")\nplot(img)\n\n\n\n\n\n\n\n\nReference: Hadley Wickham (2010) “A layered grammar of graphics.” Journal of Computational and Graphical Statistics, vol. 19, no. 1, pp. 3–28.\nA short description of each building block are as follows:\n\nData: The dataset being plotted.\nAesthetics take attributes of the data and use them to influence visual characteristics, such as position, colours, size, shape, or transparency.\nGeometrics: The visual elements used for our data, such as point, bar or line.\nFacets split the data into subsets to create multiple variations of the same graph (paneling, multiple plots).\nStatistics, statiscal transformations that summarise data (e.g. mean, confidence intervals).\nCoordinate systems define the plane on which data are mapped on the graphic.\nThemes modify all non-data components of a plot, such as main title, sub-title, y-aixs title, or legend background."
+  },
+  {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_bar",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_bar",
     "title": "Hands-on Exercise 1",
@@ -67,35 +74,35 @@
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_density",
     "title": "Hands-on Exercise 1",
     "section": "1.7.6 Geometric Objects: geom_density",
-    "text": "1.7.6 Geometric Objects: geom_density\ngeom-density() computes and plots kernel density estimate, which is a smoothed version of the histogram.\nIt is a useful alternative to the histogram for continuous data that comes from an underlying smooth distribution.\nThe code below plots the distribution of Maths scores in a kernel density estimate plot.\n\nggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_density()   \n\n\n\n\n\n\n\n\n\nTwo density lines\nThe code chunk below plots two kernel density lines by using colour or fill arguments of aes()\n\nggplot(data=exam_data, \n       aes(x = MATHS, \n           colour = GENDER)) +\n  geom_density()"
+    "text": "1.7.6 Geometric Objects: geom_density\ngeom-density() computes and plots kernel density estimate, which is a smoothed version of the histogram.\nIt is a useful alternative to the histogram for continuous data that comes from an underlying smooth distribution.\nThe code below plots the distribution of Maths scores in a kernel density estimate plot.\n\nggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_density()   \n\n\n\n\n\n\n\n\n\nTwo density lines\nThe code chunk below plots two kernel density lines by using colour or fill arguments of aes()\n\nggplot(data=exam_data, \n       aes(x = MATHS, \n           colour = GENDER)) +\n  geom_density(aes(fill = GENDER), alpha = 0.5)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_boxplot",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_boxplot",
     "title": "Hands-on Exercise 1",
     "section": "1.7.7 Geometric Objects: geom_boxplot",
-    "text": "1.7.7 Geometric Objects: geom_boxplot\ngeom_boxplot() displays continuous value list. It visualises five summary statistics (the median, two hinges and two whiskers), and all “outlying” points individually.\nThe code chunk below plots boxplots by using geom_boxplot().\n\nggplot(data=exam_data, \n       aes(y = MATHS,       \n           x= GENDER)) +    \n  geom_boxplot()   \n\n\n\n\n\n\n\n\nNotches are used in box plots to help visually assess whether the medians of distributions differ. If the notches do not overlap, this is evidence that the medians are different.\nThe code chunk below plots the distribution of Maths scores by gender in notched plot instead of boxplot.\n\nggplot(data=exam_data, \n       aes(y = MATHS, \n           x= GENDER)) +\n  geom_boxplot(notch=TRUE)"
+    "text": "1.7.7 Geometric Objects: geom_boxplot\ngeom_boxplot() displays continuous value list. It visualises five summary statistics (the median, two hinges and two whiskers), and all “outlying” points individually.\nThe code chunk below plots boxplots by using geom_boxplot().\n\nggplot(data=exam_data, \n       aes(y = MATHS,       \n           x= GENDER)) +    \n  geom_boxplot(aes(fill = GENDER), alpha = 0.5)   \n\n\n\n\n\n\n\n\nNotches are used in box plots to help visually assess whether the medians of distributions differ. If the notches do not overlap, this is evidence that the medians are different.\nThe code chunk below plots the distribution of Maths scores by gender in notched plot instead of boxplot.\n\nggplot(data=exam_data, \n       aes(y = MATHS, \n           x= GENDER)) +\n  geom_boxplot(aes(fill = GENDER), alpha = 0.5, notch=TRUE)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_violin",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_violin",
     "title": "Hands-on Exercise 1",
     "section": "1.7.8 Geometric Objects: geom_violin",
-    "text": "1.7.8 Geometric Objects: geom_violin\ngeom_violin is designed for creating violin plot. Violin plots are a way of comparing multiple data distributions. With ordinary density curves, it is difficult to compare more than just a few distributions because the lines visually interfere with each other. With a violin plot, it’s easier to compare several distributions since they’re placed side by side.\nThe code below plot the distribution of Maths score by gender in violin plot.\n\nggplot(data=exam_data, \n       aes(y = MATHS, \n           x= GENDER)) +\n  geom_violin()"
+    "text": "1.7.8 Geometric Objects: geom_violin\ngeom_violin is designed for creating violin plot. Violin plots are a way of comparing multiple data distributions. With ordinary density curves, it is difficult to compare more than just a few distributions because the lines visually interfere with each other. With a violin plot, it’s easier to compare several distributions since they’re placed side by side.\nThe code below plot the distribution of Maths score by gender in violin plot.\n\nggplot(data=exam_data, \n       aes(y = MATHS, \n           x= GENDER)) +\n  geom_violin(aes(fill = GENDER), alpha = 0.5)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_point",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_point",
     "title": "Hands-on Exercise 1",
     "section": "1.7.9 Geometric Objects: geom_point()",
-    "text": "1.7.9 Geometric Objects: geom_point()\ngeom_point() is especially useful for creating scatterplot.\nThe code chunk below plots a scatterplot showing the Maths and English grades of pupils by using geom_point().\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point()"
+    "text": "1.7.9 Geometric Objects: geom_point()\ngeom_point() is especially useful for creating scatterplot.\nThe code chunk below plots a scatterplot showing the Maths and English grades of pupils by using geom_point().\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH,\n           color=GENDER)) +\n  geom_point(aes(fill = GENDER), alpha = 0.5)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geom-objects-can-be-combined",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geom-objects-can-be-combined",
     "title": "Hands-on Exercise 1",
     "section": "1.7.10 geom objects can be combined",
-    "text": "1.7.10 geom objects can be combined\nThe code chunk below plots the data points on the boxplots by using both geom_boxplot() and geom_point().\n\nggplot(data=exam_data, \n       aes(y = MATHS, \n           x= GENDER)) +\n  geom_boxplot() +                    \n  geom_point(position=\"jitter\", \n             size = 0.5)"
+    "text": "1.7.10 geom objects can be combined\nThe code chunk below plots the data points on the boxplots by using both geom_boxplot() and geom_point().\n\nggplot(data = exam_data, \n       aes(x = GENDER, y = MATHS)) +\n  geom_boxplot(aes(fill = GENDER), alpha = 0.5) +   # color-filled \n  geom_jitter(aes(color = GENDER),              \n              width = 0.2, size = 0.8, alpha = 0.7) +\n  ggtitle(\"Maths Scores by Gender\") +\n  theme_minimal()"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat",
@@ -109,14 +116,14 @@
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-stat_summary-method",
     "title": "Hands-on Exercise 1",
     "section": "1.8.2 Working with stat - the stat_summary() method",
-    "text": "1.8.2 Working with stat - the stat_summary() method\nThe code chunk below adds mean values by using stat_summary() function and overriding the default geom.\n\nggplot(data=exam_data, \n       aes(y = MATHS, x= GENDER)) +\n  geom_boxplot() +\n  stat_summary(geom = \"point\",       \n               fun = \"mean\",         \n               colour =\"red\",        \n               size=4)"
+    "text": "1.8.2 Working with stat - the stat_summary() method\nThe code chunk below adds mean values by using stat_summary() function and overriding the default geom.\n\nggplot(data=exam_data, \n       aes(y = MATHS, x= GENDER)) +\n  geom_boxplot(aes(fill = GENDER), alpha = 0.5) +\n  stat_summary(geom = \"point\",       \n               fun = \"mean\",         \n               colour =\"red\",        \n               size=4)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-geom-method",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-geom-method",
     "title": "Hands-on Exercise 1",
     "section": "1.8.3 Working with stat - the geom() method",
-    "text": "1.8.3 Working with stat - the geom() method\nThe code chunk below adding mean values by using geom_() function and overriding the default stat.\n\nggplot(data=exam_data, \n       aes(y = MATHS, x= GENDER)) +\n  geom_boxplot() +\n  geom_point(stat=\"summary\",        \n             fun=\"mean\",           \n             colour=\"red\",          \n             size=4)"
+    "text": "1.8.3 Working with stat - the geom() method\nThe code chunk below adding mean values by using geom_() function and overriding the default stat.\n\nggplot(data=exam_data, \n       aes(y = MATHS, x= GENDER)) +\n  geom_boxplot(aes(fill = GENDER), alpha = 0.5) +\n  geom_point(stat=\"summary\",        \n             fun=\"mean\",           \n             colour=\"red\",          \n             size=4)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#adding-a-best-fit-curve-on-a-scatterplot",
@@ -158,7 +165,7 @@
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-theme",
     "title": "Hands-on Exercise 1",
     "section": "1.11.1 Working with theme",
-    "text": "1.11.1 Working with theme\n\nGray\nThe code chunk below plot a horizontal bar chart using theme_gray().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_gray()\n\n\n\n\n\n\n\n\n\n\nClassic\nA horizontal bar chart plotted using theme_classic().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\nMinimal\nA horizontal bar chart plotted using theme_minimal().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_minimal()"
+    "text": "1.11.1 Working with theme\n\nGray\nThe code chunk below plot a horizontal bar chart using theme_gray().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_gray()\n\n\n\n\n\n\n\n\n\n\nClassic\nA horizontal bar chart plotted using theme_classic().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\nMinimal\nA horizontal bar chart plotted using theme_minimal().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nBlack and White\nThe code chunk below plot a horizontal bar chart using theme_bw()\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_bw()"
   },
   {
     "objectID": "about.html",
@@ -236,12 +243,5 @@
     "title": "Hands-on Exercise 2",
     "section": "2.5.6 Creating a composite figure by using patchwork and ggtheme",
     "text": "2.5.6 Creating a composite figure by using patchwork and ggtheme\n\npatchwork &lt;- (p1 / p2) | p3 \npatchwork & theme_economist()&\n  theme(\n    plot.title = element_text(size = 8),       # Adjust main patchwork title size\n    plot.subtitle = element_text(size = 8),    # Adjust main patchwork subtitle size \n    plot.caption = element_text(size = 7),     # Adjust main patchwork caption size \n    strip.text = element_text(size = 8),        # Adjust facet label sizes \n    axis.title.x = element_text(size = 8),       # Adjust x-axis label sizes\n    axis.title.y = element_text(size = 8)        # Adjust y-axis label sizes\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#a-layered-grammar-of-graphics",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#a-layered-grammar-of-graphics",
-    "title": "Hands-on Exercise 1",
-    "section": "1.4.1 A Layered Grammar of Graphics",
-    "text": "1.4.1 A Layered Grammar of Graphics\nggplot2 is an implementation of Leland Wilkinson’s Grammar of Graphics. Figure below shows the seven grammars of ggplot2.\n\nimg &lt;- image_read(\"https://r4va.netlify.app/chap01/img/image4.jpg\")\nplot(img)\n\n\n\n\n\n\n\n\nReference: Hadley Wickham (2010) “A layered grammar of graphics.” Journal of Computational and Graphical Statistics, vol. 19, no. 1, pp. 3–28.\nA short description of each building block are as follows:\n\nData: The dataset being plotted.\nAesthetics take attributes of the data and use them to influence visual characteristics, such as position, colours, size, shape, or transparency.\nGeometrics: The visual elements used for our data, such as point, bar or line.\nFacets split the data into subsets to create multiple variations of the same graph (paneling, multiple plots).\nStatistics, statiscal transformations that summarise data (e.g. mean, confidence intervals).\nCoordinate systems define the plane on which data are mapped on the graphic.\nThemes modify all non-data components of a plot, such as main title, sub-title, y-aixs title, or legend background."
   }
 ]
