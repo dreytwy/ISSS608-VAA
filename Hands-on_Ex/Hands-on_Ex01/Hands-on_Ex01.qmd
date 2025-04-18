@@ -76,7 +76,7 @@ However, here are a few advantages of ggplot2:
 
 -   No need to make own legends.
 
--   Able to perform faceting *(Covered in section 1.9 here)* to display data in multiple subplots.
+-   Able to perform faceting *(*[1.9 Essential Grammatical Elements in ggplot2: Facets]*)* to display data in multiple subplots.
 
 -   Able to use tidydata to do exploratory data analysis through data.table or dplyr.
 
@@ -164,7 +164,9 @@ ggplot(data=exam_data,
        aes(x= MATHS)) +
   geom_histogram(bins=20,            
                  color="black",      
-                 fill="lavenderblush")
+                 fill="lavenderblush")+  
+ggtitle("Distribution of Maths Scores")
+
 ```
 
 *Note.*
@@ -205,8 +207,8 @@ The code chunk below plots a bar chart by using [`geom_bar()`](https://ggplot2.
 ```{r}
 ggplot(data=exam_data, 
        aes(x=RACE)) +
-  geom_bar()
-
+  geom_bar(aes(fill = RACE), alpha = 0.5)+
+ggtitle("Barplot of Races")
 ```
 
 ## 1.7.1 Geometric Objects: geom_dotplot
@@ -218,7 +220,8 @@ In the code chunk below, [`geom_dotplot()`](https://ggplot2.tidyverse.org/refere
 ```{r}
 ggplot(data=exam_data, 
        aes(x = MATHS)) +
-  geom_dotplot(dotsize = 0.5)
+  geom_dotplot(dotsize = 0.5, fill = "darkseagreen1")+  
+ggtitle("Dotplot of Maths Scores")
 ```
 
 The y scale is not very useful, in fact it is very misleading.
@@ -233,7 +236,8 @@ The code chunk below performs the following two steps:
 ggplot(data=exam_data, 
        aes(x = MATHS)) +
   geom_dotplot(binwidth=2.5,         
-               dotsize = 0.5) +      
+               dotsize = 0.5, fill = "darkseagreen1", alpha = 0.5) +
+ggtitle("Dotplot of Maths Scores")+
   scale_y_continuous(NULL,           
                      breaks = NULL)  
 ```
@@ -245,7 +249,8 @@ In the code chunk below, [*geom_histogram()*](https://ggplot2.tidyverse.org/ref
 ```{r}
 ggplot(data=exam_data, 
        aes(x=RACE)) +
-  geom_bar()
+  geom_bar(aes(fill = GENDER), alpha = 0.5)+  
+ggtitle("Barplot of Races by Gender")
 ```
 
 *Note that the default bin is **30**.*
@@ -265,7 +270,8 @@ ggplot(data=exam_data,
        aes(x= MATHS)) +
   geom_histogram(bins=20,            
                  color="black",      
-                 fill="darkorchid2")   
+                 fill="darkorchid2") +  
+ggtitle("Distribution of Maths Scores")
 ```
 
 ## 1.7.5 Modifying a geometric object by changing aes()
@@ -277,8 +283,8 @@ hst<-ggplot(data=exam_data,
        aes(x= MATHS, 
            fill = GENDER)) +
   geom_histogram(bins=20, 
-                 color="grey30")
-
+                 color="grey30") +  
+  ggtitle("Distribution of Maths Scores by Gender")
 hst + scale_fill_brewer(palette = "Set2")
 ```
 
@@ -295,7 +301,8 @@ The code below plots the distribution of Maths scores in a kernel density estima
 ```{r}
 ggplot(data=exam_data, 
        aes(x = MATHS)) +
-  geom_density()   
+  geom_density()  +  
+ggtitle("Density plot of Maths Scores")
 ```
 
 ### Two density lines
@@ -306,7 +313,8 @@ The code chunk below plots two kernel density lines by using *colour* or *fill* 
 ggplot(data=exam_data, 
        aes(x = MATHS, 
            colour = GENDER)) +
-  geom_density(aes(fill = GENDER), alpha = 0.5)
+  geom_density(aes(fill = GENDER), alpha = 0.5) +  
+ggtitle("Density plot of Maths Scores by Gender")
 ```
 
 ## 1.7.7 Geometric Objects: geom_boxplot
@@ -319,7 +327,8 @@ The code chunk below plots boxplots by using [`geom_boxplot()`](https://ggplot2.
 ggplot(data=exam_data, 
        aes(y = MATHS,       
            x= GENDER)) +    
-  geom_boxplot(aes(fill = GENDER), alpha = 0.5)   
+  geom_boxplot(aes(fill = GENDER), alpha = 0.5)  +  
+ggtitle("Boxplot of Maths Scores by Gender")
 ```
 
 [**Notches**](https://sites.google.com/site/davidsstatistics/home/notched-box-plots) are used in box plots to help visually assess whether the medians of distributions differ. If the notches do not overlap, this is evidence that the medians are different.
@@ -330,7 +339,8 @@ The code chunk below plots the distribution of Maths scores by gender in notched
 ggplot(data=exam_data, 
        aes(y = MATHS, 
            x= GENDER)) +
-  geom_boxplot(aes(fill = GENDER), alpha = 0.5, notch=TRUE)
+  geom_boxplot(aes(fill = GENDER), alpha = 0.5, notch=TRUE)+  
+ggtitle("Notched plot of Maths Scores by Gender")
 ```
 
 ## 1.7.8 Geometric Objects: geom_violin
@@ -343,7 +353,8 @@ The code below plot the distribution of Maths score by gender in violin plot.
 ggplot(data=exam_data, 
        aes(y = MATHS, 
            x= GENDER)) +
-  geom_violin(aes(fill = GENDER), alpha = 0.5)
+  geom_violin(aes(fill = GENDER), alpha = 0.5) +  
+ggtitle("Violin plot of Maths Scores by Gender")
 ```
 
 ## 1.7.9 Geometric Objects: geom_point()
@@ -357,7 +368,8 @@ ggplot(data=exam_data,
        aes(x= MATHS, 
            y=ENGLISH,
            color=GENDER)) +
-  geom_point(aes(fill = GENDER), alpha = 0.5)        
+  geom_point(aes(fill = GENDER), alpha = 0.5) +  
+ggtitle("Scatter plot of Maths by English Scores with Gender")
 ```
 
 ## 1.7.10 geom objects can be combined
@@ -397,7 +409,8 @@ The boxplots below are incomplete because the positions of the means were not sh
 ```{r}
 ggplot(data=exam_data, 
        aes(y = MATHS, x= GENDER)) +
-  geom_boxplot()
+  geom_boxplot(aes(fill = GENDER), alpha = 0.5)+
+  ggtitle("Boxplot of Maths Scores by Gender") 
 ```
 
 ## 1.8.2 Working with stat - the stat_summary() method
@@ -411,7 +424,8 @@ ggplot(data=exam_data,
   stat_summary(geom = "point",       
                fun = "mean",         
                colour ="red",        
-               size=4)    
+               size=4)    +
+  ggtitle("Boxplot of Maths Scores by Gender") 
 ```
 
 ## 1.8.3 Working with stat - the geom() method
@@ -425,7 +439,8 @@ ggplot(data=exam_data,
   geom_point(stat="summary",        
              fun="mean",           
              colour="red",          
-             size=4)        
+             size=4) +
+  ggtitle("Boxplot of Maths Scores by Gender") 
 ```
 
 ## 1.8.4 Adding a best fit curve on a scatterplot?
@@ -437,8 +452,9 @@ In the code chunk below, [`geom_smooth()`](https://ggplot2.tidyverse.org/referen
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS, y=ENGLISH)) +
-  geom_point() +
-  geom_smooth(size=0.5)        
+  geom_point(aes(color = GENDER), alpha = 0.5) +
+  geom_smooth(size=0.5) +
+  ggtitle("Scatter plot of Maths by English Scores by Gender") 
 ```
 
 *Note. The default method used is loess.*
@@ -451,9 +467,10 @@ The default smoothing method can be overridden as shown below.
 ggplot(data=exam_data, 
        aes(x= MATHS, 
            y=ENGLISH)) +
-  geom_point() +
+  geom_point(aes(color = GENDER), alpha = 0.5) +
   geom_smooth(method=lm, 
-              linewidth=0.5)
+              linewidth=0.5)+
+  ggtitle("Scatter plot of Maths by English Scores by Gender") 
 ```
 
 # 1.9 Essential Grammatical Elements in ggplot2: Facets
@@ -469,8 +486,9 @@ The code chunk below plots a trellis plot using `facet-wrap()`.
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS)) +
-  geom_histogram(bins=20) +
-    facet_wrap(~ CLASS)       
+  geom_histogram(bins=20,aes(fill = CLASS), alpha = 0.5) +
+    facet_wrap(~ CLASS)       +
+  ggtitle("Trellis plot of Maths Scores for different Classes") 
 ```
 
 ## 1.9.2 facet_grid() function
@@ -482,8 +500,9 @@ The code chunk below plots a trellis plot using `facet_grid()`.
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS)) +
-  geom_histogram(bins=20) +
-    facet_grid(~ CLASS)       
+  geom_histogram(bins=20,aes(fill = CLASS), alpha = 0.5) +
+    facet_grid(~ CLASS)      +
+  ggtitle("Trellis plot of Maths Scores for different Classes")  
 ```
 
 # 1.10 Essential Grammatical Elements in ggplot2: Coordinates
@@ -503,7 +522,8 @@ By the default, the bar chart of ggplot2 is in vertical form.
 ```{r}
 ggplot(data=exam_data, 
        aes(x=RACE)) +
-  geom_bar()    
+  geom_bar(aes(fill = RACE), alpha = 0.5)    +
+  ggtitle("Bar plot for Races") 
 ```
 
 ### Flipping into vertical bar chart
@@ -513,8 +533,9 @@ The code chunk below flips the horizontal bar chart into vertical bar chart by u
 ```{r}
 ggplot(data=exam_data, 
        aes(x=RACE)) +
-  geom_bar() +
-  coord_flip()
+  geom_bar(aes(fill = RACE), alpha = 0.5) +
+  coord_flip() +
+  ggtitle("Bar plot for Races") 
 ```
 
 ## 1.10.2 Changing the y- and x-axis range
@@ -524,8 +545,9 @@ The scatterplot on the right is slightly misleading because the y-aixs and x-axi
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS, y=ENGLISH)) +
-  geom_point() +
-  geom_smooth(method=lm, linewidth=0.5)  
+  geom_point(aes(color = GENDER), alpha = 0.5) +
+  geom_smooth(method=lm, linewidth=0.5)  +
+  ggtitle("Scatter plot of Math by English Scores with Gender") 
 ```
 
 ### Starting the axis ranges from 0-100
@@ -535,11 +557,12 @@ The code chunk below fixed both the y-axis and x-axis range from 0-100.
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS, y=ENGLISH)) +
-  geom_point() +
+  geom_point(aes(color = GENDER), alpha = 0.5) +
   geom_smooth(method=lm, 
               linewidth=0.5) +  
   coord_cartesian(xlim=c(0,100),
-                  ylim=c(0,100))
+                  ylim=c(0,100))+
+  ggtitle("Scatter plot of Math by English Scores with Gender") 
 ```
 
 # 1.11 Essential Grammatical Elements in ggplot2: themes
