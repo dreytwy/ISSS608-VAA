@@ -242,14 +242,21 @@ girafe(
 
 Notice that the background colour of the tooltip is pink with round borders and the font colour is white.
 
+The student’s ID and Class will be displayed.
+
 ```{r}
 # Customising Tooltip style
 tooltip_css <- "background-color:#d8118c;color:white;padding:5px;border-radius:3px;"
 
+# Combined Student ID and Class 
+exam_data$tooltip <- c(paste0(     
+  "Name = ", exam_data$ID,         # Student's ID
+  "\n Class = ", exam_data$CLASS)) # Student's Class
+
 p <- ggplot(data=exam_data, 
        aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
-    aes(tooltip = ID),                   
+    aes(tooltip = exam_data$tooltip),                   
     stackgroups = TRUE,                  
     binwidth = 1,                        
     method = "histodot") +               
@@ -366,7 +373,7 @@ girafe(
   width_svg = 6,                         
   height_svg = 6*0.618,
   options = list(                        
-    opts_hover(css = "fill: #202020;"),  #CSS codes here for dark grey
+    opts_hover(css = "fill: #333333;"),  #CSS codes here for Color Hex Gray20
     opts_hover_inv(css = "opacity:0.2;") #CSS codes here for opaque
   )                                        
 )       
@@ -391,7 +398,7 @@ girafe(
   width_svg = 6,                         
   height_svg = 6*0.618,
   options = list(                        
-    opts_hover(css = "fill: #202020;"),  #CSS Codes here for dark grey
+    opts_hover(css = "fill: #333333;"),  #CSS codes here for Color Hex Gray20
     opts_hover_inv(css = "opacity:0.2;") #CSS Codes here for opaque
   )                                        
 )       
@@ -421,7 +428,7 @@ girafe(
   width_svg = 6,                         
   height_svg = 6*0.618,
   options = list(                        
-    opts_hover(css = "fill: #202020;"),  #CSS Codes here for dark grey
+    opts_hover(css = "fill: #000080;"),  #CSS Codes here for color hex NavyBlue
     opts_hover_inv(css = "opacity:0.2;") #CSS Codes here for opaque
   )                                        
 )     
@@ -447,7 +454,7 @@ girafe(
   width_svg = 6,                         
   height_svg = 6*0.618,
   options = list(                        
-    opts_hover(css = "fill: #202020;"),  #CSS Codes here for dark grey
+    opts_hover(css = "fill: #000080;"),  #CSS Codes here for color hex NavyBlue
     opts_hover_inv(css = "opacity:0.2;") #CSS Codes here for opaque
   )                                        
 )     
@@ -513,7 +520,7 @@ Coordinated multiple views methods has been implemented in the data visualisatio
 
 ```{r, echo=FALSE}
 p1 <- ggplot(data=exam_data, 
-       aes(x = MATHS, fill=GENDER)) +
+       aes(x = MATHS)) +
   geom_dotplot_interactive(              
     aes(data_id = ID),              
     stackgroups = TRUE,                  
@@ -522,11 +529,10 @@ p1 <- ggplot(data=exam_data,
   coord_cartesian(xlim=c(0,100)) + 
   scale_y_continuous(NULL,               
                      breaks = NULL)+ 
-  theme_dark()+
   ggtitle("Dotplot of Maths scores") 
 
 p2 <- ggplot(data=exam_data, 
-       aes(x = ENGLISH, fill=GENDER)) +
+       aes(x = ENGLISH)) +
   geom_dotplot_interactive(              
     aes(data_id = ID),              
     stackgroups = TRUE,                  
@@ -535,7 +541,6 @@ p2 <- ggplot(data=exam_data,
   coord_cartesian(xlim=c(0,100)) + 
   scale_y_continuous(NULL,               
                      breaks = NULL)+ 
-  theme_dark()+
   ggtitle("Dotplot of English scores") 
 
 girafe(code = print(p1 + p2), 
