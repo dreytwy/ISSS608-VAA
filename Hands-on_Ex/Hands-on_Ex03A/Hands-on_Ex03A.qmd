@@ -64,18 +64,26 @@ If it used within a shiny application, elements associated with an id (data_id) 
 
 ## **3.4.1 Tooltip effect with *tooltip* aesthetic**
 
-Below shows a typical code chunk to plot an interactive statistical graph by using **ggiraph** package. Notice that the code chunk consists of two parts. First, an ggplot object will be created. Next, [`girafe()`](https://davidgohel.github.io/ggiraph/reference/girafe.html) of **ggiraph** will be used to create an interactive svg object.
+Below shows a typical code chunk to plot an interactive statistical graph by using **ggiraph** package. Notice that the code chunk consists of two parts.
+
+-   First, an ggplot object will be created.
+
+-   Next, [`girafe()`](https://davidgohel.github.io/ggiraph/reference/girafe.html) of **ggiraph** will be used to create an interactive svg object.
 
 ```{r, results='hide'}
+# First part: ggplot object
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(
-    aes(tooltip = ID),
+    aes(tooltip = ID), #Student's ID
     stackgroups = TRUE, 
     binwidth = 1, 
     method = "histodot") +
   scale_y_continuous(NULL, 
-                     breaks = NULL)
+                     breaks = NULL)+  
+  ggtitle("Maths scores for Primary 3")
+
+# Next part: ggiraph
 girafe(
   ggobj = p,
   width_svg = 6,
@@ -95,14 +103,16 @@ By hovering the mouse pointer on an data point of interest, the student’s ID w
 
 ```{r, echo=FALSE}
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(
-    aes(tooltip = ID),
+    aes(tooltip = ID), # Student's ID
     stackgroups = TRUE, 
     binwidth = 1, 
     method = "histodot") +
   scale_y_continuous(NULL, 
-                     breaks = NULL)
+                     breaks = NULL)+  
+  ggtitle("Maths scores for Primary 3")
+
 girafe(
   ggobj = p,
   width_svg = 6,
@@ -115,19 +125,23 @@ girafe(
 The content of the tooltip can be customised by including a list object as shown in the code chunk below.
 
 ```{r, results='hide'}
+
+# Customising the tooltip
 exam_data$tooltip <- c(paste0(     
-  "Name = ", exam_data$ID,         
-  "\n Class = ", exam_data$CLASS)) 
+  "Name = ", exam_data$ID,         # Student's ID
+  "\n Class = ", exam_data$CLASS)) # Student's Class
 
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(
     aes(tooltip = exam_data$tooltip), 
     stackgroups = TRUE,
     binwidth = 1,
     method = "histodot") +
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+
+  ggtitle("Maths scores for Primary 3")
+
 girafe(
   ggobj = p,
   width_svg = 8,
@@ -143,18 +157,20 @@ By hovering the mouse pointer on an data point of interest, the student’s ID a
 
 ```{r, echo=FALSE}
 exam_data$tooltip <- c(paste0(     
-  "Name = ", exam_data$ID,         
-  "\n Class = ", exam_data$CLASS)) 
+  "Name = ", exam_data$ID,         # Student's ID
+  "\n Class = ", exam_data$CLASS)) # Student's Class
 
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(
     aes(tooltip = exam_data$tooltip), 
     stackgroups = TRUE,
     binwidth = 1,
     method = "histodot") +
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+  
+  ggtitle("Maths scores for Primary 3")
+
 girafe(
   ggobj = p,
   width_svg = 8,
@@ -167,18 +183,22 @@ girafe(
 Code chunk below uses [`opts_tooltip()`](https://davidgohel.github.io/ggiraph/reference/opts_tooltip.html) of **ggiraph** to customize tooltip rendering by add css declarations.
 
 ```{r,results='hide'}
+
+# Customising Tooltip style
 tooltip_css <- "background-color:white; #<<
 font-style:bold; color:black;" #<<
 
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
     aes(tooltip = ID),                   
     stackgroups = TRUE,                  
     binwidth = 1,                        
     method = "histodot") +               
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+  
+  ggtitle("Maths scores for Primary 3")
+
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
@@ -189,6 +209,8 @@ girafe(
 )                                        
 ```
 
+### Tooltip: Black Background and White Bolded Font
+
 Notice that the background colour of the tooltip is black and the font colour is white and bold.
 
 ```{r, echo=FALSE}
@@ -196,14 +218,45 @@ tooltip_css <- "background-color:white; #<<
 font-style:bold; color:black;" #<<
 
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
     aes(tooltip = ID),                   
     stackgroups = TRUE,                  
     binwidth = 1,                        
     method = "histodot") +               
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+  
+  ggtitle("Maths scores for Primary 3")
+
+girafe(                                  
+  ggobj = p,                             
+  width_svg = 6,                         
+  height_svg = 6*0.618,
+  options = list(    #<<
+    opts_tooltip(    #<<
+      css = tooltip_css)) #<<
+)                                        
+```
+
+### Tooltip: Pink Background with Rounded Borders and White Fonts
+
+Notice that the background colour of the tooltip is pink with round borders and the font colour is white.
+
+```{r}
+# Customising Tooltip style
+tooltip_css <- "background-color:#d8118c;color:white;padding:5px;border-radius:3px;"
+
+p <- ggplot(data=exam_data, 
+       aes(x = MATHS, fill=GENDER)) +
+  geom_dotplot_interactive(              
+    aes(tooltip = ID),                   
+    stackgroups = TRUE,                  
+    binwidth = 1,                        
+    method = "histodot") +               
+  scale_y_continuous(NULL,               
+                     breaks = NULL)+  
+  ggtitle("Maths scores for Primary 3")
+
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
@@ -228,14 +281,13 @@ tooltip <- function(y, ymax, accuracy = .01) {
 }
 
 gg_point <- ggplot(data=exam_data, 
-                   aes(x = RACE),
+                   aes(x = RACE, fill=RACE),
 ) +
   stat_summary(aes(y = MATHS, 
                    tooltip = after_stat(  
                      tooltip(y, ymax))),  
     fun.data = "mean_se", 
-    geom = GeomInteractiveCol,  
-    fill = "plum4"
+    geom = GeomInteractiveCol
   ) +
   stat_summary(aes(y = MATHS),
     fun.data = mean_se,
@@ -254,9 +306,9 @@ Code chunk below shows the second interactive feature of ggiraph, namely `data_i
 
 ```{r, results='hide'}
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(           
-    aes(data_id = CLASS),             
+    aes(data_id = CLASS),        # data_id added here to Class     
     stackgroups = TRUE,               
     binwidth = 1,                        
     method = "histodot") +               
@@ -275,9 +327,9 @@ Interactivity: Elements associated with a data_id (i.e CLASS) will be highlighte
 
 ```{r, echo=FALSE}
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(           
-    aes(data_id = CLASS),             
+    aes(data_id = CLASS),          # data_id added here to Class   
     stackgroups = TRUE,               
     binwidth = 1,                        
     method = "histodot") +               
@@ -299,21 +351,23 @@ In the code chunk below, css codes are used to change the highlighting effect.
 
 ```{r, results='hide'}
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
     aes(data_id = CLASS),              
     stackgroups = TRUE,                  
     binwidth = 1,                        
     method = "histodot") +               
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+
+  ggtitle("Dotplot of Maths scores") 
+
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
   height_svg = 6*0.618,
   options = list(                        
-    opts_hover(css = "fill: #202020;"),  
-    opts_hover_inv(css = "opacity:0.2;") 
+    opts_hover(css = "fill: #202020;"),  #CSS codes here for dark grey
+    opts_hover_inv(css = "opacity:0.2;") #CSS codes here for opaque
   )                                        
 )       
 ```
@@ -322,21 +376,23 @@ Interactivity: Elements associated with a *data_id* (i.e CLASS) will be highli
 
 ```{r, echo=FALSE}
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
-    aes(data_id = CLASS),              
+    aes(data_id = CLASS),           # data_id added here to Class     
     stackgroups = TRUE,                  
     binwidth = 1,                        
     method = "histodot") +               
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+
+  ggtitle("Dotplot of Maths scores") 
+
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
   height_svg = 6*0.618,
   options = list(                        
-    opts_hover(css = "fill: #202020;"),  
-    opts_hover_inv(css = "opacity:0.2;") 
+    opts_hover(css = "fill: #202020;"),  #CSS Codes here for dark grey
+    opts_hover_inv(css = "opacity:0.2;") #CSS Codes here for opaque
   )                                        
 )       
 ```
@@ -349,22 +405,24 @@ There are time that we want to combine tooltip and hover effect on the interacti
 
 ```{r, results='hide'}
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
-    aes(tooltip = CLASS, 
-        data_id = CLASS),              
+    aes(tooltip = CLASS,           # tooltip added here to Class   
+        data_id = CLASS),          # data_id added here to Class      
     stackgroups = TRUE,                  
     binwidth = 1,                        
     method = "histodot") +               
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+
+  ggtitle("Dotplot of Maths scores") 
+
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
   height_svg = 6*0.618,
   options = list(                        
-    opts_hover(css = "fill: #202020;"),  
-    opts_hover_inv(css = "opacity:0.2;") 
+    opts_hover(css = "fill: #202020;"),  #CSS Codes here for dark grey
+    opts_hover_inv(css = "opacity:0.2;") #CSS Codes here for opaque
   )                                        
 )     
 ```
@@ -373,22 +431,24 @@ Interactivity: Elements associated with a *data_id* (i.e CLASS) will be highli
 
 ```{r, echo=FALSE}
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
-    aes(tooltip = CLASS, 
-        data_id = CLASS),              
+    aes(tooltip = CLASS,      # tooltip added here to Class
+        data_id = CLASS),     # data_id added here to Class          
     stackgroups = TRUE,                  
     binwidth = 1,                        
     method = "histodot") +               
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+
+  ggtitle("Dotplot of Maths scores") 
+
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
   height_svg = 6*0.618,
   options = list(                        
-    opts_hover(css = "fill: #202020;"),  
-    opts_hover_inv(css = "opacity:0.2;") 
+    opts_hover(css = "fill: #202020;"),  #CSS Codes here for dark grey
+    opts_hover_inv(css = "opacity:0.2;") #CSS Codes here for opaque
   )                                        
 )     
 ```
@@ -412,7 +472,9 @@ p <- ggplot(data=exam_data,
     binwidth = 1,                        
     method = "histodot") +               
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+
+  ggtitle("Dotplot of Maths scores") 
+
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
@@ -434,7 +496,9 @@ p <- ggplot(data=exam_data,
     binwidth = 1,                        
     method = "histodot") +               
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+
+  ggtitle("Dotplot of Maths scores") 
+
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
@@ -449,7 +513,7 @@ Coordinated multiple views methods has been implemented in the data visualisatio
 
 ```{r, echo=FALSE}
 p1 <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
     aes(data_id = ID),              
     stackgroups = TRUE,                  
@@ -457,10 +521,12 @@ p1 <- ggplot(data=exam_data,
     method = "histodot") +  
   coord_cartesian(xlim=c(0,100)) + 
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+ 
+  theme_dark()+
+  ggtitle("Dotplot of Maths scores") 
 
 p2 <- ggplot(data=exam_data, 
-       aes(x = ENGLISH)) +
+       aes(x = ENGLISH, fill=GENDER)) +
   geom_dotplot_interactive(              
     aes(data_id = ID),              
     stackgroups = TRUE,                  
@@ -468,7 +534,9 @@ p2 <- ggplot(data=exam_data,
     method = "histodot") + 
   coord_cartesian(xlim=c(0,100)) + 
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+ 
+  theme_dark()+
+  ggtitle("Dotplot of English scores") 
 
 girafe(code = print(p1 + p2), 
        width_svg = 6,
@@ -490,7 +558,7 @@ In order to build a coordinated multiple views as shown in the example above, th
 
 ```{r, results='hide'}
 p1 <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
     aes(data_id = ID),              
     stackgroups = TRUE,                  
@@ -498,10 +566,12 @@ p1 <- ggplot(data=exam_data,
     method = "histodot") +  
   coord_cartesian(xlim=c(0,100)) + 
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+ 
+  theme_dark()+
+  ggtitle("Dotplot of Math scores") 
 
 p2 <- ggplot(data=exam_data, 
-       aes(x = ENGLISH)) +
+       aes(x = ENGLISH, fill=GENDER)) +
   geom_dotplot_interactive(              
     aes(data_id = ID),              
     stackgroups = TRUE,                  
@@ -509,7 +579,9 @@ p2 <- ggplot(data=exam_data,
     method = "histodot") + 
   coord_cartesian(xlim=c(0,100)) + 
   scale_y_continuous(NULL,               
-                     breaks = NULL)
+                     breaks = NULL)+ 
+  theme_dark()+
+  ggtitle("Dotplot of English scores") 
 
 girafe(code = print(p1 + p2), 
        width_svg = 6,
@@ -550,13 +622,51 @@ plot_ly(data = exam_data,
 
 ## **3.7.2 Working with visual variable: plot_ly() method**
 
-In the code chunk below, *color* argument is mapped to a qualitative visual variable (i.e. RACE).
+### Colour and Colour Palette
+
+In the code chunk below, *color* argument is mapped to a qualitative visual variable (i.e. RACE). Colour palette is customised as well with Set2.
+
+```{r}
+plot_ly(data = exam_data, 
+        x = ~ENGLISH, 
+        y = ~MATHS,         
+        type= "scatter", 
+        mode="markers",
+        color = ~RACE,
+        colors="Set2")
+```
+
+### Data Labels on Hover
+
+Gender and Science scores may be added on Hover.
 
 ```{r}
 plot_ly(data = exam_data, 
         x = ~ENGLISH, 
         y = ~MATHS, 
-        color = ~RACE)
+        type= "scatter", 
+        mode="markers",
+        color = ~RACE,
+        colors="Set2",
+        #Hover text
+        text=~paste("Gender: ", GENDER, "<br>Science: ", SCIENCE))
+```
+
+### Chart Title
+
+Chart title may be added
+
+```{r}
+plot_ly(data = exam_data, 
+        x = ~ENGLISH, 
+        y = ~MATHS, 
+        type= "scatter", 
+        mode="markers",
+        color = ~RACE,
+        colors="Set2",
+        #Hover text
+        text=~paste("Gender: ", GENDER, "<br>Science: ", SCIENCE))%>%
+  layout(title = "Scatterplot of English by Math Scores")  # Title
 ```
 
 ## **3.7.3 Creating an interactive scatter plot: ggplotly() method**
@@ -566,8 +676,9 @@ The code chunk below plots an interactive scatter plot by using *ggplotly()*.
 ```{r}
 p <- ggplot(data=exam_data, 
             aes(x = MATHS,
-                y = ENGLISH)) +
-  geom_point(size=1) +
+                y = ENGLISH, fill=GENDER)) +
+  geom_point(size=2) +
+  ggtitle("Scatterplot of Math by English Scores") + 
   coord_cartesian(xlim=c(0,100),
                   ylim=c(0,100))
 ggplotly(p)
@@ -589,15 +700,15 @@ The creation of a coordinated linked plot by using plotly involves three steps:
 d <- highlight_key(exam_data)
 p1 <- ggplot(data=d, 
             aes(x = MATHS,
-                y = ENGLISH)) +
-  geom_point(size=1) +
+                y = ENGLISH, fill=GENDER)) +
+  geom_point(size=2) +
   coord_cartesian(xlim=c(0,100),
                   ylim=c(0,100))
 
 p2 <- ggplot(data=d, 
             aes(x = MATHS,
-                y = SCIENCE)) +
-  geom_point(size=1) +
+                y = SCIENCE, fill=GENDER)) +
+  geom_point(size=2) +  
   coord_cartesian(xlim=c(0,100),
                   ylim=c(0,100))
 subplot(ggplotly(p1),
@@ -609,6 +720,52 @@ Thing to learn from the code chunk:
 -   `highlight_key()` simply creates an object of class [crosstalk::SharedData](https://rdrr.io/cran/crosstalk/man/SharedData.html).
 
 -   Visit this [link](https://rstudio.github.io/crosstalk/) to learn more about crosstalk.
+
+### Customisation of Main Title and Axis
+
+```{r}
+d <- highlight_key(exam_data)
+
+# First plot (MATHS vs ENGLISH)
+p1 <- ggplot(data = d, 
+             aes(x = MATHS, y = ENGLISH, fill = GENDER)) +
+  geom_point(size = 2) +
+  coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)) + 
+  labs(
+    title = "MATHS by ENGLISH",
+    x = "MATH",  # Shared X-axis label
+    y = "ENGLISH"
+  ) 
+
+# Second plot (MATHS by SCIENCE)
+p2 <- ggplot(data = d, 
+             aes(x = MATHS, y = SCIENCE, fill = GENDER)) +
+  geom_point(size = 2) +  
+  coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)) + 
+  labs(
+    title = "MATHS by SCIENCE",
+    x = "MATH",  # Shared X-axis label
+    y = "SCIENCE"
+  ) 
+
+# Convert ggplot to plotly objects
+p1_plotly <- ggplotly(p1)
+p2_plotly <- ggplotly(p2)
+
+# Combine the plots using subplot
+subplot(p1_plotly, p2_plotly, nrows = 1, shareX = TRUE, shareY = FALSE) %>%
+  layout(
+    title = "Scatterplot Comparison",
+    showlegend = FALSE,
+    xaxis = list(title = "MATH"),  # Shared X-axis label
+    yaxis = list(title = "ENGLISH"),  
+    yaxis2 = list(title = "SCIENCE"), 
+    margin = list(t = 80),  # Adjust space
+    autosize = TRUE,  # Allow auto resizing
+    xaxis2 = list(domain = c(0.6, 1)),  # The second plot (SCIENCE) starts here
+    yaxis2 = list(domain = c(0, 1))  # The second plot takes full height
+  )
+```
 
 # **3.8 Interactive Data Visualisation - crosstalk methods!**
 
@@ -632,7 +789,7 @@ Code chunk below is used to implement the coordinated brushing shown above.
 d <- highlight_key(exam_data) 
 p <- ggplot(d, 
             aes(ENGLISH, 
-                MATHS)) + 
+                MATHS, fill=GENDER)) + 
   geom_point(size=1) +
   coord_cartesian(xlim=c(0,100),
                   ylim=c(0,100))
