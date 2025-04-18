@@ -193,7 +193,7 @@
     "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggrepel",
     "title": "Hands-on Exercise 2",
     "section": "2.3.1 Working with ggrepel",
-    "text": "2.3.1 Working with ggrepel\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point(color= \"lightpink4\") +\n  geom_smooth(method=lm, \n              linewidth=0.5) +  \n  geom_label_repel(aes(label = ID), \n                   fontface = \"bold\") +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: ggrepel: 317 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
+    "text": "2.3.1 Working with ggrepel\n\nExample for geom_label_repel\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point(color= \"lightpink4\") +\n  geom_smooth(method=lm, \n              linewidth=0.5) +  \n  geom_label_repel(aes(label = ID), \n                   fontface = \"bold\")+\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: ggrepel: 317 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggtheme-package",
@@ -250,12 +250,5 @@
     "title": "Hands-on Exercise 2",
     "section": "2.5.6 Creating a composite figure by using patchwork and ggtheme",
     "text": "2.5.6 Creating a composite figure by using patchwork and ggtheme\nFigure below is created by combining patchwork and theme_economist() of ggthemes package discussed earlier.\n\npatchwork &lt;- (p1 / p2) | p3 \npatchwork & theme_economist()&\n  theme(\n    plot.title = element_text(size = 8),       # Adjust main patchwork title size\n    plot.subtitle = element_text(size = 8),    # Adjust main patchwork subtitle size \n    plot.caption = element_text(size = 7),     # Adjust main patchwork caption size \n    strip.text = element_text(size = 8),        # Adjust facet label sizes \n    axis.title.x = element_text(size = 8),       # Adjust x-axis label sizes\n    axis.title.y = element_text(size = 8)        # Adjust y-axis label sizes\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#reference",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#reference",
-    "title": "Hands-on Exercise 2",
-    "section": "2.6 Reference",
-    "text": "2.6 Reference\n\nPatchwork R package goes nerd viral\nggrepel\nggthemes\nhrbrthemes\nggplot tips: Arranging plots\nggplot2 Theme Elements Demonstration\nggplot2 Theme Elements Reference Sheet"
   }
 ]

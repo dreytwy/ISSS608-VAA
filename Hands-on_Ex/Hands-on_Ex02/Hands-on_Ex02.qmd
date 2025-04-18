@@ -86,6 +86,7 @@ We simply replace `geom_text()`by geom_text_repel() and `geom_label()` by geom_
 
 ## 2.3.1 Working with ggrepel
 
+### Example for geom_label_repel 
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS, 
@@ -94,7 +95,7 @@ ggplot(data=exam_data,
   geom_smooth(method=lm, 
               linewidth=0.5) +  
   geom_label_repel(aes(label = ID), 
-                   fontface = "bold") +
+                   fontface = "bold")+
   coord_cartesian(xlim=c(0,100),
                   ylim=c(0,100)) +
   ggtitle("English scores versus Maths scores for Primary 3")
@@ -106,6 +107,7 @@ gplot2 comes with eight [built-in themes](https://ggplot2.tidyverse.org/referen
 
 `theme_gray()`, `theme_bw()`, `theme_classic()`, `theme_dark()`, `theme_light()`, `theme_linedraw()`, `theme_minimal()`, and `theme_void()`.
 
+### The Minimal Theme
 In the example below, *The Minimal* theme is used.
 
 ```{r}
@@ -119,6 +121,19 @@ ggplot(data=exam_data,
   ggtitle("Distribution of Maths scores") 
 ```
 
+### The Dark Theme
+In the example below, *The Dark* theme is used.
+
+```{r}
+ggplot(data=exam_data, 
+             aes(x = MATHS)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="mediumvioletred") +
+  theme_dark() +
+  ggtitle("Distribution of Maths scores") 
+```
 Refer to this [link](https://ggplot2.tidyverse.org/reference/index.html#themes) to learn more about ggplot2 `Themes`
 
 ## 2.4.1 Working with ggtheme package
