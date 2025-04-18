@@ -238,8 +238,7 @@ ggplot(data=exam_data,
   geom_dotplot(binwidth=2.5,         
                dotsize = 0.5, fill = "darkseagreen1", alpha = 0.5) +
 ggtitle("Dotplot of Maths Scores")+
-  scale_y_continuous(NULL,           
-                     breaks = NULL)  
+scale_y_continuous(NULL, breaks = NULL)  
 ```
 
 ## 1.7.3 Geometric Objects: geom_histogram()
