@@ -42,9 +42,7 @@ library(magick)
 
 ## 2.2.2 Importing data
 
-For the purpose of this exercise, a data file called *Exam_data* will be used. It consists of year end examination grades of a cohort of primary 3 students from a local school. It is in csv file format.
-
-The code chunk below imports *exam_data.csv* into R environment by using [*read_csv()*](https://readr.tidyverse.org/reference/read_delim.html) function of [**readr**](https://readr.tidyverse.org/) package. **readr** is one of the tidyverse package.
+The code chunk below imports *exam_data.csv* into R environment by using [*read_csv()*](https://readr.tidyverse.org/reference/read_delim.html) function of [**readr**](https://readr.tidyverse.org/) package and stores it in exam_data in R Studio.
 
 ```{r}
 exam_data <- read_csv("data/Exam_data.csv", show_col_types = FALSE)
@@ -77,7 +75,7 @@ ggplot(data=exam_data,
 
 **ggrepel** is an extension of **ggplot2** package which provides `geoms` for **ggplot2** to repel overlapping text.
 
-```{r, echo=FALSE} 
+```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap03/img/image1.jpg")
 plot(img)
 ```

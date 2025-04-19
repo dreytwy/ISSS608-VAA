@@ -525,9 +525,9 @@ ggplot(data=exam_data,
   ggtitle("Bar plot for Races") 
 ```
 
-### Flipping into vertical bar chart
+### Flipping into horizontal bar chart
 
-The code chunk below flips the horizontal bar chart into vertical bar chart by using `coord_flip()`.
+The code chunk below flips the vertical bar chart into horizontal bar chart by using `coord_flip()`.
 
 ```{r}
 ggplot(data=exam_data, 

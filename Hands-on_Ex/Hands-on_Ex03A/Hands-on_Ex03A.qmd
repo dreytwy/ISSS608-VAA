@@ -717,7 +717,9 @@ p2 <- ggplot(data=d,
   coord_cartesian(xlim=c(0,100),
                   ylim=c(0,100))
 subplot(ggplotly(p1),
-        ggplotly(p2))
+        ggplotly(p2))%>%
+layout(
+    showlegend = FALSE)
 ```
 
 Thing to learn from the code chunk:
