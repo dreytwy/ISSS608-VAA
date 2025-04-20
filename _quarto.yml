@@ -29,8 +29,8 @@ website:
     right:
       - href: index.qmd        
         text: Home 
-      - href: "about.html"
-        text: "About"
+      - href: about.qmd
+        text: About
 
 format:
   html:
