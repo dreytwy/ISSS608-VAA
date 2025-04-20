@@ -2,8 +2,6 @@
 title: "About"
 ---
 
-**About**
-
 Hi, my name is Audrey!
 
 **Education**
@@ -11,7 +9,3 @@ Hi, my name is Audrey!
 Singapore Management University
 
 Masters of IT in Business
-
-**Experience**
-
-Accounting \| Finance \| Treasury \| Risk & Compliance
