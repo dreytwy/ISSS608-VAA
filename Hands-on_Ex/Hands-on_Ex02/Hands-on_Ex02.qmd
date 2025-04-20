@@ -76,7 +76,7 @@ ggplot(data=exam_data,
 **ggrepel** is an extension of **ggplot2** package which provides `geoms` for **ggplot2** to repel overlapping text.
 
 ```{r, echo=FALSE}
-img <- image_read("https://r4va.netlify.app/chap03/img/image1.jpg")
+img <- image_read("https://r4va.netlify.app/chap02/img/image2.jpg")
 plot(img)
 ```
 
