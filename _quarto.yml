@@ -29,7 +29,7 @@ website:
     right:
       - href: index.qmd        
         text: Home 
-      - href: about.qmd
+      - href: about.html
         text: About
 
 format:
