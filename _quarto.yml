@@ -1,24 +1,31 @@
 project:
   type: website
+  render:
+    - index.qmd
+    - about.qmd
+    - Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.qmd
+    - Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.qmd
+    - Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.qmd
 
 website:
   title: "ISSS608-VAA"
   navbar:
     left:
-    - text: "Hands-on Exercise"
-      menu:
-        - text: "Hands-on Exercise 1"
-          href: "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html"
-        - text: "Hands-on Exercise 2"
-          href: "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html"
-        - text: "Hands-on Exercise 3A"
-          href: "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html"
-        - text: "Hands-on Exercise 3B"
-          href: "Hands-on_Ex/Hands-on_Ex03B/Hands-on_Ex03B.html"
-        - text: "Hands-on Exercise 4"
-          href: "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html"
-        - text: "Hands-on Exercise 5"
-          href: "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05.html"
+      - text: "Hands-on Exercise"
+        menu:
+          - text: "Hands-on Exercise 1"
+            href: "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html"
+          - text: "Hands-on Exercise 2"
+            href: "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html"
+          - text: "Hands-on Exercise 3A"
+            href: "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html"
+          # 3B, 4, and 5 are temporarily commented out
+          # - text: "Hands-on Exercise 3B"
+          #   href: "Hands-on_Ex/Hands-on_Ex03B/Hands-on_Ex03B.html"
+          # - text: "Hands-on Exercise 4"
+          #   href: "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html"
+          # - text: "Hands-on Exercise 5"
+          #   href: "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05.html"
     right:
       - href: index.qmd        
         text: Home 

@@ -1,9 +1,17 @@
 ---
-title: "About"
+title: "about"
 ---
 
-About this site
+**About**
 
-```{r}
-1 + 1
-```
+Hi, my name is Audrey!
+
+**Education**
+
+Singapore Management University
+
+Masters of IT in Business
+
+**Experience**
+
+Accounting \| Finance \| Treasury \| Risk & Compliance
