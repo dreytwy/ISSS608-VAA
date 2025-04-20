@@ -30,7 +30,7 @@ website:
       - href: index.qmd        
         text: Home 
       - href: "about.html"
-        text: About
+        text: "About"
 
 format:
   html:
