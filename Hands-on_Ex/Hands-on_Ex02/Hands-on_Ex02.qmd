@@ -572,7 +572,7 @@ p4_interactive <- suppressWarnings({
 p4_interactive
 ```
 
-# **2.6 Reference**
+# 2.6 Reference
 
 -   [Patchwork R package goes nerd viral](https://www.littlemissdata.com/blog/patchwork)
 
