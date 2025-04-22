@@ -2,3 +2,8 @@
 body {
   background-color: #f0f0fb;  /* Light purple background */
 }
+
+.navbar-nav .nav-logo a img {
+  height: 100px; /* Adjust this to your desired height */
+  width: auto; /* Maintain aspect ratio */
+}

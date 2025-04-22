@@ -12,11 +12,14 @@ project:
     
 website:
   favicon: favicon.png
-  title: "ISSS608-VAA"
+  title: " "
+  announcement:
+    content: "<i class=\"bi bi-envelope-fill\"></i> **NEW!** - [**Hands-on Exercise 2**](https://isss608-ay2024-25-dreytwy.netlify.app/hands-on_ex/hands-on_ex02/hands-on_ex02) published!"
+    position: below-navbar
+    
   navbar:
+    logo: "favicon.png"
     left:
-      - image: favicon.png # Logo
-        href: index.html # Link the logo to homepage
       - text: "Hands-on Exercise"
         menu:
           - text: "Hands-on Exercise 1"
@@ -56,5 +59,6 @@ format:
     theme: pulse
     toc: true
     css: styles.css
+    logo: favicon.png
       
 editor: visual
