@@ -34,10 +34,14 @@ Code chunk below checks if these packages have been installed and also will load
 ```{r}
 pacman::p_load(ggrepel, patchwork,
 ggthemes, hrbrthemes,
-tidyverse)
+tidyverse,
+plotly)
+library(dplyr)
 library(ggplot2)
 library(RColorBrewer)
 library(magick)
+library(ggdist)
+library(cowplot)
 ```
 
 ## 2.2.2 Importing data
@@ -53,6 +57,13 @@ There are a total of seven attributes in the exam_data tibble data frame. Four o
 -   The categorical attributes are: ID, CLASS, GENDER and RACE.
 
 -   The continuous attributes are: MATHS, ENGLISH and SCIENCE.
+
+The code chunk below allows a glimpse into exam_data by their 7 column headers.
+
+```{r}
+# Display the structure of your exam_data
+glimpse(exam_data)
+```
 
 # 2.3 Beyond ggplot2 Annotation: ggrepel
 
@@ -90,10 +101,11 @@ We simply replace `geom_text()`by geom_text_repel() and `geom_label()` by geom_
 ggplot(data=exam_data, 
        aes(x= MATHS, 
            y=ENGLISH)) +
-  geom_point(color= "lightpink4") +
+  geom_point(color= "darkblue") +
   geom_smooth(method=lm, 
               linewidth=0.5) +  
-  geom_label_repel(aes(label = ID), 
+  geom_label_repel(aes(label = ID, 
+                   colour = GENDER),
                    fontface = "bold")+
   coord_cartesian(xlim=c(0,100),
                   ylim=c(0,100)) +
@@ -116,7 +128,7 @@ ggplot(data=exam_data,
   geom_histogram(bins=20, 
                  boundary = 100,
                  color="grey25", 
-                 fill="mediumvioletred") +
+                 fill="cornflowerblue") +
   theme_minimal() +
   ggtitle("Distribution of Maths scores") 
 ```
@@ -131,7 +143,7 @@ ggplot(data=exam_data,
   geom_histogram(bins=20, 
                  boundary = 100,
                  color="grey25", 
-                 fill="mediumvioletred") +
+                 fill="aquamarine") +
   theme_dark() +
   ggtitle("Distribution of Maths scores") 
 ```
@@ -151,8 +163,8 @@ ggplot(data=exam_data,
              aes(x = MATHS)) +
   geom_histogram(bins=20, 
                  boundary = 100,
-                 color="grey25", 
-                 fill="gold2") +
+                 color="grey25",
+                 fill="cyan3") +
   ggtitle("Distribution of Maths scores") +
   theme_economist()
 ```
@@ -167,7 +179,7 @@ p<-ggplot(data=exam_data,
   geom_histogram(bins=20, 
                  boundary = 100,
                  color="grey25", 
-                 fill="darkgoldenrod2") +
+                 fill="cyan3") +
   theme_wsj()
 
 # Add title
@@ -200,7 +212,7 @@ p + scale_fill_brewer(palette = "Pastel1")
 
 The second goal centers around productivity for a production workflow. In fact, this “production workflow” is the context for where the elements of hrbrthemes should be used. Consult [this vignette](https://hrbrmstr.github.io/hrbrthemes/articles/why_hrbrthemes.html) to learn more.
 
-### Increase font size/ axis label/ remove grid lines/ Add subtitle
+### Increase font size/ axis label/ remove grid lines/ add subtitle
 
 ```{r}
 p <- ggplot(data=exam_data, 
@@ -386,6 +398,180 @@ patchwork & theme_economist()&
   )
 ```
 
+## 2.5.7 Creating Raincloud plots
+
+**Shortcomings of barplots:**
+
+The **barplot** with whisker error bars to visualise the mean or median and the standard error may be prone to distortion, fail to represent underlying data parameter inferences, lead to misleading inferences of magnitude of difference between conditions, and may obscure difference in distributions (Allen et al., 2021).
+
+**Remedies:**
+
+-   Add **jittered raw data points** to the standard **boxplot** and +/- standard error scheme.
+
+-   Add **dotplots** tosupplement visualizations of central tendency and error, but at the risk of added complexity due to the dependence of such plots on choices such as bin-width and dot size, and the risk of reading issues when there are many observations.
+
+-   **Violin plot overlaid with boxplots** or similar. However, there is little to be gained statistically, by mirroring the violin plot, and therefore violating the philosophy of minimising the “data-ink ratio” (Allen et al., 2021; Tufte, 1983).
+
+*Click to see detailed information on [shortcomings and remedies of barplot](https://wellcomeopenresearch.org/articles/4-63).*
+
+**Solution to limitations**:
+
+The **raincloud plot** combines various plots, to address the aforementioned limitations in an intuitive, modular, and statistically robust format. Raincloud plots combine a ‘split-half violin’, raw jittered data points, and a standard visualization of central tendency (i.e., mean or median) and error, such as a boxplot (Allen et al., 2021).
+
+```{r, echo=FALSE}
+# Grouping subjects
+simdat <- exam_data %>%
+  pivot_longer(
+    cols = c("ENGLISH", "MATHS", "SCIENCE"),
+    names_to = "group",
+    values_to = "score"
+  )
+
+# Factor for consistent group order
+simdat$group <- factor(simdat$group, levels = c("ENGLISH", "MATHS", "SCIENCE"))
+```
+
+```{r, echo=FALSE}
+# Define custom flat violin geom without ggname()
+GeomFlatViolin <- ggproto("GeomFlatViolin", Geom,
+  setup_data = function(data, params) {
+    data$width <- data$width %||%
+      params$width %||% (resolution(data$x, FALSE) * 0.9)
+
+    data %>%
+      group_by(x) %>%
+      mutate(
+        ymin = min(y),
+        ymax = max(y),
+        xmin = x,
+        xmax = x + violinwidth * width
+      )
+  },
+
+  draw_group = function(data, panel_scales, coord) {
+    data <- transform(data,
+                      xminv = x,
+                      xmaxv = x + violinwidth * (xmax - x))
+
+    newdata <- rbind(
+      arrange(transform(data, x = xmaxv), y),
+      arrange(transform(data, x = xminv), -y)
+    )
+
+    newdata <- rbind(newdata, newdata[1, ])
+
+    # No need for ggname(), directly use GeomPolygon$draw_panel
+    GeomPolygon$draw_panel(newdata, panel_scales, coord)
+  },
+
+  draw_key = draw_key_polygon,
+
+  default_aes = aes(
+    weight = 1, colour = "black", fill = "white", size = 0.5,
+    alpha = NA, linetype = "solid"
+  ),
+
+  required_aes = c("x", "y")
+)
+
+# Wrapper function for geom_flat_violin
+geom_flat_violin <- function(mapping = NULL, data = NULL, stat = "ydensity",
+                             position = "dodge", trim = TRUE, scale = "area",
+                             show.legend = NA, inherit.aes = TRUE, ...) {
+  layer(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    geom = GeomFlatViolin,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(trim = trim, scale = scale, ...)
+  )
+}
+```
+
+```{r}
+# plot
+p4 <- ggplot(simdat, aes(x = group, y = score, fill = group, colour = group)) +
+  geom_flat_violin(
+    position = position_nudge(x = 0.25),
+    adjust = 2,
+    trim = TRUE
+  ) +
+  geom_point(
+    position = position_jitter(width = 0.15),
+    size = 0.25
+  ) +
+  geom_boxplot(
+    aes(x = as.numeric(group) + 0.25, y = score),
+    outlier.shape = NA,
+    alpha = 0.3,
+    width = 0.1,
+    colour = "BLACK",
+    position = position_nudge(x = 0)
+  ) +
+  scale_fill_brewer(palette = "Set2") +  # palette for the fill
+  scale_color_brewer(palette = "Set2") +  # palette for the color
+  guides(fill = "none", colour = "none") +
+  ylab("Score") +
+  xlab("Subject") +
+  theme_cowplot() +
+  coord_flip() +
+  ggtitle("Raincloud Plot")
+
+suppressWarnings(plot(p4))  # Suppress warnings
+
+```
+
+In the **raincloud plot** above, the following elements are visualised:
+
+1.  **Split-half violin** (density plot): **Distribution of the data** for each subject, filled with color, and is a smoothed density estimate of the data.
+
+2.  **Boxplot**: Overlaid on top of the violin, showing the **quartiles, median**, and **outliers** for the data.
+
+3.  **Raw jittered data points ("rain")**: Individual data points ("raindrop") shown as **small, scattered dots**. Shows the data points distribution within each subject.
+
+### 2.5.7.1 Drilling Deeper into Interactive Rain Points
+
+We may dissect the plot without the violin density plot. Then using tooltip we can hover over each individual "raindrop" to show the student's ID and Class per subject, in an interactive manner.
+
+```{r}
+# tooltip
+simdat$tooltip <- paste0("ID = ", simdat$ID, "\nClass = ", simdat$group)
+
+# Create the plot
+p4_interactive <- suppressWarnings({
+  p4 <- ggplot(simdat, aes(x = group, y = score, fill = group, colour = group)) +  geom_point(
+      aes(text = tooltip),  # Add tooltip in the 'text' aesthetic
+      position = position_jitter(width = 0.15),
+      size = 0.25
+    ) +
+    geom_boxplot(
+      aes(x = as.numeric(group) + 0.25, y = score),
+      outlier.shape = NA,
+      alpha = 0.3,
+      width = 0.1,
+      colour = "BLACK",
+      position = position_nudge(x = 0)
+    ) +
+    scale_fill_brewer(palette = "Set2") +  # palette for the fill
+    scale_color_brewer(palette = "Set2") +  # palette for the color
+    guides(fill = "none", colour = "none") +
+    ylab("Score") +
+    xlab("Subject") +
+    theme_cowplot() +
+    coord_flip() +
+    ggtitle("Dissected Raincloud Plot")
+
+  # Convert to interactive plotly plot with the tooltip
+  ggplotly(p4, tooltip = "text")  # Use 'text' for hover tooltip
+})
+
+# Display the interactive plot
+p4_interactive
+```
+
 # **2.6 Reference**
 
 -   [Patchwork R package goes nerd viral](https://www.littlemissdata.com/blog/patchwork)
@@ -401,3 +587,7 @@ patchwork & theme_economist()&
 -   [ggplot2 Theme Elements Demonstration](https://henrywang.nl/ggplot2-theme-elements-demonstration/)
 
 -   [ggplot2 Theme Elements Reference Sheet](https://isabella-b.com/blog/ggplot2-theme-elements-reference/)
+
+-   Allen M, Poggiali D, Whitaker K et al. [“Raincloud plots: a multi-platform tool for robust data. visualization”](https://wellcomeopenresearch.org/articles/4-63) \[version 2; peer review: 2 approved\]. *Welcome Open Res* 2021, pp. 4:63.
+
+-   Tufte ER: The Visual Display of Quantitative Information. (Reprinted Ed edition). Cheshire, Conn: Graphics Press USA. 1983. [Reference Source](https://books.google.co.in/books?id=BHazAAAAIAAJ&dq=The+Visual+Display+of+Quantitative+Information+%28Reprinted+Ed+edition%29.+1983&focus=searchwithinvolume&q=The+Visual+Display+of+Quantitative+Information+%28Reprinted+Ed+edition%29.+1983)

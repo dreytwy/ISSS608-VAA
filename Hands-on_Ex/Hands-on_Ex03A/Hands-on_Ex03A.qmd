@@ -31,6 +31,8 @@ pacman::p_load(ggiraph, plotly,
 library(ggplot2)
 library(RColorBrewer)
 library(magick)
+library(gridExtra)
+library(dplyr)
 ```
 
 # **3.3 Importing data**
@@ -287,19 +289,28 @@ tooltip <- function(y, ymax, accuracy = .01) {
   paste("Mean maths scores:", mean, "+/-", sem)
 }
 
+# Reorder RACE by mean MATHS score
+exam_data <- exam_data %>%
+  group_by(RACE) %>%
+  mutate(mean_math = mean(MATHS, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(RACE = reorder(RACE, mean_math))
+
+# Plot
 gg_point <- ggplot(data=exam_data, 
-                   aes(x = RACE, fill=RACE),
+                   aes(x = RACE),
 ) +
   stat_summary(aes(y = MATHS, 
                    tooltip = after_stat(  
                      tooltip(y, ymax))),  
     fun.data = "mean_se", 
-    geom = GeomInteractiveCol
+    geom = GeomInteractiveCol,
+    fill="aquamarine2"
   ) +
   stat_summary(aes(y = MATHS),
     fun.data = mean_se,
     geom = "errorbar", width = 0.2, linewidth = 0.2
-  )+
+  )+  
   ggtitle("Maths scores by Races")
 
 girafe(ggobj = gg_point,
@@ -321,12 +332,16 @@ p <- ggplot(data=exam_data,
     method = "histodot") +               
   scale_y_continuous(NULL,               
                      breaks = NULL)+
+  scale_fill_manual(values = c("Female" = "#e8a9e4", "Male" = "#92e8e8"))+
   ggtitle("Maths scores for Primary 3")
 
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
-  height_svg = 6*0.618                      
+  height_svg = 6*0.618,
+    options = list(
+    opts_hover(css = "fill:black;")
+  )
 )    
 ```
 
@@ -342,15 +357,19 @@ p <- ggplot(data=exam_data,
     method = "histodot") +               
   scale_y_continuous(NULL,               
                      breaks = NULL)+
+  scale_fill_manual(values = c("Female" = "#e8a9e4", "Male" = "#92e8e8"))+
   ggtitle("Maths scores for Primary 3")
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
-  height_svg = 6*0.618                      
+  height_svg = 6*0.618,
+    options = list(
+    opts_hover(css = "fill:black;")
+  )
 )  
 ```
 
-Note that the default value of the hover css is *hover_css = “fill:orange;”*.
+Note that the default value of the hover css is *hover_css = “fill:orange;”* but black has been used here for better contrast.
 
 ## **3.6.4 Styling hover effect**
 
@@ -366,6 +385,7 @@ p <- ggplot(data=exam_data,
     method = "histodot") +               
   scale_y_continuous(NULL,               
                      breaks = NULL)+
+  scale_fill_manual(values = c("Female" = "#e8a9e4", "Male" = "#92e8e8"))+
   ggtitle("Dotplot of Maths scores") 
 
 girafe(                                  
@@ -391,6 +411,7 @@ p <- ggplot(data=exam_data,
     method = "histodot") +               
   scale_y_continuous(NULL,               
                      breaks = NULL)+
+  scale_fill_manual(values = c("Female" = "#e8a9e4", "Male" = "#92e8e8"))+
   ggtitle("Dotplot of Maths scores") 
 
 girafe(                                  
@@ -421,6 +442,7 @@ p <- ggplot(data=exam_data,
     method = "histodot") +               
   scale_y_continuous(NULL,               
                      breaks = NULL)+
+  scale_fill_manual(values = c("Female" = "#e8a9e4", "Male" = "#92e8e8"))+
   ggtitle("Dotplot of Maths scores") 
 
 girafe(                                  
@@ -447,6 +469,7 @@ p <- ggplot(data=exam_data,
     method = "histodot") +               
   scale_y_continuous(NULL,               
                      breaks = NULL)+
+  scale_fill_manual(values = c("Female" = "#e8a9e4", "Male" = "#92e8e8"))+
   ggtitle("Dotplot of Maths scores") 
 
 girafe(                                  
@@ -472,7 +495,7 @@ exam_data$onclick <- sprintf("window.open(\"%s%s\")",
 as.character(exam_data$ID))
 
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
     aes(onclick = onclick),              
     stackgroups = TRUE,                  
@@ -480,6 +503,7 @@ p <- ggplot(data=exam_data,
     method = "histodot") +               
   scale_y_continuous(NULL,               
                      breaks = NULL)+
+  scale_fill_manual(values = c("Female" = "#e8a9e4", "Male" = "#92e8e8"))+
   ggtitle("Dotplot of Maths scores") 
 
 girafe(                                  
@@ -496,7 +520,7 @@ exam_data$onclick <- sprintf("window.open(\"%s%s\")",
 as.character(exam_data$ID))
 
 p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
+       aes(x = MATHS, fill=GENDER)) +
   geom_dotplot_interactive(              
     aes(onclick = onclick),              
     stackgroups = TRUE,                  
@@ -504,12 +528,13 @@ p <- ggplot(data=exam_data,
     method = "histodot") +               
   scale_y_continuous(NULL,               
                      breaks = NULL)+
+  scale_fill_manual(values = c("Female" = "#e8a9e4", "Male" = "#92e8e8"))+
   ggtitle("Dotplot of Maths scores") 
 
 girafe(                                  
   ggobj = p,                             
   width_svg = 6,                         
-  height_svg = 6*0.618)                                        
+  height_svg = 6*0.618)                                     
 ```
 
 Note. *Click actions must be a string column in the dataset containing valid javascript instructions.*
@@ -814,6 +839,318 @@ Things to learn from the code chunk:
 -   *highlight()* is a function of **plotly** package. It sets a variety of options for brushing (i.e., highlighting) multiple plots. These options are primarily designed for linking multiple plotly graphs, and may not behave as expected when linking plotly to another htmlwidget package via crosstalk. In some cases, other htmlwidgets will respect these options, such as persistent selection in leaflet.
 
 -   *bscols()* is a helper function of **crosstalk** package. It makes it easy to put HTML elements side by side. It can be called directly from the console but is especially designed to work in an R Markdown document. **Warning:** This will bring in all of Bootstrap!.
+
+## **3.8.3 Interactive Sunburst**
+
+In the code chunk, levels are created for each Subject (Maths, English, Science):
+
+-   Level 1: Pass/Fail
+
+-   Level 2: Passing Grades (A\*, A, B, C)
+
+-   Level 3: Race Breakdown (Chinese, Malay, Indian, Others)
+
+-   Level 4: Class (3A to 3I)
+
+```{r}
+# Function to prepare data for plotly sunburst with RACE and CLASS
+prepare_plotly_interactive_data_actual <- function(df, subject_col) {
+  df_processed <- df %>%
+    mutate(
+      Subject = subject_col,
+      PassFail = ifelse(.data[[subject_col]] >= 50, "Pass", "Fail"),
+      Grade = case_when(
+        .data[[subject_col]] < 50 ~ "Fail",
+        .data[[subject_col]] >= 50 & .data[[subject_col]] < 60 ~ "C",
+        .data[[subject_col]] >= 60 & .data[[subject_col]] < 70 ~ "B",
+        .data[[subject_col]] >= 70 & .data[[subject_col]] < 90 ~ "A",
+        .data[[subject_col]] >= 90 ~ "A*"
+      )
+    )
+
+  # Prepare data for the first level (Subject -> Pass/Fail)
+  level1 <- df_processed %>%
+    group_by(Subject, PassFail) %>%
+    summarise(Count = n_distinct(ID), .groups = "drop") %>%
+    mutate(
+      ids = paste(Subject, PassFail, sep = "-"),
+      parents = Subject,
+      labels = PassFail
+    )
+
+  # Prepare data for the second level (Pass -> Grade)
+  level2_pass <- df_processed %>%
+    filter(PassFail == "Pass") %>%
+    group_by(Subject, PassFail, Grade) %>%
+    summarise(Count = n_distinct(ID), .groups = "drop") %>%
+    mutate(
+      ids = paste(Subject, PassFail, Grade, sep = "-"),
+      parents = paste(Subject, PassFail, sep = "-"),
+      labels = Grade
+    )
+
+  # Prepare data for the third level (Grade -> RACE)
+  level3_race <- df_processed %>%
+    filter(PassFail == "Pass") %>%
+    group_by(Subject, PassFail, Grade, RACE) %>%
+    summarise(Count = n_distinct(ID), .groups = "drop") %>%
+    mutate(
+      ids = paste(Subject, PassFail, Grade, RACE, sep = "-"),
+      parents = paste(Subject, PassFail, Grade, sep = "-"),
+      labels = RACE
+    )
+
+  # Prepare data for the fourth level (RACE -> CLASS)
+  level4_class <- df_processed %>%
+    filter(PassFail == "Pass") %>%
+    group_by(Subject, PassFail, Grade, RACE, CLASS) %>%
+    summarise(Count = n_distinct(ID), .groups = "drop") %>%
+    mutate(
+      ids = paste(Subject, PassFail, Grade, RACE, CLASS, sep = "-"),
+      parents = paste(Subject, PassFail, Grade, RACE, sep = "-"),
+      labels = CLASS
+    )
+
+  # Root level
+  root <- data.frame(
+    ids = unique(df_processed$Subject),
+    labels = unique(df_processed$Subject),
+    parents = NA,
+    Count = n_distinct(df_processed$ID)
+  )
+
+  plotly_df <- bind_rows(root, level1, level2_pass, level3_race, level4_class)
+  return(plotly_df)
+}
+
+# Define the subjects to visualize
+subjects_to_visualize <- c("MATHS", "ENGLISH", "SCIENCE")
+plot_titles <- c("Maths", "English", "Science")
+
+# Create the plotly figure
+fig_interactive_actual <- plot_ly()
+
+# Add sunburst for the first subject (MATHS)
+interactive_data_subject1 <- prepare_plotly_interactive_data_actual(exam_data, subjects_to_visualize[1])
+fig_interactive_actual <- fig_interactive_actual %>%
+  add_trace(
+    data = interactive_data_subject1,
+    ids = ~ids,
+    labels = ~labels,
+    parents = ~parents,
+    values = ~Count,
+    type = 'sunburst',
+    domain = list(column = 0),
+    maxdepth = 2,
+    name = plot_titles[1] # Subtitle
+  )
+
+# Add sunburst for the second subject (ENGLISH)
+interactive_data_subject2 <- prepare_plotly_interactive_data_actual(exam_data, subjects_to_visualize[2])
+fig_interactive_actual <- fig_interactive_actual %>%
+  add_trace(
+    data = interactive_data_subject2,
+    ids = ~ids,
+    labels = ~labels,
+    parents = ~parents,
+    values = ~Count,
+    type = 'sunburst',
+    domain = list(column = 1),
+    maxdepth = 2,
+    name = plot_titles[2] # Subtitle
+  )
+
+# Add sunburst for the third subject (SCIENCEC)
+interactive_data_subject3 <- prepare_plotly_interactive_data_actual(exam_data, subjects_to_visualize[3])
+fig_interactive_actual <- fig_interactive_actual %>%
+  add_trace(
+    data = interactive_data_subject3,
+    ids = ~ids,
+    labels = ~labels,
+    parents = ~parents,
+    values = ~Count,
+    type = 'sunburst',
+    domain = list(column = 2),
+    maxdepth = 2,
+    name = plot_titles[3] # Subtitle
+  )
+
+fig_interactive_actual <- fig_interactive_actual %>%
+  layout(
+    title = "Performance Breakdown by Subject", # Main title
+    grid = list(columns = 3, rows = 1),
+    margin = list(l = 0, r = 0, b = 0, t = 50), # Adjust top margin for title
+    sunburstcolorway = c(
+      "#636efa","#EF553B","#00cc96","#ab63fa","#19d3f3",
+      "#e763fa", "#FECB52","#FFA15A","#FF6692","#B6E880",
+      "#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
+      "#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a"
+    ),
+    extendsunburstcolors = TRUE
+  )
+
+fig_interactive_actual
+
+```
+
+How to use the interactive chart to drill deeper?:
+
+1.  Choose a Subject, click "Pass".
+
+2.  Click a grade (from A\*, A, B, C).
+
+3.  Click a race (from Chinese, Malay, Indian, Others).
+
+4.  Click a class (from 3A to 3I).
+
+Clicking on the middle circle at any level after the root level will allow you to exit one level.
+
+### 3.8.3.1 Adding Percentage Figures
+
+```{r}
+# Function to prepare data for plotly sunburst with RACE and CLASS
+prepare_plotly_interactive_data_actual <- function(df, subject_col) {
+  df_processed <- df %>%
+    mutate(
+      Subject = subject_col,
+      PassFail = ifelse(.data[[subject_col]] >= 50, "Pass", "Fail"),
+      Grade = case_when(
+        .data[[subject_col]] < 50 ~ "Fail",
+        .data[[subject_col]] >= 50 & .data[[subject_col]] < 60 ~ "C",
+        .data[[subject_col]] >= 60 & .data[[subject_col]] < 70 ~ "B",
+        .data[[subject_col]] >= 70 & .data[[subject_col]] < 90 ~ "A",
+        .data[[subject_col]] >= 90 ~ "A*"
+      )
+    )
+
+  # Prepare data for the first level (Subject -> Pass/Fail)
+  level1 <- df_processed %>%
+    group_by(Subject, PassFail) %>%
+    summarise(Count = n_distinct(ID), .groups = "drop") %>%
+    mutate(
+      ids = paste(Subject, PassFail, sep = "-"),
+      parents = Subject,
+      labels = PassFail
+    )
+
+  # Prepare data for the second level (Pass -> Grade)
+  level2_pass <- df_processed %>%
+    filter(PassFail == "Pass") %>%
+    group_by(Subject, PassFail, Grade) %>%
+    summarise(Count = n_distinct(ID), .groups = "drop") %>%
+    mutate(
+      ids = paste(Subject, PassFail, Grade, sep = "-"),
+      parents = paste(Subject, PassFail, sep = "-"),
+      labels = Grade
+    )
+
+  # Prepare data for the third level (Grade -> RACE)
+  level3_race <- df_processed %>%
+    filter(PassFail == "Pass") %>%
+    group_by(Subject, PassFail, Grade, RACE) %>%
+    summarise(Count = n_distinct(ID), .groups = "drop") %>%
+    mutate(
+      ids = paste(Subject, PassFail, Grade, RACE, sep = "-"),
+      parents = paste(Subject, PassFail, Grade, sep = "-"),
+      labels = RACE
+    )
+
+  # Prepare data for the fourth level (RACE -> CLASS)
+  level4_class <- df_processed %>%
+    filter(PassFail == "Pass") %>%
+    group_by(Subject, PassFail, Grade, RACE, CLASS) %>%
+    summarise(Count = n_distinct(ID), .groups = "drop") %>%
+    mutate(
+      ids = paste(Subject, PassFail, Grade, RACE, CLASS, sep = "-"),
+      parents = paste(Subject, PassFail, Grade, RACE, sep = "-"),
+      labels = CLASS
+    )
+
+  # Root level
+  root <- data.frame(
+    ids = unique(df_processed$Subject),
+    labels = paste0(unique(df_processed$Subject), "\n "), 
+    parents = NA,
+    Count = n_distinct(df_processed$ID)
+  )
+
+  plotly_df <- bind_rows(root, level1, level2_pass, level3_race, level4_class) %>%
+    group_by(parents) %>%
+    mutate(percentage = Count / sum(Count, na.rm = TRUE)) %>%
+    ungroup()
+
+  return(plotly_df)
+}
+
+# Define the subjects to visualize
+subjects_to_visualize <- c("MATHS", "ENGLISH", "SCIENCE")
+plot_titles <- c("Maths", "ENG", "SCI")
+
+# Create the plotly figure
+fig_interactive_actual <- plot_ly()
+
+# Add sunburst for the first subject (MATHS)
+interactive_data_subject1 <- prepare_plotly_interactive_data_actual(exam_data, subjects_to_visualize[1])
+fig_interactive_actual <- fig_interactive_actual %>%
+  add_trace(
+    data = interactive_data_subject1,
+    ids = ~ids,
+    labels = ~paste0(labels, " (", round(percentage * 100, 1), "%)"),
+    parents = ~parents,
+    values = ~Count,
+    type = 'sunburst',
+    domain = list(column = 0),
+    maxdepth = 2,
+    name = plot_titles[1]
+  )
+
+# Add sunburst for the second subject (ENGLISH)
+interactive_data_subject2 <- prepare_plotly_interactive_data_actual(exam_data, subjects_to_visualize[2])
+fig_interactive_actual <- fig_interactive_actual %>%
+  add_trace(
+    data = interactive_data_subject2,
+    ids = ~ids,
+    labels = ~paste0(labels, " (", round(percentage * 100, 1), "%)"),
+    parents = ~parents,
+    values = ~Count,
+    type = 'sunburst',
+    domain = list(column = 1),
+    maxdepth = 2,
+    name = plot_titles[2]
+  )
+
+# Add sunburst for the second subject (SCIENCE)
+interactive_data_subject3 <- prepare_plotly_interactive_data_actual(exam_data, subjects_to_visualize[3])
+fig_interactive_actual <- fig_interactive_actual %>%
+  add_trace(
+    data = interactive_data_subject3,
+    ids = ~ids,
+    labels = ~paste0(labels, " (", round(percentage * 100, 1), "%)"),
+    parents = ~parents,
+    values = ~Count,
+    type = 'sunburst',
+    domain = list(column = 2),
+    maxdepth = 2,
+    name = plot_titles[3]
+  )
+
+fig_interactive_actual <- fig_interactive_actual %>%
+  layout(
+    title = "Performance Breakdown by Subject",
+    grid = list(columns = 3, rows = 1),
+    margin = list(l = 0, r = 0, b = 0, t = 50), # Adjust top margin for title
+    sunburstcolorway = c(
+      "#636efa","#EF553B","#00cc96","#ab63fa","#19d3f3",
+      "#e763fa", "#FECB52","#FFA15A","#FF6692","#B6E880",
+      "#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
+      "#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a"
+    ),
+    extendsunburstcolors = TRUE
+  )
+
+fig_interactive_actual
+
+```
 
 # **3.9 Reference**
 

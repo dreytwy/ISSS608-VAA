@@ -1,122 +1,101 @@
 [
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#tooltip-effect-with-tooltip-aesthetic",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#tooltip-effect-with-tooltip-aesthetic",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.4.1 Tooltip effect with tooltip aesthetic",
-    "text": "3.4.1 Tooltip effect with tooltip aesthetic\nBelow shows a typical code chunk to plot an interactive statistical graph by using ggiraph package. Notice that the code chunk consists of two parts.\n\nFirst, an ggplot object will be created.\nNext, girafe() of ggiraph will be used to create an interactive svg object.\n\n\n# First part: ggplot object\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS, fill=GENDER)) +\n  geom_dotplot_interactive(\n    aes(tooltip = ID), #Student's ID\n    stackgroups = TRUE, \n    binwidth = 1, \n    method = \"histodot\") +\n  scale_y_continuous(NULL, \n                     breaks = NULL)+  \n  ggtitle(\"Maths scores for Primary 3\")\n\n# Next part: ggiraph\ngirafe(\n  ggobj = p,\n  width_svg = 6,\n  height_svg = 6*0.618\n)\n\nNotice that two steps are involved.\n\nFirst, an interactive version of ggplot2 geom (i.e. geom_dotplot_interactive()) will be used to create the basic graph.\nThen, girafe() will be used to generate an svg object to be displayed on an html page."
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#installing-and-loading-the-required-libraries",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#installing-and-loading-the-required-libraries",
+    "title": "Hands-on Exercise 2",
+    "section": "2.2.1 Installing and loading the required libraries",
+    "text": "2.2.1 Installing and loading the required libraries\nIn this exercise, beside tidyverse, four R packages will be used. They are:\n\nggrepel: an R package provides geoms for ggplot2 to repel overlapping text labels.\nggthemes: an R package provides some extra themes, geoms, and scales for ‘ggplot2’.\nhrbrthemes: an R package provides typography-centric themes and theme components for ggplot2.\npatchwork: an R package for preparing composite figure created using ggplot2.\n\nCode chunk below checks if these packages have been installed and also will load them onto the working R environment.\n\npacman::p_load(ggrepel, patchwork,\nggthemes, hrbrthemes,\ntidyverse,\nplotly)\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(RColorBrewer)\nlibrary(magick)\n\nLinking to ImageMagick 6.9.12.98\nEnabled features: cairo, freetype, fftw, ghostscript, heic, lcms, pango, raw, rsvg, webp\nDisabled features: fontconfig, x11\n\nlibrary(ggdist)\nlibrary(cowplot)\n\n\nAttaching package: 'cowplot'\n\n\nThe following object is masked from 'package:lubridate':\n\n    stamp\n\n\nThe following object is masked from 'package:ggthemes':\n\n    theme_map\n\n\nThe following object is masked from 'package:patchwork':\n\n    align_plots"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#displaying-multiple-information-on-tooltip",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#displaying-multiple-information-on-tooltip",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.5.1 Displaying multiple information on tooltip",
-    "text": "3.5.1 Displaying multiple information on tooltip\nThe content of the tooltip can be customised by including a list object as shown in the code chunk below.\n\n# Customising the tooltip\nexam_data$tooltip &lt;- c(paste0(     \n  \"Name = \", exam_data$ID,         # Student's ID\n  \"\\n Class = \", exam_data$CLASS)) # Student's Class\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS, fill=GENDER)) +\n  geom_dotplot_interactive(\n    aes(tooltip = exam_data$tooltip), \n    stackgroups = TRUE,\n    binwidth = 1,\n    method = \"histodot\") +\n  scale_y_continuous(NULL,               \n                     breaks = NULL)+\n  ggtitle(\"Maths scores for Primary 3\")\n\ngirafe(\n  ggobj = p,\n  width_svg = 8,\n  height_svg = 8*0.618\n)\n\nThe first three lines of codes in the code chunk create a new field called tooltip. At the same time, it populates text in ID and CLASS fields into the newly created field. Next, this newly created field is used as tooltip field as shown in the code of line 7."
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#importing-data",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#importing-data",
+    "title": "Hands-on Exercise 2",
+    "section": "2.2.2 Importing data",
+    "text": "2.2.2 Importing data\nThe code chunk below imports exam_data.csv into R environment by using read_csv() function of readr package and stores it in exam_data in R Studio.\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\", show_col_types = FALSE)\n\nThere are a total of seven attributes in the exam_data tibble data frame. Four of them are categorical data type and the other three are in continuous data type.\n\nThe categorical attributes are: ID, CLASS, GENDER and RACE.\nThe continuous attributes are: MATHS, ENGLISH and SCIENCE.\n\nThe code chunk below allows a glimpse into exam_data by their 7 column headers.\n\n# Display the structure of your exam_data\nglimpse(exam_data)\n\nRows: 322\nColumns: 7\n$ ID      &lt;chr&gt; \"Student321\", \"Student305\", \"Student289\", \"Student227\", \"Stude…\n$ CLASS   &lt;chr&gt; \"3I\", \"3I\", \"3H\", \"3F\", \"3I\", \"3I\", \"3I\", \"3I\", \"3I\", \"3H\", \"3…\n$ GENDER  &lt;chr&gt; \"Male\", \"Female\", \"Male\", \"Male\", \"Male\", \"Female\", \"Male\", \"M…\n$ RACE    &lt;chr&gt; \"Malay\", \"Malay\", \"Chinese\", \"Chinese\", \"Malay\", \"Malay\", \"Chi…\n$ ENGLISH &lt;dbl&gt; 21, 24, 26, 27, 27, 31, 31, 31, 33, 34, 34, 36, 36, 36, 37, 38…\n$ MATHS   &lt;dbl&gt; 9, 22, 16, 77, 11, 16, 21, 18, 19, 49, 39, 35, 23, 36, 49, 30,…\n$ SCIENCE &lt;dbl&gt; 15, 16, 16, 31, 25, 16, 25, 27, 15, 37, 42, 22, 32, 36, 35, 45…"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#customising-tooltip-style",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#customising-tooltip-style",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.6.1 Customising Tooltip style",
-    "text": "3.6.1 Customising Tooltip style\nCode chunk below uses opts_tooltip() of ggiraph to customize tooltip rendering by add css declarations.\n\n# Customising Tooltip style\ntooltip_css &lt;- \"background-color:white; #&lt;&lt;\nfont-style:bold; color:black;\" #&lt;&lt;\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS, fill=GENDER)) +\n  geom_dotplot_interactive(              \n    aes(tooltip = ID),                   \n    stackgroups = TRUE,                  \n    binwidth = 1,                        \n    method = \"histodot\") +               \n  scale_y_continuous(NULL,               \n                     breaks = NULL)+  \n  ggtitle(\"Maths scores for Primary 3\")\n\ngirafe(                                  \n  ggobj = p,                             \n  width_svg = 6,                         \n  height_svg = 6*0.618,\n  options = list(    #&lt;&lt;\n    opts_tooltip(    #&lt;&lt;\n      css = tooltip_css)) #&lt;&lt;\n)                                        \n\n\nTooltip: Black Background and White Bolded Font\nNotice that the background colour of the tooltip is black and the font colour is white and bold.\n\n\n\n\n\n\n\n\nTooltip: Pink Background with Rounded Borders and White Fonts\nNotice that the background colour of the tooltip is pink with round borders and the font colour is white.\nThe student’s ID and Class will be displayed.\n\n# Customising Tooltip style\ntooltip_css &lt;- \"background-color:#d8118c;color:white;padding:5px;border-radius:3px;\"\n\n# Combined Student ID and Class \nexam_data$tooltip &lt;- c(paste0(     \n  \"Name = \", exam_data$ID,         # Student's ID\n  \"\\n Class = \", exam_data$CLASS)) # Student's Class\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS, fill=GENDER)) +\n  geom_dotplot_interactive(              \n    aes(tooltip = exam_data$tooltip),                   \n    stackgroups = TRUE,                  \n    binwidth = 1,                        \n    method = \"histodot\") +               \n  scale_y_continuous(NULL,               \n                     breaks = NULL)+  \n  ggtitle(\"Maths scores for Primary 3\")\n\ngirafe(                                  \n  ggobj = p,                             \n  width_svg = 6,                         \n  height_svg = 6*0.618,\n  options = list(    #&lt;&lt;\n    opts_tooltip(    #&lt;&lt;\n      css = tooltip_css)) #&lt;&lt;\n)                                        \n\n\n\n\n\n\nRefer to Customizing girafe objects to learn more about how to customise ggiraph objects."
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggrepel",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggrepel",
+    "title": "Hands-on Exercise 2",
+    "section": "2.3.1 Working with ggrepel",
+    "text": "2.3.1 Working with ggrepel\n\nExample for geom_label_repel\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point(color= \"darkblue\") +\n  geom_smooth(method=lm, \n              linewidth=0.5) +  \n  geom_label_repel(aes(label = ID, \n                   colour = GENDER),\n                   fontface = \"bold\")+\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: ggrepel: 317 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#displaying-statistics-on-tooltip",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#displaying-statistics-on-tooltip",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.6.2 Displaying statistics on tooltip",
-    "text": "3.6.2 Displaying statistics on tooltip\nCode chunk below shows an advanced way to customise tooltip. In this example, a function is used to compute 90% confident interval of the mean. The derived statistics are then displayed in the tooltip.\n\ntooltip &lt;- function(y, ymax, accuracy = .01) {\n  mean &lt;- scales::number(y, accuracy = accuracy)\n  sem &lt;- scales::number(ymax - y, accuracy = accuracy)\n  paste(\"Mean maths scores:\", mean, \"+/-\", sem)\n}\n\ngg_point &lt;- ggplot(data=exam_data, \n                   aes(x = RACE, fill=RACE),\n) +\n  stat_summary(aes(y = MATHS, \n                   tooltip = after_stat(  \n                     tooltip(y, ymax))),  \n    fun.data = \"mean_se\", \n    geom = GeomInteractiveCol\n  ) +\n  stat_summary(aes(y = MATHS),\n    fun.data = mean_se,\n    geom = \"errorbar\", width = 0.2, linewidth = 0.2\n  )+\n  ggtitle(\"Maths scores by Races\")\n\ngirafe(ggobj = gg_point,\n       width_svg = 8,\n       height_svg = 8*0.618)"
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggtheme-package",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggtheme-package",
+    "title": "Hands-on Exercise 2",
+    "section": "2.4.1 Working with ggtheme package",
+    "text": "2.4.1 Working with ggtheme package\nggthemes provides ‘ggplot2’ themes that replicate the look of plots by Edward Tufte, Stephen Few, Fivethirtyeight, The Economist, ‘Stata’, ‘Excel’, and The Wall Street Journal, among others.\n\nThe Economist Theme\nIn the example below, The Economist theme is used.\n\nggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\",\n                 fill=\"cyan3\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_economist()\n\n\n\n\n\n\n\n\n\n\nWall Street Journal Theme\nIn the example below, The Wall Street Journal theme is used.\n\np&lt;-ggplot(data=exam_data, \n             aes(x = ENGLISH)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"cyan3\") +\n  theme_wsj()\n\n# Add title\np &lt;- p + labs(title = \"Distribution of English Scores\")\np + theme(\n  plot.title = element_text(color = \"black\", size = 15, face = \"bold\")\n)\n\n\n\n\n\n\n\n\nIt also provides some extra geoms and scales for ‘ggplot2’. Consult this vignette to learn more."
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#hover-effect-with-data_id-aesthetic",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#hover-effect-with-data_id-aesthetic",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.6.3 Hover effect with data_id aesthetic",
-    "text": "3.6.3 Hover effect with data_id aesthetic\nCode chunk below shows the second interactive feature of ggiraph, namely data_id.\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS, fill=GENDER)) +\n  geom_dotplot_interactive(           \n    aes(data_id = CLASS),        # data_id added here to Class     \n    stackgroups = TRUE,               \n    binwidth = 1,                        \n    method = \"histodot\") +               \n  scale_y_continuous(NULL,               \n                     breaks = NULL)+\n  ggtitle(\"Maths scores for Primary 3\")\n\ngirafe(                                  \n  ggobj = p,                             \n  width_svg = 6,                         \n  height_svg = 6*0.618                      \n)    \n\nInteractivity: Elements associated with a data_id (i.e CLASS) will be highlighted upon mouse over.\n\n\n\n\n\n\nNote that the default value of the hover css is hover_css = “fill:orange;”."
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-hrbthems-package",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-hrbthems-package",
+    "title": "Hands-on Exercise 2",
+    "section": "2.4.2 Working with hrbthems package",
+    "text": "2.4.2 Working with hrbthems package\nhrbrthemes package provides a base theme that focuses on typographic elements, including where various labels are placed as well as the fonts that are used.\n\np &lt;- ggplot(data=exam_data, \n             aes(x = MATHS,\n                 fill=GENDER)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\") +\n  ggtitle(\"Distribution of Maths scores by Gender\") +\n  theme_ipsum(base_family = \"sans\") \n\n# Add color palette\np + scale_fill_brewer(palette = \"Pastel1\")\n\n\n\n\n\n\n\n\nThe second goal centers around productivity for a production workflow. In fact, this “production workflow” is the context for where the elements of hrbrthemes should be used. Consult this vignette to learn more.\n\nIncrease font size/ axis label/ remove grid lines/ add subtitle\n\np &lt;- ggplot(data=exam_data, \n             aes(x = MATHS,\n                 fill=GENDER)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"black\") +\n  theme_ipsum(axis_title_size = 18,\n              base_size = 15,\n              grid = \"Y\", base_family = \"sans\")\n\n# Add color palette and titles\np + scale_fill_brewer(palette = \"Pastel1\") + \n  labs(title = \"Distribution of Math Scores\",\n              subtitle = \"(by gender)\") + \n  theme(\n  plot.title = element_text(color = \"black\", size = 15, face = \"bold\"),\n  plot.subtitle = element_text(color = \"grey34\"),\n)\n\n\n\n\n\n\n\n\nNote.\n\naxis_title_size argument is used to increase the font size of the axis title to 18,\nbase_size argument is used to increase the default axis label to 15, and\ngrid argument is used to remove the x-axis grid lines."
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#styling-hover-effect",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#styling-hover-effect",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.6.4 Styling hover effect",
-    "text": "3.6.4 Styling hover effect\nIn the code chunk below, css codes are used to change the highlighting effect.\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS, fill=GENDER)) +\n  geom_dotplot_interactive(              \n    aes(data_id = CLASS),              \n    stackgroups = TRUE,                  \n    binwidth = 1,                        \n    method = \"histodot\") +               \n  scale_y_continuous(NULL,               \n                     breaks = NULL)+\n  ggtitle(\"Dotplot of Maths scores\") \n\ngirafe(                                  \n  ggobj = p,                             \n  width_svg = 6,                         \n  height_svg = 6*0.618,\n  options = list(                        \n    opts_hover(css = \"fill: #333333;\"),  #CSS codes here for Color Hex Gray20\n    opts_hover_inv(css = \"opacity:0.2;\") #CSS codes here for opaque\n  )                                        \n)       \n\nInteractivity: Elements associated with a data_id (i.e CLASS) will be highlighted upon mouse over.\n\n\n\n\n\n\nNote: Different from previous example, in this example the ccs customisation request are encoded directly."
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-composite-graphics-pathwork-methods",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-composite-graphics-pathwork-methods",
+    "title": "Hands-on Exercise 2",
+    "section": "2.5.1 Creating Composite Graphics: pathwork methods",
+    "text": "2.5.1 Creating Composite Graphics: pathwork methods\nThere are several ggplot2 extension’s functions support the needs to prepare composite figure by combining several graphs such as grid.arrange() of gridExtra package and plot_grid() of cowplot package. In this section, I am going to shared with you an ggplot2 extension called patchwork which is specially designed for combining separate ggplot2 graphs into a single figure.\nPatchwork package has a very simple syntax where we can create layouts super easily. Here’s the general syntax that combines:\n\nTwo-Column Layout using the Plus Sign +.\nParenthesis () to create a subplot group.\nTwo-Row Layout using the Division Sign /"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#combining-tooltip-and-hover-effect",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#combining-tooltip-and-hover-effect",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.6.5 Combining tooltip and hover effect",
-    "text": "3.6.5 Combining tooltip and hover effect\nThere are time that we want to combine tooltip and hover effect on the interactive statistical graph as shown in the code chunk below.\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS, fill=GENDER)) +\n  geom_dotplot_interactive(              \n    aes(tooltip = CLASS,           # tooltip added here to Class   \n        data_id = CLASS),          # data_id added here to Class      \n    stackgroups = TRUE,                  \n    binwidth = 1,                        \n    method = \"histodot\") +               \n  scale_y_continuous(NULL,               \n                     breaks = NULL)+\n  ggtitle(\"Dotplot of Maths scores\") \n\ngirafe(                                  \n  ggobj = p,                             \n  width_svg = 6,                         \n  height_svg = 6*0.618,\n  options = list(                        \n    opts_hover(css = \"fill: #000080;\"),  #CSS Codes here for color hex NavyBlue\n    opts_hover_inv(css = \"opacity:0.2;\") #CSS Codes here for opaque\n  )                                        \n)     \n\nInteractivity: Elements associated with a data_id (i.e CLASS) will be highlighted upon mouse over. At the same time, the tooltip will show the CLASS."
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#combining-two-ggplot2-graphs",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#combining-two-ggplot2-graphs",
+    "title": "Hands-on Exercise 2",
+    "section": "2.5.2 Combining two ggplot2 graphs",
+    "text": "2.5.2 Combining two ggplot2 graphs\nFigure in the tabset below shows a composite of two histograms created using patchwork. Note how simple the syntax used to create the plot!\n\np1 + p2"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#click-effect-with-onclick",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#click-effect-with-onclick",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.6.6 Click effect with onclick",
-    "text": "3.6.6 Click effect with onclick\nonclick argument of ggiraph provides hotlink interactivity on the web.\nThe code chunk below shown an example of onclick.\n\nexam_data$onclick &lt;- sprintf(\"window.open(\\\"%s%s\\\")\",\n\"https://www.moe.gov.sg/schoolfinder?journey=Primary%20school\",\nas.character(exam_data$ID))\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot_interactive(              \n    aes(onclick = onclick),              \n    stackgroups = TRUE,                  \n    binwidth = 1,                        \n    method = \"histodot\") +               \n  scale_y_continuous(NULL,               \n                     breaks = NULL)+\n  ggtitle(\"Dotplot of Maths scores\") \n\ngirafe(                                  \n  ggobj = p,                             \n  width_svg = 6,                         \n  height_svg = 6*0.618)                                        \n\nInteractivity: Web document link with a data object will be displayed on the web browser upon mouse click.\n\n\n\n\n\n\nNote. Click actions must be a string column in the dataset containing valid javascript instructions."
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#combining-three-ggplot2-graphs",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#combining-three-ggplot2-graphs",
+    "title": "Hands-on Exercise 2",
+    "section": "2.5.3 Combining three ggplot2 graphs",
+    "text": "2.5.3 Combining three ggplot2 graphs\nWe can plot more complex composite by using appropriate operators. For example, the composite figure below is plotted by using:\n\n“/” operator to stack two ggplot2 graphs,\n“|” operator to place the plots beside each other,\n“()” operator the define the sequence of the plotting.\n\n\n(p1 / p2) | p3\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nTo learn more about, refer to Plot Assembly."
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#coordinated-multiple-views-with-ggiraph",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#coordinated-multiple-views-with-ggiraph",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.6.7 Coordinated Multiple Views with ggiraph",
-    "text": "3.6.7 Coordinated Multiple Views with ggiraph\nCoordinated multiple views methods has been implemented in the data visualisation below.\n\n\n\n\n\n\nNotice that when a data point of one of the dotplot is selected, the corresponding data point ID on the second data visualisation will be highlighted too.\nIn order to build a coordinated multiple views as shown in the example above, the following programming strategy will be used:\n\nAppropriate interactive functions of ggiraph will be used to create the multiple views.\npatchwork function of patchwork package will be used inside girafe function to create the interactive coordinated multiple views.\n\n\np1 &lt;- ggplot(data=exam_data, \n       aes(x = MATHS, fill=GENDER)) +\n  geom_dotplot_interactive(              \n    aes(data_id = ID),              \n    stackgroups = TRUE,                  \n    binwidth = 1,                        \n    method = \"histodot\") +  \n  coord_cartesian(xlim=c(0,100)) + \n  scale_y_continuous(NULL,               \n                     breaks = NULL)+ \n  theme_dark()+\n  ggtitle(\"Dotplot of Math scores\") \n\np2 &lt;- ggplot(data=exam_data, \n       aes(x = ENGLISH, fill=GENDER)) +\n  geom_dotplot_interactive(              \n    aes(data_id = ID),              \n    stackgroups = TRUE,                  \n    binwidth = 1,                        \n    method = \"histodot\") + \n  coord_cartesian(xlim=c(0,100)) + \n  scale_y_continuous(NULL,               \n                     breaks = NULL)+ \n  theme_dark()+\n  ggtitle(\"Dotplot of English scores\") \n\ngirafe(code = print(p1 + p2), \n       width_svg = 6,\n       height_svg = 3,\n       options = list(\n         opts_hover(css = \"fill: #202020;\"),\n         opts_hover_inv(css = \"opacity:0.2;\")\n         )\n       ) \n\nThe data_id aesthetic is critical to link observations between plots and the tooltip aesthetic is optional but nice to have when mouse over a point."
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-a-composite-figure-with-tag",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-a-composite-figure-with-tag",
+    "title": "Hands-on Exercise 2",
+    "section": "2.5.4 Creating a composite figure with tag",
+    "text": "2.5.4 Creating a composite figure with tag\nIn order to identify subplots in text, patchwork also provides auto-tagging capabilities as shown in the figure below.\n\nRoman Numerals- Uppercase\n‘I’ for uppercase and ‘i’ for lower case roman numerals\n\n((p1 / p2) | p3) + \n  plot_annotation(tag_levels = 'I')\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\nLatin Letters- Uppercase\n‘A’ for uppercase and ‘a’ for lower case Latin letters\n\n((p1 / p2) | p3) + \n  plot_annotation(tag_levels = 'A')\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\nArabic Numerals\n‘1’ for Arabic numerals\n\n((p1 / p2) | p3) + \n  plot_annotation(tag_levels = '1')\n\n`geom_smooth()` using formula = 'y ~ x'"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#creating-an-interactive-scatter-plot-plot_ly-method",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#creating-an-interactive-scatter-plot-plot_ly-method",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.7.1 Creating an interactive scatter plot: plot_ly() method",
-    "text": "3.7.1 Creating an interactive scatter plot: plot_ly() method\nThe tabset below shows an example a basic interactive plot created by using plot_ly().\n\nplot_ly(data = exam_data, \n             x = ~MATHS, \n             y = ~ENGLISH)\n\nNo trace type specified:\n  Based on info supplied, a 'scatter' trace seems appropriate.\n  Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter\n\n\nNo scatter mode specifed:\n  Setting the mode to markers\n  Read more about this attribute -&gt; https://plotly.com/r/reference/#scatter-mode"
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-figure-with-insert",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-figure-with-insert",
+    "title": "Hands-on Exercise 2",
+    "section": "2.5.5 Creating figure with insert",
+    "text": "2.5.5 Creating figure with insert\nBeside providing functions to place plots next to each other based on the provided layout. With inset_element() of patchwork, we can place one or several plots or graphic elements freely on top or below another plot.\n\nInsert P2 to Top Left\n\np3 + inset_element(p2, \n                   left = 0.02, \n                   bottom = 0.7, \n                   right = 0.5, \n                   top = 1)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\nInsert P1 to Bottom Right\n\np3 + inset_element(p1, \n                   left = 0.6, \n                   bottom = 0, \n                   right = 1, \n                   top = 0.4)\n\n`geom_smooth()` using formula = 'y ~ x'"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#working-with-visual-variable-plot_ly-method",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#working-with-visual-variable-plot_ly-method",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.7.2 Working with visual variable: plot_ly() method",
-    "text": "3.7.2 Working with visual variable: plot_ly() method\n\nColour and Colour Palette\nIn the code chunk below, color argument is mapped to a qualitative visual variable (i.e. RACE). Colour palette is customised as well with Set2.\n\nplot_ly(data = exam_data, \n        x = ~ENGLISH, \n        y = ~MATHS,         \n        type= \"scatter\", \n        mode=\"markers\",\n        color = ~RACE,\n        colors=\"Set2\")\n\n\n\n\n\n\n\nData Labels on Hover\nGender and Science scores may be added on Hover.\n\nplot_ly(data = exam_data, \n        x = ~ENGLISH, \n        y = ~MATHS, \n        type= \"scatter\", \n        mode=\"markers\",\n        color = ~RACE,\n        colors=\"Set2\",\n        #Hover text\n        text=~paste(\"Gender: \", GENDER, \"&lt;br&gt;Science: \", SCIENCE))\n\n\n\n\n\n\n\nChart Title\nChart title may be added\n\nplot_ly(data = exam_data, \n        x = ~ENGLISH, \n        y = ~MATHS, \n        type= \"scatter\", \n        mode=\"markers\",\n        color = ~RACE,\n        colors=\"Set2\",\n        #Hover text\n        text=~paste(\"Gender: \", GENDER, \"&lt;br&gt;Science: \", SCIENCE))%&gt;%\n  layout(title = \"Scatterplot of English by Math Scores\")  # Title"
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-a-composite-figure-by-using-patchwork-and-ggtheme",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-a-composite-figure-by-using-patchwork-and-ggtheme",
+    "title": "Hands-on Exercise 2",
+    "section": "2.5.6 Creating a composite figure by using patchwork and ggtheme",
+    "text": "2.5.6 Creating a composite figure by using patchwork and ggtheme\nFigure below is created by combining patchwork and theme_economist() of ggthemes package discussed earlier.\n\npatchwork &lt;- (p1 / p2) | p3 \npatchwork & theme_economist()&\n  theme(\n    plot.title = element_text(size = 8),       # Adjust main patchwork title size\n    plot.subtitle = element_text(size = 8),    # Adjust main patchwork subtitle size \n    plot.caption = element_text(size = 7),     # Adjust main patchwork caption size \n    strip.text = element_text(size = 8),        # Adjust facet label sizes \n    axis.title.x = element_text(size = 8),       # Adjust x-axis label sizes\n    axis.title.y = element_text(size = 8)        # Adjust y-axis label sizes\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#creating-an-interactive-scatter-plot-ggplotly-method",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#creating-an-interactive-scatter-plot-ggplotly-method",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.7.3 Creating an interactive scatter plot: ggplotly() method",
-    "text": "3.7.3 Creating an interactive scatter plot: ggplotly() method\nThe code chunk below plots an interactive scatter plot by using ggplotly().\n\np &lt;- ggplot(data=exam_data, \n            aes(x = MATHS,\n                y = ENGLISH, fill=GENDER)) +\n  geom_point(size=2) +\n  ggtitle(\"Scatterplot of Math by English Scores\") + \n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100))\nggplotly(p)\n\n\n\n\n\nNotice that the only extra line you need to include in the code chunk is ggplotly()."
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-raincloud-plots",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-raincloud-plots",
+    "title": "Hands-on Exercise 2",
+    "section": "2.5.7 Creating Raincloud plots",
+    "text": "2.5.7 Creating Raincloud plots\nShortcomings of barplots:\nThe barplot with whisker error bars to visualise the mean or median and the standard error may be prone to distortion, fail to represent underlying data parameter inferences, lead to misleading inferences of magnitude of difference between conditions, and may obscure difference in distributions (Allen et al., 2021).\nRemedies:\n\nAdd jittered raw data points to the standard boxplot and +/- standard error scheme.\nAdd dotplots tosupplement visualizations of central tendency and error, but at the risk of added complexity due to the dependence of such plots on choices such as bin-width and dot size, and the risk of reading issues when there are many observations.\nViolin plot overlaid with boxplots or similar. However, there is little to be gained statistically, by mirroring the violin plot, and therefore violating the philosophy of minimising the “data-ink ratio” (Allen et al., 2021; Tufte, 1983).\n\nClick to see detailed information on shortcomings and remedies of barplot.\nSolution to limitations:\nThe raincloud plot combines various plots, to address the aforementioned limitations in an intuitive, modular, and statistically robust format. Raincloud plots combine a ‘split-half violin’, raw jittered data points, and a standard visualization of central tendency (i.e., mean or median) and error, such as a boxplot (Allen et al., 2021).\n\n# plot\np4 &lt;- ggplot(simdat, aes(x = group, y = score, fill = group, colour = group)) +\n  geom_flat_violin(\n    position = position_nudge(x = 0.25),\n    adjust = 2,\n    trim = TRUE\n  ) +\n  geom_point(\n    position = position_jitter(width = 0.15),\n    size = 0.25\n  ) +\n  geom_boxplot(\n    aes(x = as.numeric(group) + 0.25, y = score),\n    outlier.shape = NA,\n    alpha = 0.3,\n    width = 0.1,\n    colour = \"BLACK\",\n    position = position_nudge(x = 0)\n  ) +\n  scale_fill_brewer(palette = \"Set2\") +  # palette for the fill\n  scale_color_brewer(palette = \"Set2\") +  # palette for the color\n  guides(fill = \"none\", colour = \"none\") +\n  ylab(\"Score\") +\n  xlab(\"Subject\") +\n  theme_cowplot() +\n  coord_flip() +\n  ggtitle(\"Raincloud Plot\")\n\nsuppressWarnings(plot(p4))  # Suppress warnings\n\n\n\n\n\n\n\n\nIn the raincloud plot above, the following elements are visualised:\n\nSplit-half violin (density plot): Distribution of the data for each subject, filled with color, and is a smoothed density estimate of the data.\nBoxplot: Overlaid on top of the violin, showing the quartiles, median, and outliers for the data.\nRaw jittered data points (“rain”): Individual data points (“raindrop”) shown as small, scattered dots. Shows the data points distribution within each subject.\n\n\n2.5.7.1 Drilling Deeper into Interactive Rain Points\nWe may dissect the plot without the violin density plot. Then using tooltip we can hover over each individual “raindrop” to show the student’s ID and Class per subject, in an interactive manner.\n\n# tooltip\nsimdat$tooltip &lt;- paste0(\"ID = \", simdat$ID, \"\\nClass = \", simdat$group)\n\n# Create the plot\np4_interactive &lt;- suppressWarnings({\n  p4 &lt;- ggplot(simdat, aes(x = group, y = score, fill = group, colour = group)) +  geom_point(\n      aes(text = tooltip),  # Add tooltip in the 'text' aesthetic\n      position = position_jitter(width = 0.15),\n      size = 0.25\n    ) +\n    geom_boxplot(\n      aes(x = as.numeric(group) + 0.25, y = score),\n      outlier.shape = NA,\n      alpha = 0.3,\n      width = 0.1,\n      colour = \"BLACK\",\n      position = position_nudge(x = 0)\n    ) +\n    scale_fill_brewer(palette = \"Set2\") +  # palette for the fill\n    scale_color_brewer(palette = \"Set2\") +  # palette for the color\n    guides(fill = \"none\", colour = \"none\") +\n    ylab(\"Score\") +\n    xlab(\"Subject\") +\n    theme_cowplot() +\n    coord_flip() +\n    ggtitle(\"Dissected Raincloud Plot\")\n\n  # Convert to interactive plotly plot with the tooltip\n  ggplotly(p4, tooltip = \"text\")  # Use 'text' for hover tooltip\n})\n\n# Display the interactive plot\np4_interactive"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#coordinated-multiple-views-with-plotly",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#coordinated-multiple-views-with-plotly",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.7.4 Coordinated Multiple Views with plotly",
-    "text": "3.7.4 Coordinated Multiple Views with plotly\nThe creation of a coordinated linked plot by using plotly involves three steps:\n\nhighlight_key() of plotly package is used as shared data.\ntwo scatterplots will be created by using ggplot2 functions.\nlastly, subplot() of plotly package is used to place them next to each other side-by-side.\n\n\nd &lt;- highlight_key(exam_data)\np1 &lt;- ggplot(data=d, \n            aes(x = MATHS,\n                y = ENGLISH, fill=GENDER)) +\n  geom_point(size=2) +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100))\n\np2 &lt;- ggplot(data=d, \n            aes(x = MATHS,\n                y = SCIENCE, fill=GENDER)) +\n  geom_point(size=2) +  \n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100))\nsubplot(ggplotly(p1),\n        ggplotly(p2))%&gt;%\nlayout(\n    showlegend = FALSE)\n\n\n\n\n\nThing to learn from the code chunk:\n\nhighlight_key() simply creates an object of class crosstalk::SharedData.\nVisit this link to learn more about crosstalk.\n\n\nCustomisation of Main Title and Axis\n\nd &lt;- highlight_key(exam_data)\n\n# First plot (MATHS vs ENGLISH)\np1 &lt;- ggplot(data = d, \n             aes(x = MATHS, y = ENGLISH, fill = GENDER)) +\n  geom_point(size = 2) +\n  coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)) + \n  labs(\n    title = \"MATHS by ENGLISH\",\n    x = \"MATH\",  # Shared X-axis label\n    y = \"ENGLISH\"\n  ) \n\n# Second plot (MATHS by SCIENCE)\np2 &lt;- ggplot(data = d, \n             aes(x = MATHS, y = SCIENCE, fill = GENDER)) +\n  geom_point(size = 2) +  \n  coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)) + \n  labs(\n    title = \"MATHS by SCIENCE\",\n    x = \"MATH\",  # Shared X-axis label\n    y = \"SCIENCE\"\n  ) \n\n# Convert ggplot to plotly objects\np1_plotly &lt;- ggplotly(p1)\np2_plotly &lt;- ggplotly(p2)\n\n# Combine the plots using subplot\nsubplot(p1_plotly, p2_plotly, nrows = 1, shareX = TRUE, shareY = FALSE) %&gt;%\n  layout(\n    title = \"Scatterplot Comparison\",\n    showlegend = FALSE,\n    xaxis = list(title = \"MATH\"),  # Shared X-axis label\n    yaxis = list(title = \"ENGLISH\"),  \n    yaxis2 = list(title = \"SCIENCE\"), \n    margin = list(t = 80),  # Adjust space\n    autosize = TRUE,  # Allow auto resizing\n    xaxis2 = list(domain = c(0.6, 1)),  # The second plot (SCIENCE) starts here\n    yaxis2 = list(domain = c(0, 1))  # The second plot takes full height\n  )"
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Hi, my name is Audrey!\nEducation\nSingapore Management University\nMasters of IT in Business\nExperience\nAnalytics | Finance | Risk & Compliance"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#interactive-data-table-dt-package",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#interactive-data-table-dt-package",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.8.1 Interactive Data Table: DT package",
-    "text": "3.8.1 Interactive Data Table: DT package\n\nA wrapper of the JavaScript Library DataTables\nData objects in R can be rendered as HTML tables using the JavaScript library ‘DataTables’ (typically via R Markdown or Shiny).\n\n\nDT::datatable(exam_data, class= \"compact\")"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#linked-brushing-crosstalk-method",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#linked-brushing-crosstalk-method",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.8.2 Linked brushing: crosstalk method",
-    "text": "3.8.2 Linked brushing: crosstalk method\nCode chunk below is used to implement the coordinated brushing shown above.\n\nd &lt;- highlight_key(exam_data) \np &lt;- ggplot(d, \n            aes(ENGLISH, \n                MATHS, fill=GENDER)) + \n  geom_point(size=1) +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100))\n\ngg &lt;- highlight(ggplotly(p),        \n                \"plotly_selected\")  \n\ncrosstalk::bscols(gg,               \n                  DT::datatable(d), \n                  widths = 5)     \n\nSetting the `off` event (i.e., 'plotly_deselect') to match the `on` event (i.e., 'plotly_selected'). You can change this default via the `highlight()` function.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThings to learn from the code chunk:\n\nhighlight() is a function of plotly package. It sets a variety of options for brushing (i.e., highlighting) multiple plots. These options are primarily designed for linking multiple plotly graphs, and may not behave as expected when linking plotly to another htmlwidget package via crosstalk. In some cases, other htmlwidgets will respect these options, such as persistent selection in leaflet.\nbscols() is a helper function of crosstalk package. It makes it easy to put HTML elements side by side. It can be called directly from the console but is especially designed to work in an R Markdown document. Warning: This will bring in all of Bootstrap!."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#ggiraph",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#ggiraph",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.9.1 ggiraph",
-    "text": "3.9.1 ggiraph\nThis link provides online version of the reference guide and several useful articles. Use this link to download the pdf version of the reference guide.\n\nHow to Plot With Ggiraph\nInteractive map of France with ggiraph\nCustom interactive sunbursts with ggplot in R\nThis link provides code example on how ggiraph is used to interactive graphs for Swiss Olympians - the solo specialists."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#plotly-for-r",
-    "href": "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html#plotly-for-r",
-    "title": "Hands-on Exercise 3A",
-    "section": "3.9.2 plotly for R",
-    "text": "3.9.2 plotly for R\n\nGetting Started with Plotly in R\nA collection of plotly R graphs are available via this link.\nCarson Sievert (2020) Interactive web-based data visualization with R, plotly, and shiny, Chapman and Hall/CRC is the best resource to learn plotly for R. The online version is available via this link\nPlotly R Figure Reference provides a comprehensive discussion of each visual representations.\nPlotly R Library Fundamentals is a good place to learn the fundamental features of Plotly’s R API.\nGetting Started\nVisit this link for a very interesting implementation of gganimate by your senior.\nBuilding an animation step-by-step with gganimate.\nCreating a composite gif with multiple gganimate panels"
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ISSS608-VAA",
+    "section": "",
+    "text": "Welcome to ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#install-and-launching-r-packages",
@@ -278,96 +257,5 @@
     "title": "Hands-on Exercise 1",
     "section": "1.11.1 Working with theme",
     "text": "1.11.1 Working with theme\n\nGray\nThe code chunk below plot a horizontal bar chart using theme_gray().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_gray()\n\n\n\n\n\n\n\n\n\n\nClassic\nA horizontal bar chart plotted using theme_classic().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\nMinimal\nA horizontal bar chart plotted using theme_minimal().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nBlack and White\nThe code chunk below plot a horizontal bar chart using theme_bw()\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_bw()"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "ISSS608-VAA",
-    "section": "",
-    "text": "Welcome to ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "Hi, my name is Audrey!\nEducation\nSingapore Management University\nMasters of IT in Business"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#installing-and-loading-the-required-libraries",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#installing-and-loading-the-required-libraries",
-    "title": "Hands-on Exercise 2",
-    "section": "2.2.1 Installing and loading the required libraries",
-    "text": "2.2.1 Installing and loading the required libraries\nIn this exercise, beside tidyverse, four R packages will be used. They are:\n\nggrepel: an R package provides geoms for ggplot2 to repel overlapping text labels.\nggthemes: an R package provides some extra themes, geoms, and scales for ‘ggplot2’.\nhrbrthemes: an R package provides typography-centric themes and theme components for ggplot2.\npatchwork: an R package for preparing composite figure created using ggplot2.\n\nCode chunk below checks if these packages have been installed and also will load them onto the working R environment.\n\npacman::p_load(ggrepel, patchwork,\nggthemes, hrbrthemes,\ntidyverse)\nlibrary(ggplot2)\nlibrary(RColorBrewer)\nlibrary(magick)\n\nLinking to ImageMagick 6.9.12.98\nEnabled features: cairo, freetype, fftw, ghostscript, heic, lcms, pango, raw, rsvg, webp\nDisabled features: fontconfig, x11"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#importing-data",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#importing-data",
-    "title": "Hands-on Exercise 2",
-    "section": "2.2.2 Importing data",
-    "text": "2.2.2 Importing data\nThe code chunk below imports exam_data.csv into R environment by using read_csv() function of readr package and stores it in exam_data in R Studio.\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\", show_col_types = FALSE)\n\nThere are a total of seven attributes in the exam_data tibble data frame. Four of them are categorical data type and the other three are in continuous data type.\n\nThe categorical attributes are: ID, CLASS, GENDER and RACE.\nThe continuous attributes are: MATHS, ENGLISH and SCIENCE."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggrepel",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggrepel",
-    "title": "Hands-on Exercise 2",
-    "section": "2.3.1 Working with ggrepel",
-    "text": "2.3.1 Working with ggrepel\n\nExample for geom_label_repel\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point(color= \"lightpink4\") +\n  geom_smooth(method=lm, \n              linewidth=0.5) +  \n  geom_label_repel(aes(label = ID), \n                   fontface = \"bold\")+\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: ggrepel: 317 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggtheme-package",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggtheme-package",
-    "title": "Hands-on Exercise 2",
-    "section": "2.4.1 Working with ggtheme package",
-    "text": "2.4.1 Working with ggtheme package\nggthemes provides ‘ggplot2’ themes that replicate the look of plots by Edward Tufte, Stephen Few, Fivethirtyeight, The Economist, ‘Stata’, ‘Excel’, and The Wall Street Journal, among others.\n\nThe Economist Theme\nIn the example below, The Economist theme is used.\n\nggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"gold2\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_economist()\n\n\n\n\n\n\n\n\n\n\nWall Street Journal Theme\nIn the example below, The Wall Street Journal theme is used.\n\np&lt;-ggplot(data=exam_data, \n             aes(x = ENGLISH)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"darkgoldenrod2\") +\n  theme_wsj()\n\n# Add title\np &lt;- p + labs(title = \"Distribution of English Scores\")\np + theme(\n  plot.title = element_text(color = \"black\", size = 15, face = \"bold\")\n)\n\n\n\n\n\n\n\n\nIt also provides some extra geoms and scales for ‘ggplot2’. Consult this vignette to learn more."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-hrbthems-package",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-hrbthems-package",
-    "title": "Hands-on Exercise 2",
-    "section": "2.4.2 Working with hrbthems package",
-    "text": "2.4.2 Working with hrbthems package\nhrbrthemes package provides a base theme that focuses on typographic elements, including where various labels are placed as well as the fonts that are used.\n\np &lt;- ggplot(data=exam_data, \n             aes(x = MATHS,\n                 fill=GENDER)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\") +\n  ggtitle(\"Distribution of Maths scores by Gender\") +\n  theme_ipsum(base_family = \"sans\") \n\n# Add color palette\np + scale_fill_brewer(palette = \"Pastel1\")\n\n\n\n\n\n\n\n\nThe second goal centers around productivity for a production workflow. In fact, this “production workflow” is the context for where the elements of hrbrthemes should be used. Consult this vignette to learn more.\n\nIncrease font size/ axis label/ remove grid lines/ Add subtitle\n\np &lt;- ggplot(data=exam_data, \n             aes(x = MATHS,\n                 fill=GENDER)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"black\") +\n  theme_ipsum(axis_title_size = 18,\n              base_size = 15,\n              grid = \"Y\", base_family = \"sans\")\n\n# Add color palette and titles\np + scale_fill_brewer(palette = \"Pastel1\") + \n  labs(title = \"Distribution of Math Scores\",\n              subtitle = \"(by gender)\") + \n  theme(\n  plot.title = element_text(color = \"black\", size = 15, face = \"bold\"),\n  plot.subtitle = element_text(color = \"grey34\"),\n)\n\n\n\n\n\n\n\n\nNote.\n\naxis_title_size argument is used to increase the font size of the axis title to 18,\nbase_size argument is used to increase the default axis label to 15, and\ngrid argument is used to remove the x-axis grid lines."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-composite-graphics-pathwork-methods",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-composite-graphics-pathwork-methods",
-    "title": "Hands-on Exercise 2",
-    "section": "2.5.1 Creating Composite Graphics: pathwork methods",
-    "text": "2.5.1 Creating Composite Graphics: pathwork methods\nThere are several ggplot2 extension’s functions support the needs to prepare composite figure by combining several graphs such as grid.arrange() of gridExtra package and plot_grid() of cowplot package. In this section, I am going to shared with you an ggplot2 extension called patchwork which is specially designed for combining separate ggplot2 graphs into a single figure.\nPatchwork package has a very simple syntax where we can create layouts super easily. Here’s the general syntax that combines:\n\nTwo-Column Layout using the Plus Sign +.\nParenthesis () to create a subplot group.\nTwo-Row Layout using the Division Sign /"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#combining-two-ggplot2-graphs",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#combining-two-ggplot2-graphs",
-    "title": "Hands-on Exercise 2",
-    "section": "2.5.2 Combining two ggplot2 graphs",
-    "text": "2.5.2 Combining two ggplot2 graphs\nFigure in the tabset below shows a composite of two histograms created using patchwork. Note how simple the syntax used to create the plot!\n\np1 + p2"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#combining-three-ggplot2-graphs",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#combining-three-ggplot2-graphs",
-    "title": "Hands-on Exercise 2",
-    "section": "2.5.3 Combining three ggplot2 graphs",
-    "text": "2.5.3 Combining three ggplot2 graphs\nWe can plot more complex composite by using appropriate operators. For example, the composite figure below is plotted by using:\n\n“/” operator to stack two ggplot2 graphs,\n“|” operator to place the plots beside each other,\n“()” operator the define the sequence of the plotting.\n\n\n(p1 / p2) | p3\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nTo learn more about, refer to Plot Assembly."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-a-composite-figure-with-tag",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-a-composite-figure-with-tag",
-    "title": "Hands-on Exercise 2",
-    "section": "2.5.4 Creating a composite figure with tag",
-    "text": "2.5.4 Creating a composite figure with tag\nIn order to identify subplots in text, patchwork also provides auto-tagging capabilities as shown in the figure below.\n\nRoman Numerals- Uppercase\n‘I’ for uppercase and ‘i’ for lower case roman numerals\n\n((p1 / p2) | p3) + \n  plot_annotation(tag_levels = 'I')\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\nLatin Letters- Uppercase\n‘A’ for uppercase and ‘a’ for lower case Latin letters\n\n((p1 / p2) | p3) + \n  plot_annotation(tag_levels = 'A')\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\nArabic Numerals\n‘1’ for Arabic numerals\n\n((p1 / p2) | p3) + \n  plot_annotation(tag_levels = '1')\n\n`geom_smooth()` using formula = 'y ~ x'"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-figure-with-insert",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-figure-with-insert",
-    "title": "Hands-on Exercise 2",
-    "section": "2.5.5 Creating figure with insert",
-    "text": "2.5.5 Creating figure with insert\nBeside providing functions to place plots next to each other based on the provided layout. With inset_element() of patchwork, we can place one or several plots or graphic elements freely on top or below another plot.\n\nInsert P2 to Top Left\n\np3 + inset_element(p2, \n                   left = 0.02, \n                   bottom = 0.7, \n                   right = 0.5, \n                   top = 1)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\nInsert P1 to Bottom Right\n\np3 + inset_element(p1, \n                   left = 0.6, \n                   bottom = 0, \n                   right = 1, \n                   top = 0.4)\n\n`geom_smooth()` using formula = 'y ~ x'"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-a-composite-figure-by-using-patchwork-and-ggtheme",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#creating-a-composite-figure-by-using-patchwork-and-ggtheme",
-    "title": "Hands-on Exercise 2",
-    "section": "2.5.6 Creating a composite figure by using patchwork and ggtheme",
-    "text": "2.5.6 Creating a composite figure by using patchwork and ggtheme\nFigure below is created by combining patchwork and theme_economist() of ggthemes package discussed earlier.\n\npatchwork &lt;- (p1 / p2) | p3 \npatchwork & theme_economist()&\n  theme(\n    plot.title = element_text(size = 8),       # Adjust main patchwork title size\n    plot.subtitle = element_text(size = 8),    # Adjust main patchwork subtitle size \n    plot.caption = element_text(size = 7),     # Adjust main patchwork caption size \n    strip.text = element_text(size = 8),        # Adjust facet label sizes \n    axis.title.x = element_text(size = 8),       # Adjust x-axis label sizes\n    axis.title.y = element_text(size = 8)        # Adjust y-axis label sizes\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
   }
 ]

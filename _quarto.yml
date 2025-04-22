@@ -5,8 +5,9 @@ project:
     - about.qmd
     - Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.qmd
     - Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.qmd
-    - Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.qmd
-
+    - In-class Exercise
+    - Take-home Exercise
+    
 website:
   title: "ISSS608-VAA"
   navbar:
@@ -17,8 +18,8 @@ website:
             href: "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html"
           - text: "Hands-on Exercise 2"
             href: "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html"
-          - text: "Hands-on Exercise 3A"
-            href: "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html"
+          #- text: "Hands-on Exercise 3A"
+          #  href: "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html"
           # 3B, 4, and 5 are temporarily commented out
           # - text: "Hands-on Exercise 3B"
           #   href: "Hands-on_Ex/Hands-on_Ex03B/Hands-on_Ex03B.html"
@@ -26,6 +27,18 @@ website:
           #   href: "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html"
           # - text: "Hands-on Exercise 5"
           #   href: "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05.html"
+      - text: "In-class Exercise"
+        menu:
+          - text: "In-class Exercise 1"        
+            href: "In-class_Ex/In-class_Ex01/In-Class_Ex01.html"
+      - text: "Take-home Exercise"
+        menu:
+          - text: "Take-home Exercise 1"
+            href: "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html"
+          - text: "Take-home Exercise 2"
+            href: "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html"
+          - text: "Take-home Exercise 3"
+            href: "Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html"
     right:
       - href: index.qmd        
         text: Home 
@@ -34,7 +47,9 @@ website:
 
 format:
   html:
+    favicon: favicon.png   # or favicon.svg or favicon.ico
     theme: pulse
     toc: true
-
+    css: styles.css
+      
 editor: visual
