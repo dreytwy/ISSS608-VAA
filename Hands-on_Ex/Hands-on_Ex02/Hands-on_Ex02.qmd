@@ -5,7 +5,7 @@ author: "Audrey Tan"
 
 # **2 Beyond ggplot2 Fundamentals**
 
-# **2.1 Overview**
+# 2.1 Overview
 
 In this chapter, there are several ggplot2 extensions used for creating more elegant and effective statistical graphics. The learning outcomes are:
 
@@ -302,7 +302,7 @@ Patchwork package has a very simple syntax where we can create layouts super eas
 
 -   Two-Row Layout using the Division Sign `/`
 
-## 2.5.2 **Combining two ggplot2 graphs**
+## 2.5.2 Combining two ggplot2 graphs
 
 Figure in the tabset below shows a composite of two histograms created using patchwork. Note how simple the syntax used to create the plot!
 
