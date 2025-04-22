@@ -7,8 +7,11 @@ project:
     - Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.qmd
     - In-class Exercise
     - Take-home Exercise
+  output-dir: _site #for the logo to appear
+
     
 website:
+  favicon: favicon.png
   title: "ISSS608-VAA"
   navbar:
     left:
