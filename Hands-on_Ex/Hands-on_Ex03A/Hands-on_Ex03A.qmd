@@ -537,7 +537,9 @@ girafe(
   height_svg = 6*0.618)                                     
 ```
 
-Note. *Click actions must be a string column in the dataset containing valid javascript instructions.*
+::: callout-warning
+Click actions must be a string column in the dataset containing valid javascript instructions.
+:::
 
 ## **3.6.7 Coordinated Multiple Views with ggiraph**
 

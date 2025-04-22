@@ -235,13 +235,13 @@ p + scale_fill_brewer(palette = "Pastel1") +
 )
 ```
 
-Note.
-
+::: callout-note
 -   `axis_title_size` argument is used to increase the font size of the axis title to 18,
 
 -   `base_size` argument is used to increase the default axis label to 15, and
 
 -   `grid` argument is used to remove the x-axis grid lines.
+:::
 
 # 2.5 Beyond Single Graph
 
