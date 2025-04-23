@@ -257,33 +257,5 @@
     "title": "Hands-on Exercise 1",
     "section": "1.11.1 Working with theme",
     "text": "1.11.1 Working with theme\n\nGray\nThe code chunk below plot a horizontal bar chart using theme_gray().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_gray()\n\n\n\n\n\n\n\n\n\n\nClassic\nA horizontal bar chart plotted using theme_classic().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\nMinimal\nA horizontal bar chart plotted using theme_minimal().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nBlack and White\nThe code chunk below plot a horizontal bar chart using theme_bw()\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_bw()"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#the-code-chunk-7",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#the-code-chunk-7",
-    "title": "Hands-on Exercise 2",
-    "section": "The Code Chunk",
-    "text": "The Code Chunk\np1 &lt;- ggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"aquamarine3\") + \n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of Maths scores\")+\n  theme(plot.title = element_text(size = 9))\n:::\nEnglish ::: panel-tabset ## The Plot"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#the-code-chunk-8",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#the-code-chunk-8",
-    "title": "Hands-on Exercise 2",
-    "section": "The Code Chunk",
-    "text": "The Code Chunk\np1 &lt;- ggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"aquamarine3\") + \n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of Maths scores\")+\n  theme(plot.title = element_text(size = 9))\n:::\nEnglish ::: panel-tabset ## The Plot"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#the-code-chunk-9",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#the-code-chunk-9",
-    "title": "Hands-on Exercise 2",
-    "section": "The Code Chunk",
-    "text": "The Code Chunk\np2 &lt;- ggplot(data=exam_data, \n             aes(x = ENGLISH)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"mediumpurple1\") +\n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of English scores\")+\n  theme(plot.title = element_text(size = 9))\n:::\nEnglish vs Math ::: panel-tabset ## The Plot"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#the-code-chunk-10",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#the-code-chunk-10",
-    "title": "Hands-on Exercise 2",
-    "section": "The Code Chunk",
-    "text": "The Code Chunk\n'r p3 &lt;- ggplot(data=exam_data, aes(x= MATHS, y=ENGLISH)) + geom_point() + geom_smooth(method=lm, linewidth=0.5) +\ncoord_cartesian(xlim=c(0,100), ylim=c(0,100)) + ggtitle(“English scores versus Maths scores for Primary 3”)+ theme(plot.title = element_text(size = 9))\n:::\n\n## 2.5.1 Creating Composite Graphics: pathwork methods\n\nThere are several ggplot2 extension’s functions support the needs to prepare composite figure by combining several graphs such as [`grid.arrange()`](https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html) of **gridExtra** package and [`plot_grid()`](https://wilkelab.org/cowplot/reference/plot_grid.html) of [**cowplot**](https://wilkelab.org/cowplot/index.html) package. In this section, I am going to shared with you an ggplot2 extension called [**patchwork**](https://patchwork.data-imaginist.com/) which is specially designed for combining separate ggplot2 graphs into a single figure.\n\nPatchwork package has a very simple syntax where we can create layouts super easily. Here’s the general syntax that combines:\n\n-   Two-Column Layout using the Plus Sign +.\n\n-   Parenthesis () to create a subplot group.\n\n-   Two-Row Layout using the Division Sign `/`\n\n## 2.5.2 Combining two ggplot2 graphs\n\nFigure in the tabset below shows a composite of two histograms created using patchwork. Note how simple the syntax used to create the plot!\n\n\n::: {.cell}\n\n```{.r .cell-code}\np1 + p2\n\n\n\n\n\n\n\n:::"
   }
 ]

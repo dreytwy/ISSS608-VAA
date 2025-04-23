@@ -49,8 +49,6 @@ exam <- read_csv("data/Exam_data.csv")
 Figure below is a ridgelines plot showing the distribution of English score by class.
 
 ```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
 ggplot(exam,
        aes(x = ENGLISH,
            y = CLASS)) +
@@ -85,8 +83,6 @@ The ridgeline plot below is plotted by using `geom_density_ridges()`.
 ## The Plot
 
 ```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
 ggplot(exam,
        aes(x = ENGLISH,
            y = CLASS)) +
@@ -107,9 +103,7 @@ ggplot(exam,
 
 ## The Code Chunk
 
-```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
+```r
 ggplot(exam,
        aes(x = ENGLISH,
            y = CLASS)) +
@@ -137,8 +131,6 @@ Sometimes we would like to have the area under a ridgeline not filled with a sin
 ## The Plot
 
 ```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
 ggplot(exam, 
        aes(x = ENGLISH, 
            y = CLASS,
@@ -158,9 +150,7 @@ ggplot(exam,
 
 ## The Code Chunk
 
-```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
+```r
 ggplot(exam, 
        aes(x = ENGLISH, 
            y = CLASS,
@@ -189,8 +179,6 @@ Figure below is plotted by mapping the probabilities calculated by using `stat(e
 ## The Plot
 
 ```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
 ggplot(exam,
        aes(x = ENGLISH, 
            y = CLASS, 
@@ -204,9 +192,7 @@ ggplot(exam,
 
 ## The Code Chunk
 
-```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
+```r
 ggplot(exam,
        aes(x = ENGLISH, 
            y = CLASS, 
@@ -231,8 +217,6 @@ Instead of using number to define the quantiles, we can also specify quantiles b
 ## The Plot
 
 ```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
 ggplot(exam,
        aes(x = ENGLISH, 
            y = CLASS, 
@@ -253,9 +237,7 @@ ggplot(exam,
 
 ## The Code Chunk
 
-```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
+```r
 ggplot(exam,
        aes(x = ENGLISH, 
            y = CLASS, 
@@ -291,8 +273,6 @@ This produces a Half Eye visualization, which is contains a half-density and a s
 ## The Plot
 
 ```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
 ggplot(exam, 
        aes(x = RACE, 
            y = ENGLISH)) +
@@ -304,9 +284,7 @@ ggplot(exam,
 
 ## The Code Chunk
 
-```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
+```r
 ggplot(exam, 
        aes(x = RACE, 
            y = ENGLISH)) +
@@ -327,13 +305,119 @@ We remove the slab interval by setting .width = 0 and point_colour = NA.
 
 Next, we will add the second geometry layer using [`geom_boxplot()`](https://r4va.netlify.app/chap09) of ggplot2. This produces a narrow boxplot. We reduce the width and adjust the opacity.
 
+:::: panel-tabset
+## The Plot
+```{r}
+ggplot(exam, 
+       aes(x = RACE, 
+           y = ENGLISH)) +
+  stat_halfeye(adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(width = .20,
+               outlier.shape = NA)
+```
+
+## The Code Chunk
+```r
+ggplot(exam, 
+       aes(x = RACE, 
+           y = ENGLISH)) +
+  stat_halfeye(adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(width = .20,
+               outlier.shape = NA)
+```
+
+::::
+
 ## **4.4.3 Adding the Dot Plots with `stat_dots()`**
 
 Next, we will add the third geometry layer using [`stat_dots()`](https://mjskay.github.io/ggdist/reference/stat_dots.html) of ggdist package. This produces a half-dotplot, which is similar to a histogram that indicates the number of samples (number of dots) in each bin. We select side = “left” to indicate we want it on the left-hand side.
 
+:::: panel-tabset
+## The Plot
+```{r}
+ggplot(exam, 
+       aes(x = RACE, 
+           y = ENGLISH)) +
+  stat_halfeye(adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(width = .20,
+               outlier.shape = NA) +
+  stat_dots(side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 2)
+```
+
+## The Code Chunk
+```r
+ggplot(exam, 
+       aes(x = RACE, 
+           y = ENGLISH)) +
+  stat_halfeye(adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(width = .20,
+               outlier.shape = NA) +
+  stat_dots(side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 2)
+```
+:::: 
+
 ## **4.4.4 Finishing touch**
 
 Lastly, [`coord_flip()`](https://ggplot2.tidyverse.org/reference/coord_flip.html) of ggplot2 package will be used to flip the raincloud chart horizontally to give it the raincloud appearance. At the same time, `theme_economist()` of ggthemes package is used to give the raincloud chart a professional publishing standard look.
+
+:::: panel-tabset
+## The Plot
+```{r, echo=FALSE}
+ggplot(exam, 
+       aes(x = RACE, 
+           y = ENGLISH)) +
+  stat_halfeye(adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(width = .20,
+               outlier.shape = NA) +
+  stat_dots(side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 1.5) +
+  coord_flip() +
+  theme_economist()
+```  
+
+## The Code Chunk
+```r
+  ggplot(exam, 
+       aes(x = RACE, 
+           y = ENGLISH)) +
+  stat_halfeye(adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(width = .20,
+               outlier.shape = NA) +
+  stat_dots(side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 1.5) +
+  coord_flip() +
+  theme_economist()
+```
+:::: 
+
 
 # **Reference**
 
