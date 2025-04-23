@@ -1,6 +1,8 @@
 ---
 title: "Hands-on_Ex03B"
 author: "Audrey Tan"
+date: "24 April 2025"
+date-modified: "last-modified"
 ---
 
 # **3B) Programming Animated Statistical Graphics with R**

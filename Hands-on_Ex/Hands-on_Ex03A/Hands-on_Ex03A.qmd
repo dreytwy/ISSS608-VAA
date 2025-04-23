@@ -1,6 +1,8 @@
 ---
 title: "Hands-on Exercise03A"
 author: "Audrey Tan"
+date: "24 April 2025"
+date-modified: "last-modified"
 ---
 
 # **3A) Programming Interactive Data Visualisation with R**
