@@ -1,6 +1,8 @@
 ---
 title: "Hands-on Exercise 2"
 author: "Audrey Tan"
+date: "24 April 2025"
+date-modified: "last-modified"
 ---
 
 # **2 Beyond ggplot2 Fundamentals**
