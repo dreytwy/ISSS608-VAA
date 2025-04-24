@@ -21,7 +21,7 @@ In this chapter, there are several ggplot2 extensions used for creating more ele
 
 ## 2.2.1 Installing and loading the required libraries
 
-In this exercise, beside tidyverse, four R packages will be used. They are:
+In this exercise, beside tidyverse, other R packages will be used. They are:
 
 -   ggrepel: an R package provides geoms for ggplot2 to repel overlapping text labels.
 
@@ -31,19 +31,42 @@ In this exercise, beside tidyverse, four R packages will be used. They are:
 
 -   patchwork: an R package for preparing composite figure created using ggplot2.
 
+-   ploty: an R package for creating interactive web-based graphs.
+
+-   dplyr: an R package for data manipulation using a consistent grammar of data transformation. Part of tidyverse and used for filtering, selecting, mutating, summarizing, and joining data.
+
+-   ggplot2: an R package for creating data visualizations using the Grammar of Graphics.
+
+-   RColorBrewer: an R package for creating color palettes
+
+-   magick: an R package for image processing to read, edit, compose, and convert images easily.
+
+-   ggdist: an R package for visualizing distributions and uncertainty. It provides tools like stat_halfeye(), stat_pointinterval(), etc., for making raincloud plots.
+
+-   cowplot: an R package for enhancing ggplot2 output, especially when combining multiple plots.
+
+-   ggExtra: an R package for arranging multiple grid-based plots into a single view.
+
+
 Code chunk below checks if these packages have been installed and also will load them onto the working R environment.
 
 ```{r}
-pacman::p_load(ggrepel, patchwork, ggthemes, 
-               hrbrthemes, tidyverse, plotly)
-library(gridExtra)
-library(dplyr)
-library(ggplot2)
-library(RColorBrewer)
-library(magick)
-library(ggdist)
-library(cowplot)
-library(ggExtra)
+pacman::p_load(
+  ggrepel,
+  ggthemes,
+  hrbrthemes,
+  patchwork,
+  tidyverse,
+  plotly,
+  gridExtra,
+  dplyr,
+  ggplot2,
+  RColorBrewer,
+  magick,
+  ggdist,
+  cowplot,
+  ggExtra
+)
 ```
 
 ## 2.2.2 Importing data
