@@ -836,7 +836,9 @@ We may infer that the average percentage scores for each subject from the studen
 
 ### 2.5.7.2 Combining Scatterplot with Marginal Histograms
 
--   The scatterplot visualizes the relationship between two subjects.
+A highlight table or scatterplot can be combined with marginal histograms. 
+
+-   The hightlight table/ scatterplot visualizes the relationship between two subjects.
 
 -   The marginal histogram provides a side-by-side view of the distribution of each subject in the scatterplot.
 
@@ -869,14 +871,14 @@ ggMarginal(p, type = "histogram",
            fill='cyan3')
 ```
 
-## Science vs English: Code & Plot
+## English vs Science: Code & Plot
 
 ```{r}
 # Save the scatter plot in a variable
-p <- ggplot(exam_data, aes(x =SCIENCE, 
-                           y =ENGLISH))+
+p <- ggplot(exam_data, aes(x =ENGLISH, 
+                           y =SCIENCE))+
   geom_point(color = "navyblue")+ 
-  labs(title = "Science vs English Scores")
+  labs(title = "English vs Science Scores")
 
 # Plot the scatter plot with marginal histograms
 ggMarginal(p, type = "histogram",
@@ -886,9 +888,9 @@ ggMarginal(p, type = "histogram",
 
 -   Trend: There appears to be a positive trend for each subject. Students that do well in one appear to do well in the other.
 
--   Skewness: Slighly negatively skewed distribution (longer left tail) for Math and Science. Slightly positively skewed distribution (longer right tail) for English.
+-   Skewness: Slightly negatively skewed distribution (longer left tail) for Math, Science and English.
 
--   Data concentration: Math \[50-75 range\], Science \[75-100\], English \[60-80\]. Few students at both the ends of higher and lower scores.
+-   Data concentration: Math \[75-90 range\], Science \[50-75\], English \[60-80\]. Few students at both the ends of higher and lower scores.
 
 ## 2.5.8 Creating Raincloud plots
 
@@ -1054,7 +1056,7 @@ suppressWarnings(plot(p4))  # Suppress warnings
 ```
 :::
 
-In the **raincloud plot** above, the following elements are visualised:
+The **raincloud plot** above visualised the following elements:
 
 1.  **Split-half violin** (density plot): **Distribution of the data** for each subject, filled with color, and is a smoothed density estimate of the data.
 
