@@ -34,17 +34,16 @@ In this exercise, beside tidyverse, four R packages will be used. They are:
 Code chunk below checks if these packages have been installed and also will load them onto the working R environment.
 
 ```{r}
-pacman::p_load(ggrepel, patchwork,
-ggthemes, hrbrthemes,
-tidyverse,
-plotly)
+pacman::p_load(ggrepel, patchwork, ggthemes, 
+               hrbrthemes, tidyverse, plotly)
+library(gridExtra)
 library(dplyr)
 library(ggplot2)
 library(RColorBrewer)
+library(magick)
 library(ggdist)
 library(cowplot)
-library(readr)
-library(magick)
+library(ggExtra)
 ```
 
 ## 2.2.2 Importing data
@@ -112,7 +111,7 @@ ggplot(data=exam_data,
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap02/img/image2.jpg")
-plot(img)
+print(img)
 ```
 
 We simply replace `geom_text()`by geom_text_repel() and `geom_label()` by geom_label_repel.
@@ -123,6 +122,7 @@ We simply replace `geom_text()`by geom_text_repel() and `geom_label()` by geom_
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 ggplot(data=exam_data, 
        aes(x= MATHS, 
@@ -137,7 +137,9 @@ ggplot(data=exam_data,
                   ylim=c(0,100)) +
   ggtitle("English scores versus Maths scores for Primary 3")
 ```
+
 ## The Code Chunk
+
 ``` r
 ggplot(data=exam_data, 
        aes(x= MATHS, 
@@ -166,6 +168,7 @@ In the example below, *The Minimal* theme is used.
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 ggplot(data=exam_data, 
              aes(x = MATHS)) +
@@ -176,8 +179,10 @@ ggplot(data=exam_data,
   theme_minimal() +
   ggtitle("Distribution of Maths scores") 
 ```
+
 ## The Code Chunk
-```r
+
+``` r
 ggplot(data=exam_data, 
              aes(x = MATHS)) +
   geom_histogram(bins=20, 
@@ -188,7 +193,6 @@ ggplot(data=exam_data,
   ggtitle("Distribution of Maths scores") 
 ```
 :::
-
 
 ### The Dark Theme
 
@@ -196,6 +200,7 @@ In the example below, *The Dark* theme is used.
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 ggplot(data=exam_data, 
              aes(x = MATHS)) +
@@ -206,8 +211,10 @@ ggplot(data=exam_data,
   theme_dark() +
   ggtitle("Distribution of Maths scores") 
 ```
+
 ## The Code Chunk
-```r
+
+``` r
 ggplot(data=exam_data, 
              aes(x = MATHS)) +
   geom_histogram(bins=20, 
@@ -218,7 +225,6 @@ ggplot(data=exam_data,
   ggtitle("Distribution of Maths scores") 
 ```
 :::
-
 
 Refer to this [link](https://ggplot2.tidyverse.org/reference/index.html#themes) to learn more about ggplot2 `Themes`
 
@@ -232,6 +238,7 @@ In the example below, *The Economist* theme is used.
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 ggplot(data=exam_data, 
              aes(x = MATHS)) +
@@ -242,8 +249,10 @@ ggplot(data=exam_data,
   ggtitle("Distribution of Maths scores") +
   theme_economist()
 ```
+
 ## The Code Chunk
-```r
+
+``` r
 ggplot(data=exam_data, 
              aes(x = MATHS)) +
   geom_histogram(bins=20, 
@@ -261,6 +270,7 @@ In the example below, *The Wall Street Journal* theme is used.
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 p<-ggplot(data=exam_data, 
              aes(x = ENGLISH)) +
@@ -276,8 +286,10 @@ p + theme(
   plot.title = element_text(color = "black", size = 15, face = "bold")
 )
 ```
+
 ## The Code Chunk
-```r
+
+``` r
 p<-ggplot(data=exam_data, 
              aes(x = ENGLISH)) +
   geom_histogram(bins=20, 
@@ -293,7 +305,6 @@ p + theme(
 )
 ```
 :::
-
 
 It also provides some extra geoms and scales for ‘ggplot2’. Consult [this vignette](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) to learn more.
 
@@ -303,6 +314,7 @@ It also provides some extra geoms and scales for ‘ggplot2’. Consult [this v
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 p <- ggplot(data=exam_data, 
              aes(x = MATHS,
@@ -318,7 +330,8 @@ p + scale_fill_brewer(palette = "Pastel1")
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 p <- ggplot(data=exam_data, 
              aes(x = MATHS,
                  fill=GENDER)) +
@@ -332,7 +345,6 @@ p <- ggplot(data=exam_data,
 p + scale_fill_brewer(palette = "Pastel1")
 ```
 :::
-
 
 The second goal centers around productivity for a production workflow. In fact, this “production workflow” is the context for where the elements of hrbrthemes should be used. Consult [this vignette](https://hrbrmstr.github.io/hrbrthemes/articles/why_hrbrthemes.html) to learn more.
 
@@ -340,6 +352,7 @@ The second goal centers around productivity for a production workflow. In fact, 
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 p <- ggplot(data=exam_data, 
              aes(x = MATHS,
@@ -362,7 +375,8 @@ p + scale_fill_brewer(palette = "Pastel1") +
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 p <- ggplot(data=exam_data, 
              aes(x = MATHS,
                  fill=GENDER)) +
@@ -383,7 +397,6 @@ p + scale_fill_brewer(palette = "Pastel1") +
 )
 ```
 :::
-
 
 ::: callout-note
 -   `axis_title_size` argument is used to increase the font size of the axis title to 18,
@@ -401,6 +414,7 @@ It is not unusual that multiple graphs are required to tell a compelling visual 
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 p1 <- ggplot(data=exam_data, 
              aes(x = MATHS)) +
@@ -413,8 +427,10 @@ p1 <- ggplot(data=exam_data,
   theme(plot.title = element_text(size = 9))
 p1
 ```
+
 ## The Code Chunk
-```r
+
+``` r
 p1 <- ggplot(data=exam_data, 
              aes(x = MATHS)) +
   geom_histogram(bins=20, 
@@ -432,6 +448,7 @@ p1
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 p2 <- ggplot(data=exam_data, 
              aes(x = ENGLISH)) +
@@ -446,7 +463,8 @@ p2
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 p2 <- ggplot(data=exam_data, 
              aes(x = ENGLISH)) +
   geom_histogram(bins=20, 
@@ -460,11 +478,11 @@ p2
 ```
 :::
 
-
 **English vs Math**
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 p3 <- ggplot(data=exam_data, 
              aes(x= MATHS, 
@@ -478,9 +496,10 @@ p3 <- ggplot(data=exam_data,
   theme(plot.title = element_text(size = 9))
 p3
 ```
+
 ## The Code Chunk
 
-```r
+``` r
 p3 <- ggplot(data=exam_data, 
              aes(x= MATHS, 
                  y=ENGLISH)) +
@@ -494,7 +513,6 @@ p3 <- ggplot(data=exam_data,
 p3
 ```
 :::
-
 
 ## 2.5.1 Creating Composite Graphics: pathwork methods
 
@@ -514,11 +532,14 @@ Figure in the tabset below shows a composite of two histograms created using pat
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 p1 + p2
 ```
+
 ## The Code Chunk
-```r
+
+``` r
 p1 + p2
 ```
 :::
@@ -535,12 +556,14 @@ We can plot more complex composite by using appropriate operators. For example, 
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 (p1 / p2) | p3
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 (p1 / p2) | p3
 ```
 :::
@@ -557,16 +580,19 @@ In order to identify subplots in text, **patchwork** also provides auto-taggin
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = 'I')
 ```
+
 ## The Code Chunk
-```r
+
+``` r
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = 'I')
 ```
-::: 
+:::
 
 ### Latin Letters- Uppercase
 
@@ -574,17 +600,19 @@ In order to identify subplots in text, **patchwork** also provides auto-taggin
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = 'A')
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = 'A')
 ```
-::: 
+:::
 
 ### Arabic Numerals
 
@@ -592,24 +620,29 @@ In order to identify subplots in text, **patchwork** also provides auto-taggin
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = '1')
 ```
+
 ## The Code Chunk
-```r
+
+``` r
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = '1')
 ```
-::: 
+:::
 
 ## 2.5.5 Creating figure with insert
 
 Beside providing functions to place plots next to each other based on the provided layout. With [`inset_element()`](https://patchwork.data-imaginist.com/reference/inset_element.html) of **patchwork**, we can place one or several plots or graphic elements freely on top or below another plot.
 
 ### Insert P2 to Top Left
+
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 p3 + inset_element(p2, 
                    left = 0.02, 
@@ -619,20 +652,21 @@ p3 + inset_element(p2,
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 p3 + inset_element(p2, 
                    left = 0.02, 
                    bottom = 0.7, 
                    right = 0.5, 
                    top = 1)
 ```
-
 :::
 
 ### Insert P1 to Bottom Right
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 p3 + inset_element(p1, 
                    left = 0.6, 
@@ -642,14 +676,15 @@ p3 + inset_element(p1,
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 p3 + inset_element(p1, 
                    left = 0.6, 
                    bottom = 0, 
                    right = 1, 
                    top = 0.4)
 ```
-::: 
+:::
 
 ## 2.5.6 Creating a composite figure by using patchwork and ggtheme
 
@@ -657,6 +692,7 @@ Figure below is created by combining patchwork and theme_economist() of ggthemes
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 patchwork <- (p1 / p2) | p3 
 patchwork & theme_economist()&
@@ -669,8 +705,10 @@ patchwork & theme_economist()&
     axis.title.y = element_text(size = 8)        # Adjust y-axis label sizes
   )
 ```
+
 ## The Code Chunk
-```r
+
+``` r
 patchwork <- (p1 / p2) | p3 
 patchwork & theme_economist()&
   theme(
@@ -684,7 +722,169 @@ patchwork & theme_economist()&
 ```
 :::
 
-## 2.5.7 Creating Raincloud plots
+## 2.5.7 Visualising Patterns and/or Distributions
+
+### 2.5.7.1 Creating a Highlight Table
+
+-   The hightlight table/ heatmap, uses colour coding to allow quick identification of numbers within a table. It presents patterns, trends, and relationships within the data.
+
+::: panel-tabset
+## The Plot
+
+```{r, echo=FALSE}
+# Calculate percentage scores
+exam_data_percentage <- exam_data %>%
+  mutate(
+    ENGLISH_PERCENT = (ENGLISH / 100) * 100,
+    MATHS_PERCENT = (MATHS / 100) * 100,
+    SCIENCE_PERCENT = (SCIENCE / 100) * 100
+  )
+
+# Create the highlight table data
+highlight_table_data <- exam_data_percentage %>%
+  group_by(CLASS) %>%
+  summarise(
+    MATHS = round(mean(MATHS_PERCENT), 1),
+    ENGLISH = round(mean(ENGLISH_PERCENT), 1),
+    SCIENCE = round(mean(SCIENCE_PERCENT), 1)
+  ) %>%
+  pivot_longer(cols = c(ENGLISH, MATHS, SCIENCE), 
+               names_to = "Subject", 
+               values_to = "Average_Percentage") %>%
+  pivot_wider(names_from = "Subject", 
+              values_from = "Average_Percentage")
+
+# Create the highlight table using ggplot2
+highlight_table_plot <- ggplot(highlight_table_data %>%
+                                pivot_longer(
+                                  cols = c(ENGLISH, 
+                                           MATHS,
+                                           SCIENCE),
+                                  names_to = "Subject",
+                                  values_to= "Average_Percentage"),
+                               aes(x = Subject, 
+                                    y = factor(CLASS, levels = rev(c("3A", "3B", "3C", "3D", "3E", "3F", "3G", "3H", "3I"))), 
+                                   fill= Average_Percentage)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = Average_Percentage), color = "black") +
+  scale_fill_gradient(low = "lightblue", high = "royalblue3") +
+  labs(
+    title = "Average Percentage Scores of Subjects by Class", 
+    fill = "Avg. Percentage") +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.background = element_blank(),
+        axis.ticks = element_blank())
+print(highlight_table_plot)
+```
+
+## The Code Chunk
+
+``` r
+# Calculate percentage scores
+exam_data_percentage <- exam_data %>%
+  mutate(
+    ENGLISH_PERCENT = (ENGLISH / 100) * 100,
+    MATHS_PERCENT = (MATHS / 100) * 100,
+    SCIENCE_PERCENT = (SCIENCE / 100) * 100
+  )
+
+# Create the highlight table data
+highlight_table_data <- exam_data_percentage %>%
+  group_by(CLASS) %>%
+  summarise(
+    MATHS = round(mean(MATHS_PERCENT), 1),
+    ENGLISH = round(mean(ENGLISH_PERCENT), 1),
+    SCIENCE = round(mean(SCIENCE_PERCENT), 1)
+  ) %>%
+  pivot_longer(cols = c(ENGLISH, MATHS, SCIENCE), 
+               names_to = "Subject", 
+               values_to = "Average_Percentage") %>%
+  pivot_wider(names_from = "Subject", 
+              values_from = "Average_Percentage")
+
+# Create the highlight table using ggplot2
+highlight_table_plot <- ggplot(highlight_table_data %>%
+                                pivot_longer(
+                                  cols = c(ENGLISH, 
+                                           MATHS,
+                                           SCIENCE),
+                                  names_to = "Subject",
+                                  values_to= "Average_Percentage"),
+                               aes(x = Subject, 
+                                    y = factor(CLASS, levels = rev(c("3A", "3B", "3C", "3D", "3E", "3F", "3G", "3H", "3I"))), 
+                                   fill= Average_Percentage)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = Average_Percentage), color = "black") +
+  scale_fill_gradient(low = "lightblue", high = "royalblue3") +
+  labs(
+    title = "Average Percentage Scores of Subjects by Class", 
+    fill = "Avg. Percentage") +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.background = element_blank(),
+        axis.ticks = element_blank())
+print(highlight_table_plot)
+```
+:::
+
+The highlight table here shows the average scores for each class by their subject. The colour gradient shows the scores from low (lighter colour) to high (darker colour).
+
+We may infer that the average percentage scores for each subject from the students in Class 3A (darker blue) are higher than in 3I (lighter blue). We may continue to compare between subjects and classes in this manner.
+
+### 2.5.7.1 Combining Scatterplot with Marginal Histogram
+
+-   The scatterplot visualizes the relationship between two subjects.
+
+-   The marginal histogram provides a side-by-side view of the distribution of each subject in the scatterplot.
+
+::: panel-tabset
+## Maths vs Science: Code & Plot
+
+```{r}
+# Save the scatter plot in a variable
+p <- ggplot(exam_data, aes(x = MATHS, 
+                           y = SCIENCE))+
+  geom_point(color = "navyblue")+ 
+  labs(title = "Maths vs Science Scores")
+
+# Plot the scatter plot with marginal histograms
+ggMarginal(p, type = "histogram",
+           fill='cyan3')
+```
+
+## Maths vs English: Code & Plot
+
+```{r}
+# Save the scatter plot in a variable
+p <- ggplot(exam_data, aes(x = MATHS, 
+                           y = ENGLISH))+
+  geom_point(color = "navyblue")+ 
+  labs(title = "Maths vs English Scores")
+
+# Plot the scatter plot with marginal histograms
+ggMarginal(p, type = "histogram",
+           fill='cyan3')
+```
+
+## Science vs English: Code & Plot
+
+```{r}
+# Save the scatter plot in a variable
+p <- ggplot(exam_data, aes(x =SCIENCE, 
+                           y =ENGLISH))+
+  geom_point(color = "navyblue")+ 
+  labs(title = "Science vs English Scores")
+
+# Plot the scatter plot with marginal histograms
+ggMarginal(p, type = "histogram",
+           fill='cyan3')
+```
+:::
+
+## 2.5.8 Creating Raincloud plots
 
 **Shortcomings of barplots:**
 
@@ -777,9 +977,9 @@ geom_flat_violin <- function(mapping = NULL, data = NULL, stat = "ydensity",
 }
 ```
 
-
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 # plot
 p4 <- ggplot(simdat, aes(x = group, y = score, fill = group, colour = group)) +
@@ -812,9 +1012,10 @@ p4 <- ggplot(simdat, aes(x = group, y = score, fill = group, colour = group)) +
 suppressWarnings(plot(p4))  # Suppress warnings
 
 ```
+
 ## The Code Chunk
 
-```r
+``` r
 # plot
 p4 <- ggplot(simdat, aes(x = group, y = score, fill = group, colour = group)) +
   geom_flat_violin(
@@ -844,12 +1045,8 @@ p4 <- ggplot(simdat, aes(x = group, y = score, fill = group, colour = group)) +
   ggtitle("Raincloud Plot")
 
 suppressWarnings(plot(p4))  # Suppress warnings
-
 ```
-
 :::
-
-
 
 In the **raincloud plot** above, the following elements are visualised:
 
@@ -859,7 +1056,7 @@ In the **raincloud plot** above, the following elements are visualised:
 
 3.  **Raw jittered data points ("rain")**: Individual data points ("raindrop") shown as **small, scattered dots**. Shows the data points distribution within each subject.
 
-### 2.5.7.1 Drilling Deeper into Interactive Rain Points
+### 2.5.8.1 Drilling Deeper into Interactive Rain Points
 
 We may dissect the plot without the violin density plot. Then using tooltip we can hover over each individual "raindrop" to show the student's ID and Class per subject, in an interactive manner.
 
@@ -903,7 +1100,8 @@ p4_interactive
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 # tooltip
 simdat$tooltip <- paste0("ID = ", simdat$ID, "\nClass = ", simdat$group)
 

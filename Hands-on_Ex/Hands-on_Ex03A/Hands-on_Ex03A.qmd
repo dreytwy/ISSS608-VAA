@@ -803,48 +803,7 @@ subplot(p1_plotly, p2_plotly, nrows = 1, shareX = TRUE, shareY = FALSE) %>%
   )
 ```
 
-# **3.8 Interactive Data Visualisation - crosstalk methods!**
-
-[Crosstalk](https://rstudio.github.io/crosstalk/index.html) is an add-on to the htmlwidgets package. It extends htmlwidgets with a set of classes, functions, and conventions for implementing cross-widget interactions (currently, linked brushing and filtering).
-
-## **3.8.1 Interactive Data Table: DT package**
-
--   A wrapper of the JavaScript Library [DataTables](https://datatables.net/)
-
--   Data objects in R can be rendered as HTML tables using the JavaScript library ‘DataTables’ (typically via R Markdown or Shiny).
-
-```{r}
-DT::datatable(exam_data, class= "compact")
-```
-
-## **3.8.2 Linked brushing: crosstalk method**
-
-Code chunk below is used to implement the coordinated brushing shown above.
-
-```{r}
-d <- highlight_key(exam_data) 
-p <- ggplot(d, 
-            aes(ENGLISH, 
-                MATHS, fill=GENDER)) + 
-  geom_point(size=1) +
-  coord_cartesian(xlim=c(0,100),
-                  ylim=c(0,100))
-
-gg <- highlight(ggplotly(p),        
-                "plotly_selected")  
-
-crosstalk::bscols(gg,               
-                  DT::datatable(d), 
-                  widths = 5)     
-```
-
-Things to learn from the code chunk:
-
--   *highlight()* is a function of **plotly** package. It sets a variety of options for brushing (i.e., highlighting) multiple plots. These options are primarily designed for linking multiple plotly graphs, and may not behave as expected when linking plotly to another htmlwidget package via crosstalk. In some cases, other htmlwidgets will respect these options, such as persistent selection in leaflet.
-
--   *bscols()* is a helper function of **crosstalk** package. It makes it easy to put HTML elements side by side. It can be called directly from the console but is especially designed to work in an R Markdown document. **Warning:** This will bring in all of Bootstrap!.
-
-## **3.8.3 Interactive Sunburst**
+## **3.7.5 Interactive Sunburst**
 
 In the code chunk, levels are created for each Subject (Maths, English, Science):
 
@@ -1009,7 +968,7 @@ How to use the interactive chart to drill deeper?:
 
 Clicking on the middle circle at any level after the root level will allow you to exit one level.
 
-### 3.8.3.1 Adding Percentage Figures
+### 3.7.5.1 Adding Percentage Figures
 
 ```{r}
 # Function to prepare data for plotly sunburst with RACE and CLASS
@@ -1156,6 +1115,47 @@ fig_interactive_actual
 
 ```
 
+# **3.8 Interactive Data Visualisation - crosstalk methods!**
+
+[Crosstalk](https://rstudio.github.io/crosstalk/index.html) is an add-on to the htmlwidgets package. It extends htmlwidgets with a set of classes, functions, and conventions for implementing cross-widget interactions (currently, linked brushing and filtering).
+
+## **3.8.1 Interactive Data Table: DT package**
+
+-   A wrapper of the JavaScript Library [DataTables](https://datatables.net/)
+
+-   Data objects in R can be rendered as HTML tables using the JavaScript library ‘DataTables’ (typically via R Markdown or Shiny).
+
+```{r}
+DT::datatable(exam_data, class= "compact")
+```
+
+## **3.8.2 Linked brushing: crosstalk method**
+
+Code chunk below is used to implement the coordinated brushing shown above.
+
+```{r}
+d <- highlight_key(exam_data) 
+p <- ggplot(d, 
+            aes(ENGLISH, 
+                MATHS, fill=GENDER)) + 
+  geom_point(size=1) +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100))
+
+gg <- highlight(ggplotly(p),        
+                "plotly_selected")  
+
+crosstalk::bscols(gg,               
+                  DT::datatable(d), 
+                  widths = 5)     
+```
+
+Things to learn from the code chunk:
+
+-   *highlight()* is a function of **plotly** package. It sets a variety of options for brushing (i.e., highlighting) multiple plots. These options are primarily designed for linking multiple plotly graphs, and may not behave as expected when linking plotly to another htmlwidget package via crosstalk. In some cases, other htmlwidgets will respect these options, such as persistent selection in leaflet.
+
+-   *bscols()* is a helper function of **crosstalk** package. It makes it easy to put HTML elements side by side. It can be called directly from the console but is especially designed to work in an R Markdown document. **Warning:** This will bring in all of Bootstrap!.
+
 # **3.9 Reference**
 
 ## **3.9.1 ggiraph**
@@ -1189,3 +1189,5 @@ This [link](https://davidgohel.github.io/ggiraph/index.html) provides online ver
 -   [Building an animation step-by-step with gganimate](https://www.alexcookson.com/post/2020-10-18-building-an-animation-step-by-step-with-gganimate/).
 
 -   [Creating a composite gif with multiple gganimate panels](https://solarchemist.se/2021/08/02/composite-gif-gganimate/)
+
+-   [Marginal Histograms — They’re Not Just for Scatterplots](https://www.datarevelations.com/marginal-histograms.html)

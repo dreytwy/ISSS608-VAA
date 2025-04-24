@@ -60,6 +60,10 @@ R Graphics is the built-in R plotting method. By comparing the plots between R G
 hist(exam_data$MATHS)
 ```
 
+```{r}
+plot(1:10)
+```
+
 The code is simpler for R Graphics as compared to ggplot.
 
 ### GGPLOT2
