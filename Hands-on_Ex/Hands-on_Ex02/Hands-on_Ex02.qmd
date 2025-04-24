@@ -769,7 +769,7 @@ highlight_table_plot <- ggplot(highlight_table_data %>%
   geom_text(aes(label = Average_Percentage), color = "black") +
   scale_fill_gradient(low = "lightblue", high = "royalblue3") +
   labs(
-    title = "Average Percentage Scores of Subjects by Class", 
+    title = "Average Subject Scores by Class", 
     fill = "Avg. Percentage") +
   theme_minimal() +
   theme(axis.title = element_blank(),
@@ -834,7 +834,7 @@ The highlight table here shows the average scores for each class by their subjec
 
 We may infer that the average percentage scores for each subject from the students in Class 3A (darker blue) are higher than in 3I (lighter blue). We may continue to compare between subjects and classes in this manner.
 
-### 2.5.7.1 Combining Scatterplot with Marginal Histogram
+### 2.5.7.2 Combining Scatterplot with Marginal Histograms
 
 -   The scatterplot visualizes the relationship between two subjects.
 
@@ -883,6 +883,12 @@ ggMarginal(p, type = "histogram",
            fill='cyan3')
 ```
 :::
+
+-   Trend: There appears to be a positive trend for each subject. Students that do well in one appear to do well in the other.
+
+-   Skewness: Slighly negatively skewed distribution (longer left tail) for Math and Science. Slightly positively skewed distribution (longer right tail) for English.
+
+-   Data concentration: Math \[50-75 range\], Science \[75-100\], English \[60-80\]. Few students at both the ends of higher and lower scores.
 
 ## 2.5.8 Creating Raincloud plots
 
@@ -1065,11 +1071,15 @@ We may dissect the plot without the violin density plot. Then using tooltip we c
 
 ```{r, echo=FALSE}
 # tooltip
-simdat$tooltip <- paste0("ID = ", simdat$ID, "\nClass = ", simdat$group)
+simdat$tooltip <- paste0("ID = ", simdat$ID, "\nClass = ", simdat$CLASS)
 
 # Create the plot
 p4_interactive <- suppressWarnings({
-  p4 <- ggplot(simdat, aes(x = group, y = score, fill = group, colour = group)) +  geom_point(
+  p4 <- ggplot(simdat, aes(x = group, 
+                           y = score, 
+                           fill = group, 
+                           colour = group)) +  
+    geom_point(
       aes(text = tooltip),  # Add tooltip in the 'text' aesthetic
       position = position_jitter(width = 0.15),
       size = 0.25
@@ -1103,7 +1113,7 @@ p4_interactive
 
 ``` r
 # tooltip
-simdat$tooltip <- paste0("ID = ", simdat$ID, "\nClass = ", simdat$group)
+simdat$tooltip <- paste0("ID = ", simdat$ID, "\nClass = ", simdat$CLASS)
 
 # Create the plot
 p4_interactive <- suppressWarnings({

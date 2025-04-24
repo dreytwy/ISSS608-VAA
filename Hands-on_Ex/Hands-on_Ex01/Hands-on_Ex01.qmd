@@ -60,9 +60,6 @@ R Graphics is the built-in R plotting method. By comparing the plots between R G
 hist(exam_data$MATHS)
 ```
 
-```{r}
-plot(1:10)
-```
 
 The code is simpler for R Graphics as compared to ggplot.
 
@@ -118,7 +115,7 @@ A good grammar of graphics will allow us to gain insight into the composition of
 
 ggplot2 is an implementation of Leland Wilkinson’s Grammar of Graphics. Figure below shows the seven grammars of ggplot2.
 
-```{r}
+```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap01/img/image4.jpg")
 plot(img)
 ```
