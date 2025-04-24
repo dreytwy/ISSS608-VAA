@@ -749,7 +749,7 @@ patchwork & theme_economist()&
 
 ### 2.5.7.1 Creating a Highlight Table
 
--   The hightlight table/ heatmap, uses colour coding to allow quick identification of numbers within a table. It presents patterns, trends, and relationships within the data.
+-   The highlight table/ heatmap, uses colour coding to allow quick identification of numbers within a table. It presents patterns, trends, and relationships within the data.
 
 ::: panel-tabset
 ## The Plot
