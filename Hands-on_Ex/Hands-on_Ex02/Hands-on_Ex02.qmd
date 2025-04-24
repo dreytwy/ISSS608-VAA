@@ -134,7 +134,7 @@ ggplot(data=exam_data,
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap02/img/image2.jpg")
-print(img)
+plot(img)
 ```
 
 We simply replace `geom_text()`by geom_text_repel() and `geom_label()` by geom_label_repel.
@@ -861,7 +861,7 @@ We may infer that the average percentage scores for each subject from the studen
 
 A highlight table or scatterplot can be combined with marginal histograms. 
 
--   The hightlight table/ scatterplot visualizes the relationship between two subjects.
+-   The highlight table/ scatterplot visualizes the relationship between two subjects.
 
 -   The marginal histogram provides a side-by-side view of the distribution of each subject in the scatterplot.
 
@@ -913,7 +913,7 @@ ggMarginal(p, type = "histogram",
 
 -   Skewness: Slightly negatively skewed distribution (longer left tail) for Math, Science and English.
 
--   Data concentration: Math \[75-90 range\], Science \[50-75\], English \[60-80\]. Few students at both the ends of higher and lower scores.
+-   Data concentration: Math \[75-90 range\], Science \[50-75\], English \[60-80\]. Few students at both ends of higher and lower scores.
 
 ## 2.5.8 Creating Raincloud plots
 
