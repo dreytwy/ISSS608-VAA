@@ -47,7 +47,6 @@ In this exercise, beside tidyverse, other R packages will be used. They are:
 
 -   ggExtra: an R package for arranging multiple grid-based plots into a single view.
 
-
 Code chunk below checks if these packages have been installed and also will load them onto the working R environment.
 
 ```{r}
@@ -859,7 +858,7 @@ We may infer that the average percentage scores for each subject from the studen
 
 ### 2.5.7.2 Combining Scatterplot with Marginal Histograms
 
-A highlight table or scatterplot can be combined with marginal histograms. 
+A highlight table or scatterplot can be combined with marginal histograms.
 
 -   The highlight table/ scatterplot visualizes the relationship between two subjects.
 
@@ -1172,6 +1171,8 @@ p4_interactive <- suppressWarnings({
 p4_interactive
 ```
 :::
+
+It is interesting to note that Student 36 from class 3A scored top for Science, Math, and English.
 
 # 2.6 Reference
 
