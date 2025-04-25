@@ -51,20 +51,13 @@ Code chunk below checks if these packages have been installed and also will load
 
 ```{r}
 pacman::p_load(
-  ggrepel,
-  ggthemes,
-  hrbrthemes,
-  patchwork,
-  tidyverse,
-  plotly,
-  gridExtra,
-  dplyr,
-  ggplot2,
-  RColorBrewer,
-  magick,
-  ggdist,
-  cowplot,
-  ggExtra
+  ggrepel, ggthemes,
+  hrbrthemes, patchwork,
+  tidyverse, plotly,
+  gridExtra, dplyr,
+  ggplot2, RColorBrewer,
+  magick, ggdist,
+  cowplot, ggExtra
 )
 ```
 
@@ -860,7 +853,7 @@ We may infer that the average percentage scores for each subject from the studen
 
 A highlight table or scatterplot can be combined with marginal histograms.
 
--   The highlight table/ scatterplot visualizes the relationship between two subjects.
+-   Here, the scatterplot visualizes the relationship between two subjects.
 
 -   The marginal histogram provides a side-by-side view of the distribution of each subject in the scatterplot.
 
@@ -912,7 +905,7 @@ ggMarginal(p, type = "histogram",
 
 -   Skewness: Slightly negatively skewed distribution (longer left tail) for Math, Science and English.
 
--   Data concentration: Math \[75-90 range\], Science \[50-75\], English \[60-80\]. Few students at both ends of higher and lower scores.
+-   Data concentration: Math \[75-90 range\], Science \[50-75\], English \[60-80\]. Fewer students at both ends of higher and lower scores.
 
 ## 2.5.8 Creating Raincloud plots
 
