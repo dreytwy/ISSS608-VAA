@@ -52,19 +52,7 @@ website:
         text: Home 
       - href: about.qmd
         text: About
-        
-  
-
-listing:
-  contents: "Hands-on_Ex/**/*.qmd" 
-  sort: "date asc"
-  type: grid
-  fields: [title, date]
-  field-display-names:
-    date: "Published"
-  grid-columns: 3
-  grid-item-border: false
-  max-items: 2
+      
 
 format:
   html:

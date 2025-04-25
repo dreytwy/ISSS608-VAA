@@ -1,5 +1,17 @@
 ---
 title: "ISSS608-VAA"
+
+listing:
+  contents: "Hands-on_Ex/**/*.qmd" 
+  sort: "date asc"
+  type: grid
+  fields: [title, date]
+  field-display-names:
+    date: "Published"
+  grid-columns: 3
+  grid-item-border: false
+  max-items: 2
+
 ---
 
 ::::: grid
@@ -8,10 +20,7 @@ title: "ISSS608-VAA"
 :::
 
 ::: g-col-8
-<br>
-Welcome to my ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course.
-<br>
-<br>
-**These are my posts for Hands-On Exercises:**
+<br> Welcome to my ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course. <br> <br> **These are my posts for Hands-On Exercises:**
 :::
 :::::
+
