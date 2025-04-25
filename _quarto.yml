@@ -11,7 +11,6 @@ project:
 
 website:
   favicon: favicon.png
-  title: " "
   announcement:
     content: "<i class=\"bi bi-envelope-fill\"></i> **NEW!** - [**Hands-on Exercise 2**](https://isss608-ay2024-25-dreytwy.netlify.app/hands-on_ex/hands-on_ex02/hands-on_ex02) published!"
     position: below-navbar

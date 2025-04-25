@@ -9,7 +9,13 @@ body {
 }
 
 .listing-grid .list-grid-item {
-  border: 1px solid #800080;
-  border-radius: 5px; /* Optional */
-  padding: 10px; /* Optional */
+  border: 1px solid #800080; /* Dark purple color code */
+  border-radius: 5px; /* Optional: Adds rounded corners */
+  padding: 10px; /* Optional: Adds some padding inside the border */
+}
+
+.navbar-logo {
+  height: 60px !important;
+  width: auto !important;
+  max-height: none !important; /* Override the max-height from Bootstrap */
 }
