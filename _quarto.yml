@@ -9,14 +9,14 @@ project:
     - Take-home Exercise
   output-dir: _site #for the logo to appear
 
-    
 website:
   favicon: favicon.png
   title: " "
   announcement:
     content: "<i class=\"bi bi-envelope-fill\"></i> **NEW!** - [**Hands-on Exercise 2**](https://isss608-ay2024-25-dreytwy.netlify.app/hands-on_ex/hands-on_ex02/hands-on_ex02) published!"
     position: below-navbar
-    
+  page-navigation: true
+  
   navbar:
     logo: "favicon.png"
     left:
@@ -28,7 +28,6 @@ website:
             href: "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html"
           #- text: "Hands-on Exercise 3A"
           #  href: "Hands-on_Ex/Hands-on_Ex03A/Hands-on_Ex03A.html"
-          # 3B, 4, and 5 are temporarily commented out
           # - text: "Hands-on Exercise 3B"
           #   href: "Hands-on_Ex/Hands-on_Ex03B/Hands-on_Ex03B.html"
           # - text: "Hands-on Exercise 4"
@@ -47,11 +46,26 @@ website:
             href: "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html"
           - text: "Take-home Exercise 3"
             href: "Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html"
+
+    
     right:
       - href: index.qmd        
         text: Home 
       - href: about.qmd
         text: About
+        
+  
+
+listing:
+  contents: "Hands-on_Ex/**/*.qmd" 
+  sort: "date asc"
+  type: grid
+  fields: [title, date]
+  field-display-names:
+    date: "Published"
+  grid-columns: 3
+  grid-item-border: false
+  max-items: 2
 
 format:
   html:

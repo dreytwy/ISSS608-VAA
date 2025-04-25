@@ -7,3 +7,9 @@ body {
   height: 100px; /* Adjust this to your desired height */
   width: auto; /* Maintain aspect ratio */
 }
+
+.listing-grid .list-grid-item {
+  border: 1px solid #800080;
+  border-radius: 5px; /* Optional */
+  padding: 10px; /* Optional */
+}

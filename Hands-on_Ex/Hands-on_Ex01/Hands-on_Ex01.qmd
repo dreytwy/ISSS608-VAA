@@ -50,20 +50,36 @@ exam_data <-read_csv("data/Exam_data.csv", show_col_types = FALSE)
 
 # 1.3 Introducing ggplot
 
-R Graphics is the built-in R plotting method. By comparing the plots between R Graphics and ggplot via a histogram, we see some differences.
+**ggplot2** ![](https://r4va.netlify.app/chap01/img/image1.jpg){width="30"} is an R package for **declaratively** creating **data-driven** graphics based on ***The Grammar of Graphics.***
+
+```{r, echo=FALSE}
+img <- image_read("https://r4va.netlify.app/chap01/img/image5.png")
+plot(img)
+```
+
+It is also part of the tidyverse family specially designed for visual exploration and communication.
+
+```{r, echo=FALSE}
+img <- image_read("https://r4va.netlify.app/chap01/img/image2.png")
+plot(img)
+```
+
+-   For more detail, visit [ggplot2 link](https://ggplot2.tidyverse.org/).
 
 ## 1.3.1 R Graphics VS ggplot
 
-### R Graphics
+R Graphics is the built-in R plotting method. By comparing the plots between R Graphics and ggplot via a histogram, we see some differences.
+
+::: panel-tabset
+## R Graphics
 
 ```{r}
 hist(exam_data$MATHS)
 ```
 
-
 The code is simpler for R Graphics as compared to ggplot.
 
-### GGPLOT2
+## GGPLOT2
 
 ```{r}
 ggplot(data = exam_data, aes(x = MATHS)) +
@@ -74,6 +90,7 @@ ggplot(data = exam_data, aes(x = MATHS)) +
   ggtitle("Distribution of Maths Scores") +
   theme_minimal()
 ```
+:::
 
 However, here are a few advantages of ggplot2:
 
@@ -87,7 +104,9 @@ However, here are a few advantages of ggplot2:
 
 As pointed out by [Hadley Wickham](http://varianceexplained.org/r/teach_ggplot2_to_beginners/#comment-1745406157) :
 
+::: callout-important
 *The transferable skills from ggplot2 are not the idiosyncrasies of plotting syntax, but a powerful way of thinking about visualisation, as a way of mapping between variables and the visual properties of geometric objects that you can perceive.*
+:::
 
 # 1.4 Grammar of Graphics
 
@@ -144,8 +163,7 @@ A short description of each building block are as follows:
 ggplot(data=exam_data)
 ```
 
-*Note.*
-
+::: callout-note
 -   *A blank canvas appears.*
 
 -   *The ggplot() function in the ggplot2 package is used to create a ggplot object.*
@@ -153,6 +171,7 @@ ggplot(data=exam_data)
 -   *The data within holds the dataset (exam_data) used to plot the graphics.*
 
 -   *If the dataset is not already a data.frame, it will be converted to one by fortify().*
+:::
 
 # 1.6 Essential Grammatical Elements in ggplot2: Aesthetic mappings
 
@@ -172,9 +191,9 @@ ggtitle("Distribution of Maths Scores")
 
 ```
 
-*Note.*
-
--   *ggplot includes the x-axis and the axis’s label.*
+::: callout-note
+-   ggplot includes the x-axis and the axis’s label.
+:::
 
 # 1.7 Essential Grammatical Elements in ggplot2: geom
 
@@ -214,7 +233,7 @@ ggplot(data=exam_data,
 ggtitle("Barplot of Races")
 ```
 
-## 1.7.1 Geometric Objects: geom_dotplot
+## 1.7.2 Geometric Objects: geom_dotplot
 
 In a dot plot, the width of a dot corresponds to the bin width (or maximum width, depending on the binning algorithm), and dots are stacked, with each dot representing one observation.
 
@@ -227,13 +246,17 @@ ggplot(data=exam_data,
 ggtitle("Dotplot of Maths Scores")
 ```
 
+::: callout-warning
 The y scale is not very useful, in fact it is very misleading.
+:::
 
+::: callout-note
 The code chunk below performs the following two steps:
 
 1\) scale_y_continuous() is used to turn off the y-axis, and
 
 2\) binwidth argument is used to change the binwidth to 2.5.
+:::
 
 ```{r}
 ggplot(data=exam_data, 
@@ -255,7 +278,9 @@ ggplot(data=exam_data,
 ggtitle("Barplot of Races by Gender")
 ```
 
-*Note that the default bin is **30**.*
+::: callout-note
+Note that the default bin is **30**.
+:::
 
 ## 1.7.4 Modifying a geometric object by changing geom()
 
@@ -290,7 +315,9 @@ hst<-ggplot(data=exam_data,
 hst + scale_fill_brewer(palette = "Set2")
 ```
 
-*Note. This approach can be used to colour, fill and alpha of the geometric.*
+::: callout-note
+This approach can be used to colour, fill and alpha of the geometric.
+:::
 
 ## 1.7.6 Geometric Objects: geom_density
 
@@ -459,7 +486,9 @@ ggplot(data=exam_data,
   ggtitle("Scatter plot of Maths by English Scores by Gender") 
 ```
 
-*Note. The default method used is loess.*
+::: callout-note
+The default method used is *loess.*
+:::
 
 ### Overriding best fit smoothing method
 

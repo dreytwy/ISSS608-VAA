@@ -122,7 +122,7 @@ ggplot(data=exam_data,
 ```
 :::
 
-**ggrepel** is an extension of **ggplot2** package which provides `geoms` for **ggplot2** to repel overlapping text.
+**ggrepel** ![](https://r4va.netlify.app/chap02/img/image3.jpg){width="30"} is an extension of **ggplot2** package which provides `geoms` for **ggplot2** to repel overlapping text.
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap02/img/image2.jpg")
@@ -413,7 +413,9 @@ p + scale_fill_brewer(palette = "Pastel1") +
 ```
 :::
 
-::: callout-note
+::: callout-tip
+## What can we learn from the code chunk above?
+
 -   `axis_title_size` argument is used to increase the font size of the axis title to 18,
 
 -   `base_size` argument is used to increase the default axis label to 15, and
