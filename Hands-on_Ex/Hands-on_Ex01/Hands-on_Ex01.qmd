@@ -193,7 +193,7 @@ ggplot(data=exam_data,
        aes(x= MATHS)) +
   geom_histogram(bins=20,            
                  color="black",      
-                 fill="lavenderblush")+  
+                 fill="aquamarine2")+  
 ggtitle("Distribution of Maths Scores")
 
 ```
@@ -236,8 +236,8 @@ The code chunk below plots a bar chart by using [`geom_bar()`](https://ggplot2.
 ```{r}
 ggplot(data=exam_data, 
        aes(x=RACE)) +
-  geom_bar(aes(fill = RACE), alpha = 0.5)+
-ggtitle("Barplot of Races")
+  geom_bar(aes(fill = GENDER), alpha = 0.5)+
+ggtitle("Barplot of Races by gender")
 ```
 
 ## 1.7.2 Geometric Objects: geom_dotplot
@@ -280,9 +280,8 @@ In the code chunk below, [*geom_histogram()*](https://ggplot2.tidyverse.org/ref
 
 ```{r}
 ggplot(data=exam_data, 
-       aes(x=RACE)) +
-  geom_bar(aes(fill = GENDER), alpha = 0.5)+  
-ggtitle("Barplot of Races by Gender")
+       aes(x = MATHS)) +
+  geom_histogram()    
 ```
 
 ::: callout-note
@@ -524,7 +523,7 @@ The code chunk below plots a trellis plot using `facet-wrap()`.
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS)) +
-  geom_histogram(bins=20,aes(fill = CLASS), alpha = 0.5) +
+  geom_histogram(bins=20,aes(fill = GENDER), alpha = 0.5) +
     facet_wrap(~ CLASS)       +
   ggtitle("Trellis plot of Maths Scores for different Classes") 
 ```
@@ -538,7 +537,7 @@ The code chunk below plots a trellis plot using `facet_grid()`.
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS)) +
-  geom_histogram(bins=20,aes(fill = CLASS), alpha = 0.5) +
+  geom_histogram(bins=20,aes(fill = GENDER), alpha = 0.5) +
     facet_grid(~ CLASS)      +
   ggtitle("Trellis plot of Maths Scores for different Classes")  
 ```
@@ -560,7 +559,7 @@ By the default, the bar chart of ggplot2 is in vertical form.
 ```{r}
 ggplot(data=exam_data, 
        aes(x=RACE)) +
-  geom_bar(aes(fill = RACE), alpha = 0.5)    +
+  geom_bar(aes(fill = GENDER), alpha = 0.5)    +
   ggtitle("Bar plot for Races") 
 ```
 
@@ -571,7 +570,7 @@ The code chunk below flips the vertical bar chart into horizontal bar chart by u
 ```{r}
 ggplot(data=exam_data, 
        aes(x=RACE)) +
-  geom_bar(aes(fill = RACE), alpha = 0.5) +
+  geom_bar(aes(fill = GENDER), alpha = 0.5) +
   coord_flip() +
   ggtitle("Bar plot for Races") 
 ```

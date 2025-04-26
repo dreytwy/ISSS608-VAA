@@ -3,6 +3,13 @@ title: "Hands-on_Ex03B"
 author: "Audrey Tan"
 date: "24 April 2025"
 date-modified: "last-modified"
+format: html
+editor: visual
+execute: 
+  eval: true
+  echo: true
+  warning: false 
+  freeze: true
 ---
 
 # **3B) Programming Animated Statistical Graphics with R**
@@ -112,7 +119,7 @@ globalPop <- read_xls("data/GlobalPopulation.xls",
 
 # **3.3 Animated Data Visualisation: gganimate methods**
 
-[**gganimate**](https://gganimate.com/) extends the grammar of graphics as implemented by ggplot2 to include the description of animation. It does this by providing a range of new grammar classes that can be added to the plot object in order to customise how it should change with time.
+**gganimate** ![](https://gganimate.com/reference/figures/logo.png){width="30"} extends the grammar of graphics as implemented by ggplot2 to include the description of animation. It does this by providing a range of new grammar classes that can be added to the plot object in order to customise how it should change with time.
 
 -   `transition_*()` defines how the data should be spread out and how it relates to itself across time.
 
@@ -149,6 +156,8 @@ In the code chunk below,
 
 -   `ease_aes()` is used to control easing of aesthetics. The default is `linear`. Other methods are: quadratic, cubic, quartic, quintic, sine, circular, exponential, elastic, back, and bounce.
 
+-   String literal interpolation in title is also used to dynamically update the plot information based on the frame.
+
 ```{r, results='hide'}
 ggplot(globalPop, aes(x = Old, y = Young, 
                       size = Population, 
@@ -181,6 +190,49 @@ ggplot(globalPop, aes(x = Old, y = Young,
   ease_aes('linear')          
 ```
 
+## **3.3.3 Building multiple animated subplots**
+
+We can also create multiple animated bubble subplots of Continent.
+
+In the code chunk below,
+
+-   facet_wrap is used on Continent.
+
+```{r, results=hide}
+ggplot(globalPop, aes(Old, Young, 
+                      size = Population, 
+                      colour = Country)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) +
+  scale_colour_manual(values = country_colors) +
+  scale_size(range = c(2, 12)) +
+  scale_x_log10() +
+  facet_wrap(~Continent) +
+  # gganimate
+  labs(title = 'Year: {frame_time}', , 
+       x = '% Aged', 
+       y = '% Young') +
+  transition_time(Year) +
+  ease_aes('linear')
+```
+
+The animated bubble charts
+```{r, echo=FALSE}
+ggplot(globalPop, aes(Old, Young, 
+                      size = Population, 
+                      colour = Country)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) +
+  scale_colour_manual(values = country_colors) +
+  scale_size(range = c(2, 12)) +
+  scale_x_log10() +
+  facet_wrap(~Continent) +
+  # gganimate
+  labs(title = 'Year: {frame_time}', 
+       x = '% Aged', 
+       y = '% Young') +
+  transition_time(Year) +
+  ease_aes('linear')
+```
+
 # **3.4 Animated Data Visualisation: plotly**
 
 In **Plotly R** package, both `ggplotly()` and `plot_ly()` support key frame animations through the `frame` argument/aesthetic. They also support an `ids` argument/aesthetic to ensure smooth transitions between objects with the same id (which helps facilitate object constancy).
@@ -189,7 +241,7 @@ In **Plotly R** package, both `ggplotly()` and `plot_ly()` support key frame ani
 
 In this sub-section, you will learn how to create an animated bubble plot by using `ggplotly()` method.
 
-::: panel-tabset
+:::: panel-tabset
 ## The Plot
 
 ```{r, echo=FALSE}
@@ -209,8 +261,8 @@ gg <- ggplot(globalPop,
 
 ggplotly(gg)
 
-
 ```
+
 The animated bubble plot above includes a play/pause button and a slider component for controlling the animation.
 
 ## The Code Chunk
@@ -232,6 +284,7 @@ gg <- ggplot(globalPop,
 
 ggplotly(gg)
 ```
+
 ::: callout-note
 ## Things to learn from the code chunk above:
 
@@ -239,12 +292,9 @@ ggplotly(gg)
 
 -   `ggplotly()` is then used to convert the R graphic object into an animated svg object.
 :::
-
-:::
-
+::::
 
 Notice that although `show.legend = FALSE` argument was used, the legend still appears on the plot. To overcome this problem, `theme(legend.position='none')` should be used as shown in the plot and code chunk below.
-
 
 ## **3.4.2 Building an animated bubble plot: `plot_ly()` method**
 
@@ -271,7 +321,8 @@ bp
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 bp <- globalPop %>%
   plot_ly(x = ~Old, 
           y = ~Young, 
@@ -289,7 +340,7 @@ bp
 ```
 :::
 
-## **3.5 Reference**
+# **3.5 Reference**
 
 -   [Getting Started](https://gganimate.com/articles/gganimate.html)
 

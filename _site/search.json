@@ -39,7 +39,7 @@
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_bar",
     "title": "Hands-on Exercise 1",
     "section": "1.7.1 Geometric Objects: geom_bar",
-    "text": "1.7.1 Geometric Objects: geom_bar\nThe code chunk below plots a bar chart by using geom_bar().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar(aes(fill = RACE), alpha = 0.5)+\nggtitle(\"Barplot of Races\")"
+    "text": "1.7.1 Geometric Objects: geom_bar\nThe code chunk below plots a bar chart by using geom_bar().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar(aes(fill = GENDER), alpha = 0.5)+\nggtitle(\"Barplot of Races by gender\")"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_dotplot",
@@ -53,7 +53,7 @@
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_histogram",
     "title": "Hands-on Exercise 1",
     "section": "1.7.3 Geometric Objects: geom_histogram()",
-    "text": "1.7.3 Geometric Objects: geom_histogram()\nIn the code chunk below, geom_histogram() is used to create a simple histogram by using values in MATHS field of exam_data.\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar(aes(fill = GENDER), alpha = 0.5)+  \nggtitle(\"Barplot of Races by Gender\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nNote that the default bin is 30."
+    "text": "1.7.3 Geometric Objects: geom_histogram()\nIn the code chunk below, geom_histogram() is used to create a simple histogram by using values in MATHS field of exam_data.\n\nggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_histogram()    \n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nNote that the default bin is 30."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#modifying-a-geometric-object-by-changing-geom",
@@ -137,21 +137,21 @@
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_wrap",
     "title": "Hands-on Exercise 1",
     "section": "1.9.1 Working with facet_wrap()",
-    "text": "1.9.1 Working with facet_wrap()\nfacet_wrap wraps a 1d sequence of panels into 2d. This is generally a better use of screen space than facet_grid because most displays are roughly rectangular.\nThe code chunk below plots a trellis plot using facet-wrap().\n\nggplot(data=exam_data, \n       aes(x= MATHS)) +\n  geom_histogram(bins=20,aes(fill = CLASS), alpha = 0.5) +\n    facet_wrap(~ CLASS)       +\n  ggtitle(\"Trellis plot of Maths Scores for different Classes\")"
+    "text": "1.9.1 Working with facet_wrap()\nfacet_wrap wraps a 1d sequence of panels into 2d. This is generally a better use of screen space than facet_grid because most displays are roughly rectangular.\nThe code chunk below plots a trellis plot using facet-wrap().\n\nggplot(data=exam_data, \n       aes(x= MATHS)) +\n  geom_histogram(bins=20,aes(fill = GENDER), alpha = 0.5) +\n    facet_wrap(~ CLASS)       +\n  ggtitle(\"Trellis plot of Maths Scores for different Classes\")"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#facet_grid-function",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#facet_grid-function",
     "title": "Hands-on Exercise 1",
     "section": "1.9.2 facet_grid() function",
-    "text": "1.9.2 facet_grid() function\nfacet_grid() forms a matrix of panels defined by row and column facetting variables. It is most useful when you have two discrete variables, and all combinations of the variables exist in the data.\nThe code chunk below plots a trellis plot using facet_grid().\n\nggplot(data=exam_data, \n       aes(x= MATHS)) +\n  geom_histogram(bins=20,aes(fill = CLASS), alpha = 0.5) +\n    facet_grid(~ CLASS)      +\n  ggtitle(\"Trellis plot of Maths Scores for different Classes\")"
+    "text": "1.9.2 facet_grid() function\nfacet_grid() forms a matrix of panels defined by row and column facetting variables. It is most useful when you have two discrete variables, and all combinations of the variables exist in the data.\nThe code chunk below plots a trellis plot using facet_grid().\n\nggplot(data=exam_data, \n       aes(x= MATHS)) +\n  geom_histogram(bins=20,aes(fill = GENDER), alpha = 0.5) +\n    facet_grid(~ CLASS)      +\n  ggtitle(\"Trellis plot of Maths Scores for different Classes\")"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-coordinate",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-coordinate",
     "title": "Hands-on Exercise 1",
     "section": "1.10.1 Working with Coordinate",
-    "text": "1.10.1 Working with Coordinate\nBy the default, the bar chart of ggplot2 is in vertical form.\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar(aes(fill = RACE), alpha = 0.5)    +\n  ggtitle(\"Bar plot for Races\") \n\n\n\n\n\n\n\n\n\nFlipping into horizontal bar chart\nThe code chunk below flips the vertical bar chart into horizontal bar chart by using coord_flip().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar(aes(fill = RACE), alpha = 0.5) +\n  coord_flip() +\n  ggtitle(\"Bar plot for Races\")"
+    "text": "1.10.1 Working with Coordinate\nBy the default, the bar chart of ggplot2 is in vertical form.\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar(aes(fill = GENDER), alpha = 0.5)    +\n  ggtitle(\"Bar plot for Races\") \n\n\n\n\n\n\n\n\n\nFlipping into horizontal bar chart\nThe code chunk below flips the vertical bar chart into horizontal bar chart by using coord_flip().\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar(aes(fill = GENDER), alpha = 0.5) +\n  coord_flip() +\n  ggtitle(\"Bar plot for Races\")"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#changing-the-y--and-x-axis-range",
