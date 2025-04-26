@@ -5,14 +5,14 @@ project:
     - about.qmd
     - Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.qmd
     - Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.qmd
-    - In-class Exercise
+    - In-class_Ex/In-class_Ex02/In-class_Ex02.qmd
     - Take-home Exercise
   output-dir: _site #for the logo to appear
 
 website:
   favicon: favicon.png
   announcement:
-    content: "<i class=\"bi bi-envelope-fill\"></i> **NEW!** - [**Hands-on Exercise 2**](https://isss608-ay2024-25-dreytwy.netlify.app/hands-on_ex/hands-on_ex02/hands-on_ex02) published!"
+    content: "<i class=\"bi bi-envelope-fill\"></i> **NEW!** - [**In-class Exercise 2**](https://isss608-ay2024-25-dreytwy.netlify.app/In-class_Ex/In-class_Ex02/In-class_Ex02.html) published!"
     position: below-navbar
   page-navigation: true
   
@@ -33,10 +33,20 @@ website:
           #   href: "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html"
           # - text: "Hands-on Exercise 5"
           #   href: "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05.html"
+          # - text: "Hands-on Exercise 6"
+          #   href: "Hands-on_Ex/Hands-on_Ex06/Hands-on_Ex06.html"
+          # - text: "Hands-on Exercise 7"
+          #   href: "Hands-on_Ex/Hands-on_Ex07/Hands-on_Ex07.html"
+          # - text: "Hands-on Exercise 8"
+          #   href: "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html"
+          # - text: "Hands-on Exercise 9"
+          #   href: "Hands-on_Ex/Hands-on_Ex09/Hands-on_Ex09.html"
+          # - text: "Hands-on Exercise 10"
+          #   href: "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html"
       - text: "In-class Exercise"
         menu:
-          - text: "In-class Exercise 1"        
-            href: "In-class_Ex/In-class_Ex01/In-Class_Ex01.html"
+          - text: "In-class Exercise 2"        
+            href: "In-class_Ex/In-class_Ex02/In-class_Ex02.html"
       - text: "Take-home Exercise"
         menu:
           - text: "Take-home Exercise 1"
@@ -45,7 +55,8 @@ website:
             href: "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html"
           - text: "Take-home Exercise 3"
             href: "Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html"
-
+          - text: "Take-home Exercise 4"
+            href: "Take-home_Ex/Take-home_Ex04/Take-home_Ex04.html"
     
     right:
       - href: index.qmd        
