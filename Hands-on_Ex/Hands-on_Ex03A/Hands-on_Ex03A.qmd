@@ -1594,6 +1594,7 @@ DT::datatable(exam_data, class= "compact")
 Code chunk below is used to implement the coordinated brushing shown above.
 
 ::: panel-tabset
+
 ## The Plot
 
 ```{r, echo=FALSE}
@@ -1613,6 +1614,7 @@ crosstalk::bscols(gg,
                   widths = 5)     
 ```
 
+## The Code Chunk
 ``` r
 d <- highlight_key(exam_data) 
 p <- ggplot(d, 
@@ -1665,7 +1667,7 @@ This [link](https://davidgohel.github.io/ggiraph/index.html) provides online ver
 
 -   [Getting Started](https://gganimate.com/articles/gganimate.html)
 
--   Visit this [link](https://rpubs.com/raymondteo/dataviz8) for a very interesting implementation of gganimate by senior.
+-   Visit this [link](https://rpubs.com/raymondteo/dataviz8) for a very interesting implementation of gganimate.
 
 -   [Building an animation step-by-step with gganimate](https://www.alexcookson.com/post/2020-10-18-building-an-animation-step-by-step-with-gganimate/).
 
