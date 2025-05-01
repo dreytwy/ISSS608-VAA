@@ -1,16 +1,17 @@
 ---
-title: "ISSS608-VAA"
+title: "Home"
 
 listing:
   contents: "Hands-on_Ex/**/*.qmd" 
   sort: "date asc"
-  type: grid
+  type: table
+  page-size: 8
+  grid-columns: 2
+  table-hover: true
+  max-items: 4
   fields: [title, date]
   field-display-names:
     date: "Published"
-  grid-columns: 3
-  grid-item-border: false
-  max-items: 2
 ---
 
 ::::: grid
