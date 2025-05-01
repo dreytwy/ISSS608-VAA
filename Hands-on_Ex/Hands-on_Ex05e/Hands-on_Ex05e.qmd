@@ -68,6 +68,7 @@ In our case, *group_by()* will used together with *summarise()* to derive the su
 
 ::: callout-note
 ## *Recommendation*
+
 Students who are new to dplyr methods should consult Introduction to dplyr before moving on to the next section.
 :::
 
@@ -100,6 +101,7 @@ The code chunk below shows a more efficient way to tackle the same processes by 
 
 ::: callout
 ## *Recommendation*
+
 To learn more about pipe, visit this excellent article: [Pipes in R Tutorial For Beginners](https://www.datacamp.com/community/tutorials/pipe-r-tutorial).
 :::
 
@@ -242,6 +244,7 @@ The squarified treemap algorithm (Bruls et al., 2000) produces good aspect ratio
 ### **16.4.8 Working with *algorithm* argument**
 
 The code chunk below plots a squarified treemap by changing the *algorithm* argument.
+
 ```{r}
 treemap(realis2018_selected,
         index=c("Planning Region", "Planning Area", "Project Name"),
@@ -254,9 +257,11 @@ treemap(realis2018_selected,
         title.legend = "Median Unit Price (S$ per sq. m)"
         )
 ```
+
 ### **16.4.9 Using *sortID***
 
 When “pivotSize” algorithm is used, *sortID* argument can be used to dertemine the order in which the rectangles are placed from top left to bottom right.
+
 ```{r}
 treemap(realis2018_selected,
         index=c("Planning Region", "Planning Area", "Project Name"),
@@ -270,11 +275,13 @@ treemap(realis2018_selected,
         title.legend = "Median Unit Price (S$ per sq. m)"
         )
 ```
+
 ## **16.5 Designing Treemap using treemapify Package**
 
 **treemapify** is a R package specially developed to draw treemaps in **ggplot2**. In this section, you will learn how to designing treemps closely resemble treemaps designing in previous section by using **treemapify**. Before you getting started, you should read [Introduction to “treemapify”](https://cran.r-project.org/web/packages/treemapify/vignettes/introduction-to-treemapify.html) its [user guide](https://cran.r-project.org/web/packages/treemapify/treemapify.pdf).
 
 ### **16.5.1 Designing a basic treemap**
+
 ```{r}
 ggplot(data=realis2018_selected, 
        aes(area = `Total Unit Sold`,
@@ -288,6 +295,7 @@ ggplot(data=realis2018_selected,
 ### **16.5.2 Defining hierarchy**
 
 Group by Planning Region
+
 ```{r}
 ggplot(data=realis2018_selected, 
        aes(area = `Total Unit Sold`,
@@ -298,6 +306,7 @@ ggplot(data=realis2018_selected,
 ```
 
 Group by Planning Area
+
 ```{r}
 ggplot(data=realis2018_selected, 
        aes(area = `Total Unit Sold`,
@@ -320,6 +329,7 @@ ggplot(data=realis2018_selected,
                                 size = 2) +
   geom_treemap_subgroup_border(colour = "gray20")
 ```
+
 ## **16.6 Designing Interactive Treemap using d3treeR**
 
 ### **16.6.1 Installing *d3treeR* package**
@@ -332,7 +342,6 @@ This slide shows you how to install a R package which is not available in cran.
 install.packages("devtools")
 
 ```
-
 
 2.  Next, you will load the *devtools* library and install the package found in github by using the codes below.
 
