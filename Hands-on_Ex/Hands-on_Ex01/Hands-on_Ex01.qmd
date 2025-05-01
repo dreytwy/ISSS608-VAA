@@ -1,5 +1,5 @@
 ---
-title: "Hands-on Exercise 1"
+title: "1. A Layered Grammar of Graphics: ggplot2 methods"
 author: "Audrey Tan"
 date: "18 April 2025"
 date-modified: "last-modified"
@@ -237,7 +237,7 @@ The code chunk below plots a bar chart by using [`geom_bar()`](https://ggplot2.
 ggplot(data=exam_data, 
        aes(x=RACE)) +
   geom_bar(aes(fill = GENDER), alpha = 0.5)+
-ggtitle("Barplot of Races by gender")
+ggtitle("Barplot of Races by Gender")
 ```
 
 ## 1.7.2 Geometric Objects: geom_dotplot
@@ -279,7 +279,7 @@ scale_y_continuous(NULL, breaks = NULL)
 In the code chunk below, [*geom_histogram()*](https://ggplot2.tidyverse.org/reference/geom_histogram.html) is used to create a simple histogram by using values in *MATHS* field of *exam_data*.
 
 ```{r}
-ggplot(data=exam_data, 
+ggplot(data=exam_data,
        aes(x = MATHS)) +
   geom_histogram()    
 ```

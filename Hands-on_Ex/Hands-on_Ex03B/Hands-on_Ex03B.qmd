@@ -1,7 +1,7 @@
 ---
-title: "Hands-on_Ex03B"
+title: "3b. Programming Animated Statistical Graphics with R"
 author: "Audrey Tan"
-date: "24 April 2025"
+date: "01 May 2025"
 date-modified: "last-modified"
 format: html
 editor: visual
@@ -12,7 +12,7 @@ execute:
   freeze: true
 ---
 
-# **3B) Programming Animated Statistical Graphics with R**
+# **3b) Programming Animated Statistical Graphics with R**
 
 # **3.1 Overview**
 
@@ -26,17 +26,17 @@ When telling a visually-driven data story, animated graphics tends to attract th
 
     \(ii\) process, wrangle and transform data by using **dplyr** package.
 
-## **3.1.1 Basic concepts of animation**
+## 3.1.1 Basic concepts of animation
 
 When creating animations, the plot does not actually move. Instead, many individual plots are built and then stitched together as movie frames, just like an old-school flip book or cartoon. Each frame is a different plot when conveying motion, which is built using some relevant subset of the aggregate data. The subset drives the flow of the animation when stitched back together.
 
 ```{r, echo=FALSE}
-library(magick)
+pacman::p_load(magick)
 img <- image_read("https://r4va.netlify.app/chap04/img/image1.jpg")
 plot(img)
 ```
 
-## **3.1.2 Terminology**
+## 3.1.2 Terminology
 
 Before we dive into the steps for creating an animated statistical graph, it’s important to understand some of the key concepts and terminology related to this type of visualization.
 
@@ -47,14 +47,14 @@ Before we dive into the steps for creating an animated statistical graph, it’s
 ::: callout-tip
 Before making animated graphs, ask the question: Does it makes sense to go through the effort?
 
--   If you are conducting an exploratory data analysis, a animated graphic may not be worth the time investment.
+-   If conducting an exploratory data analysis, a animated graphic may not be worth the time investment.
 
--   However, if you are giving a presentation, a few well-placed animated graphics can help an audience connect with your topic remarkably better than static counterparts.
+-   However, when giving a presentation, a few well-placed animated graphics can help an audience connect with the topic remarkably better than static counterparts.
 :::
 
 # **3.2 Getting Started**
 
-## **3.2.1 Loading the R packages**
+## 3.2.1 Loading the R packages
 
 First, write a code chunk to check, install and load the following R packages:
 
@@ -73,11 +73,11 @@ pacman::p_load(readxl, gifski, gapminder,
                plotly, gganimate, tidyverse)
 ```
 
-## **3.2.2 Importing the data**
+## 3.2.2 Importing the data
 
 In this hands-on exercise, the *Data* worksheet from *GlobalPopulation* Excel workbook will be used.
 
-Write a code chunk to import Data worksheet from GlobalPopulation Excel workbook by using appropriate R package from tidyverse family.
+Write a code chunk to import Data worksheet from GlobalPopulation Excel workbook by using appropriate R package from tidyverse family.undefined
 
 ```{r}
 col <- c("Country", "Continent")
@@ -131,7 +131,7 @@ globalPop <- read_xls("data/GlobalPopulation.xls",
 
 -   `ease_aes()` defines how different aesthetics should be eased during transitions.
 
-## **3.3.1 Building a static population bubble plot**
+## 3.3.1 Building a static population bubble plot
 
 In the code chunk below, the basic ggplot2 functions are used to create a static bubble plot.
 
@@ -148,7 +148,7 @@ ggplot(globalPop, aes(x = Old, y = Young,
        y = '% Young') 
 ```
 
-## **3.3.2 Building the animated bubble plot**
+## 3.3.2 Building the animated bubble plot
 
 In the code chunk below,
 
@@ -190,15 +190,15 @@ ggplot(globalPop, aes(x = Old, y = Young,
   ease_aes('linear')          
 ```
 
-## **3.3.3 Building multiple animated subplots**
+## 3.3.3 Building multiple animated subplots
 
-We can also create multiple animated bubble subplots of Continent.
+We can also create multiple animated bubble subplots by Continent.
 
 In the code chunk below,
 
--   facet_wrap is used on Continent.
+-   `facet_warp()` is used on Continent.
 
-```{r, results=hide}
+```{r, results='hide'}
 ggplot(globalPop, aes(Old, Young, 
                       size = Population, 
                       colour = Country)) +
@@ -216,6 +216,7 @@ ggplot(globalPop, aes(Old, Young,
 ```
 
 The animated bubble charts
+
 ```{r, echo=FALSE}
 ggplot(globalPop, aes(Old, Young, 
                       size = Population, 
@@ -237,9 +238,9 @@ ggplot(globalPop, aes(Old, Young,
 
 In **Plotly R** package, both `ggplotly()` and `plot_ly()` support key frame animations through the `frame` argument/aesthetic. They also support an `ids` argument/aesthetic to ensure smooth transitions between objects with the same id (which helps facilitate object constancy).
 
-## **3.4.1 Building an animated bubble plot: `ggplotly()` method**
+## 3.4.1 Building an animated bubble plot: `ggplotly()` method
 
-In this sub-section, you will learn how to create an animated bubble plot by using `ggplotly()` method.
+In this sub-section, we create an animated bubble plot by using `ggplotly()` method.
 
 :::: panel-tabset
 ## The Plot
@@ -296,9 +297,9 @@ ggplotly(gg)
 
 Notice that although `show.legend = FALSE` argument was used, the legend still appears on the plot. To overcome this problem, `theme(legend.position='none')` should be used as shown in the plot and code chunk below.
 
-## **3.4.2 Building an animated bubble plot: `plot_ly()` method**
+## 3.4.2 Building an animated bubble plot: `plot_ly()` method
 
-In this sub-section, you will learn how to create an animated bubble plot by using `plot_ly()` method.
+In this sub-section, we create an animated bubble plot by using `plot_ly()` method.
 
 ::: panel-tabset
 ## The Plot
@@ -343,8 +344,6 @@ bp
 # **3.5 Reference**
 
 -   [Getting Started](https://gganimate.com/articles/gganimate.html)
-
--   Visit this [link](https://rpubs.com/raymondteo/dataviz8) for a very interesting implementation of gganimate by your senior.
 
 -   [Building an animation step-by-step with gganimate](https://www.alexcookson.com/post/2020-10-18-building-an-animation-step-by-step-with-gganimate/).
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ISSS608-VAA</title>
+<title>Home</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -80,9 +80,10 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-date',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
+      valueNames: ['listing-title','listing-date',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
+      page: 8,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
+      searchColumns: ["listing-date","listing-title","listing-author"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -163,6 +164,14 @@ window.Quarto = {
     <a class="dropdown-item" href="./Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html">
  <span class="dropdown-text">Hands-on Exercise 2</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./Hands-on_Ex/Hands-on_Ex03a/Hands-on_Ex03a.html">
+ <span class="dropdown-text">Hands-on Exercise 3a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Hands-on_Ex/Hands-on_Ex03b/Hands-on_Ex03b.html">
+ <span class="dropdown-text">Hands-on Exercise 3b</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -211,8 +220,8 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <div id="quarto-announcement" data-announcement-id="c3fd93f26e94b4824492665a4ec7b8f7" class="alert alert-primary hidden"><div class="quarto-announcement-content">
-<p><i class="bi bi-envelope-fill"></i> <strong>NEW!</strong> - <a href="https://isss608-ay2024-25-dreytwy.netlify.app/In-class_Ex/In-class_Ex02/In-class_Ex02.html"><strong>In-class Exercise 2</strong></a> published!</p>
+  <div id="quarto-announcement" data-announcement-id="25ac71d438140380295ade0cf06ca0f8" class="alert alert-warning hidden"><div class="quarto-announcement-content">
+<p><i class="bi bi-balloon-heart-fill"></i> <strong>NEW! (01 MAY)</strong> - <a href="https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex03a/Hands-on_Ex03a.html"><strong>Hands-on Exercise 3a</strong></a> and <a href="https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex03b/Hands-on_Ex03b.html"><strong>Hands-on Exercise 3b</strong></a> published! <br> <i class="bi bi-cup-hot-fill"></i> <strong>Take-home Exercise is in Progress…</strong></p>
 </div><i class="bi bi-x-lg quarto-announcement-action"></i></div>
 </header>
 <!-- content -->
@@ -227,7 +236,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">ISSS608-VAA</h1>
+<h1 class="title">Home</h1>
 </div>
 
 
@@ -256,39 +265,91 @@ window.Quarto = {
 
 
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1744905600000" data-listing-file-modified-sort="1745679688745" data-listing-date-modified-sort="1745679688000" data-listing-reading-time-sort="18" data-listing-word-count-sort="3588">
-<a href="./Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left borderless">
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Hands-on Exercise 1
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Apr 18, 2025
+<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
+<div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+    <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+    <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+      <option value="" disabled="" selected="" hidden="">Order By</option>
+      <option value="index" data-direction="asc">Default</option>
+      <option value="listing-date-sort" data-direction="asc">
+        Published - Oldest
+      </option>
+      <option value="listing-date-sort" data-direction="desc">
+        Published - Newest
+      </option>
+      <option value="listing-title-sort" data-direction="asc">
+        Title
+      </option>
+    </select>
+  </div>
+    <div class="input-group input-group-sm quarto-listing-filter">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" class="search form-control" placeholder="Filter">
+    </div>
 </div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1745424000000" data-listing-file-modified-sort="1745667612049" data-listing-date-modified-sort="1745667612000" data-listing-reading-time-sort="38" data-listing-word-count-sort="7548">
-<a href="./Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left borderless">
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Hands-on Exercise 2
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Apr 24, 2025
-</div>
-</div>
-</div>
-</div></a>
-</div>
-</div>
+<table class="quarto-listing-table table table-hover">
+<thead>
+<tr>
+
+<th>
+<a class="sort" data-sort="listing-title-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Title</a>
+</th>
+
+<th>
+<a class="sort" data-sort="listing-date-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Published</a>
+</th>
+
+</tr>
+</thead>
+<tbody class="list">
+
+<tr data-index="0" data-listing-date-sort="1744905600000" data-listing-file-modified-sort="1746084519591" data-listing-date-modified-sort="1746084519000" data-listing-reading-time-sort="18" data-listing-word-count-sort="3587" data-listing-title-sort="1. A Layered Grammar of Graphics: ggplot2 methods" data-listing-filename-sort="Hands-on_Ex01.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<a href="./Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html" class="title listing-title">1. A Layered Grammar of Graphics: ggplot2 methods</a>
+</td>
+<td>
+<span class="listing-date">Apr 18, 2025</span>
+</td>
+
+</tr>
+
+<tr data-index="1" data-listing-date-sort="1745424000000" data-listing-file-modified-sort="1745767316781" data-listing-date-modified-sort="1745767316000" data-listing-reading-time-sort="38" data-listing-word-count-sort="7548" data-listing-title-sort="2. Beyond ggplot2 Fundamentals" data-listing-filename-sort="Hands-on_Ex02.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<a href="./Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html" class="title listing-title">2. Beyond ggplot2 Fundamentals</a>
+</td>
+<td>
+<span class="listing-date">Apr 24, 2025</span>
+</td>
+
+</tr>
+
+<tr data-index="2" data-listing-date-sort="1746028800000" data-listing-file-modified-sort="1746085326398" data-listing-date-modified-sort="1746085326000" data-listing-reading-time-sort="63" data-listing-word-count-sort="12581" data-listing-title-sort="3a. Programming Interactive Data Visualisation with R" data-listing-filename-sort="Hands-on_Ex03a.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<a href="./Hands-on_Ex/Hands-on_Ex03a/Hands-on_Ex03a.html" class="title listing-title">3a. Programming Interactive Data Visualisation with R</a>
+</td>
+<td>
+<span class="listing-date">May 1, 2025</span>
+</td>
+
+</tr>
+
+<tr data-index="3" data-listing-date-sort="1746028800000" data-listing-file-modified-sort="1746084455853" data-listing-date-modified-sort="1746084455000" data-listing-reading-time-sort="12" data-listing-word-count-sort="2330" data-listing-title-sort="3b. Programming Animated Statistical Graphics with R" data-listing-filename-sort="Hands-on_Ex03b.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<a href="./Hands-on_Ex/Hands-on_Ex03b/Hands-on_Ex03b.html" class="title listing-title">3b. Programming Animated Statistical Graphics with R</a>
+</td>
+<td>
+<span class="listing-date">May 1, 2025</span>
+</td>
+
+</tr>
+
+</tbody>
+</table>
 <div class="listing-no-matching d-none">No matching items</div>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

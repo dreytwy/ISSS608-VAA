@@ -7,3 +7,15 @@ body {
   height: 100px; /* Adjust this to your desired height */
   width: auto; /* Maintain aspect ratio */
 }
+
+.listing-grid .list-grid-item {
+  border: 1px solid #800080; /* Dark purple color code */
+  border-radius: 5px; /* Optional: Adds rounded corners */
+  padding: 10px; /* Optional: Adds some padding inside the border */
+}
+
+.navbar-logo {
+  height: 60px !important;
+  width: auto !important;
+  max-height: none !important; /* Override the max-height from Bootstrap */
+}
