@@ -18,7 +18,7 @@ execute:
 
 ## 1.1 Background and Task
 
-Aero Media is a local online media company that publishes daily content on digital platforms is planning to release an article on **demographic structures and distribution of Singapore in 2024**. As a graphical editor of the media company (Aero Media), there is a need to prepare at most three data visualisation for the daily article. This article aims to explore the distribution and structure of the population age, gender, and regions. Please refer to Section 2 to 8 for the preparation and Section 9 and 10 for this Article.
+Aero Media is a local online media company that publishes daily content on digital platforms is planning to release an article on **demographic structures and distribution of Singapore in 2024**. As a graphical editor of the media company (Aero Media), there is a need to prepare **at most** **three** non-interactive data visualisation for the daily article. This article aims to explore the distribution and structure of the population age, gender, and regions. Please refer to Section 2 to 7 for the rationalisation and preparation, and Section 8 for this Article.
 
 ## 1.2 The Data
 
@@ -29,16 +29,12 @@ To accomplish the task, *Singapore Residents by Planning Area / Subzone, Single
 The code chunk below uses p_load() of pacman package to check if packages are installed in the computer. If they are, then they will be launched into R.
 
 ```{r}
-library(rmarkdown)
-```
-
-```{r}
 pacman::p_load(ggrepel, patchwork, 
                ggthemes, hrbrthemes,
-               tidyverse, readr, ggdist, 
-               ggridges, colorspace, knitr, 
-               forcats, reshape2, png, grid, scales,
-               dplyr, magrittr, RColorBrewer, magick) 
+               tidyverse, readr, ggdist, ggExtra,
+               ggridges, colorspace, knitr, plotly,
+               forcats, reshape2, png, grid, scales, cowplot,
+               dplyr, magrittr, RColorBrewer, magick, rmarkdown) 
 ```
 
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
@@ -52,6 +48,8 @@ pacman::p_load(ggrepel, patchwork,
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | ggdist                | For visualizing distributions and uncertainty. It provides tools like stat_halfeye(), stat_pointinterval(), etc., for making raincloud plots |
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| ggExtra               | For adding functions and layers like ggMarginal() to ggplot2.                                                                                |
++-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | ggridges              | For creating density plots for visualisation of continuous distribution                                                                      |
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | ggrepel               | For repelling overlapping text labels in plot                                                                                                |
@@ -61,6 +59,8 @@ pacman::p_load(ggrepel, patchwork,
 | patchwork             | For combination and alignment of multiple plots for each visualisation                                                                       |
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | knitr                 | For elegant, flexible and fast report generation of underlying dataframes                                                                    |
++-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| plotly                | For plotting interactive statistical graphs                                                                                                  |
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | forcats               | For working with categorical variables                                                                                                       |
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
@@ -79,6 +79,10 @@ pacman::p_load(ggrepel, patchwork,
 | magick                | For image processing to read, edit, compose, and convert images easily.                                                                      |
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | scales                | For normalizing of a dataset using the mean value and standard deviation                                                                     |
++-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| rmarkdown             | For converting R Markdown documents into different formats.                                                                                  |
++-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| cowplot               | For streamlining the process of creating and arranging plots.                                                                                |
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 
 # 3. Importing Data
@@ -102,27 +106,27 @@ glimpse(sg_demo_2024)
 
 ## 4.2 Data Dictionary for Variables
 
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Category           | Column Headers | Type           | Description                                            |
-+====================+================+================+========================================================+
-| Planning Area      | PA             | CHAR           | 55 area names                                          |
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Subzone            | SZ             | CHAR           | 332 area names                                         |
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Single Year of Age | Age            | NUM            | 0 to 90_and_over (in increments of 1)                  |
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Sex                | Sex            | CHAR           | Males; Females                                         |
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Resident Count     | Pop            | NUM            | 0 to 1180 (in multiples of 10, with occasional breaks) |
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Time/Period        | Time           | NUM            | 2024                                                   |
-+--------------------+----------------+----------------+--------------------------------------------------------+
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Category           | Column Headers | Type      | Description                                            |
++====================+================+===========+========================================================+
+| Planning Area      | PA             | CHAR      | 55 area names                                          |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Subzone            | SZ             | CHAR      | 332 area names                                         |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Single Year of Age | Age            | NUM       | 0 to 90_and_over (in increments of 1)                  |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Sex                | Sex            | CHAR      | Males; Females                                         |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Resident Count     | Pop            | NUM       | 0 to 1180 (in multiples of 10, with occasional breaks) |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Time/Period        | Time           | NUM       | 2024                                                   |
++--------------------+----------------+-----------+--------------------------------------------------------+
 
 ::: callout-note
 ## Note.
 
 1.  For June 2024, Planning Areas refer to areas demarcated in the Urban Redevelopment Authority's Master Plan 2019.
-2.  Data from 2003 onwards exclude residents who have been away from Singapore for a continuous period of 12 months or longer as at the reference period.
+2.  Data from 2003 onward exclude residents who have been away from Singapore for a continuous period of 12 months or longer as at the reference period.
 3.  The figures have been rounded to the nearest 10.
 4.  The data may not add up due to rounding.
 5.  Data was generated on 24/9/2024.
@@ -166,7 +170,13 @@ kable(uni_val_df, caption = "Unique Categories in Dataset", row.names = NA, labe
 
 ### 4.2.2 Statistics of Numerical Variables
 
-Notice that: - Age is not a numerical value but a categorical value. - The Pop value is a summation for each combination of variables in a particular record. - In Time, there is only one year of data at 2024.
+Notice that:
+
+-   Age variable is not a numerical value but a categorical value.
+
+-   The statistics for Pop variable are not very useful as the values are a summation for each combination of variables in a particular record.
+
+-   In Time variable, there is only one year of data at 2024.
 
 ::: panel-tabset
 ## The Data
@@ -192,11 +202,30 @@ kable(summary(realis_num))
 
 The flowchart displays the course of action to be undertaken to pre-process the data to produce the eventual graphs.
 
+-   Starts from the data in cylindrical shape.
+
+-   Categorical variables are in rounded edge rectangles.
+
+-   Numerical variables are circles.
+
+-   Discretized data are in hexagons.
+
+-   Graphs are in a subroutine shape.
+
 ::: panel-tabset
 ## The Flowchart
 
 ```{mermaid}
 %%| echo: false
+
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+    }
+  }
+}%%
+
 flowchart TD
     id1[(sg_demo_2024)]-->C((Pop))
     C((Pop))-->G(Sub_Zone)
@@ -205,25 +234,34 @@ flowchart TD
     F -->|Discretize| id2{{Region Type - CR, ER, NR, NER, WR}}
     id2 -->|Filter| D(Sex)
     D(Sex)--> |Filter| B(Age)
+    D(Sex)-->|Graph Type|K[[❤ EDA 2: Pyramid Bar]] 
 
-    D(Sex)--> |Graph Type|L[[Pie Chart]]
     D(Sex)--> |Graph Type|N[[Stacked Bar Chart]]
 
-    B(Age) -->|Discretize| id4{{Age_type - 0-4,5-9,...,90 & Over}}
     B(Age) -->|Change Type| H((Age_Numerical))
     B(Age) -->|Discretize| id3{{summarised_ages - young, working-age, elderly}}
+    B(Age) -->|Discretize| id4{{Age_type - 0-4,5-9,...,90 & Over}}
 
     id3--> |Graph Type|M[[Bar Chart]]
-    id4--> |Graph Type|A[[❤ EDA 1: Population Pyramid]]
+    id4--> |Graph Type|A[[❤ EDA 1: Population Pyramids]]
    
-    H((Age_Numerical))-->|Graph Type|J[[❤ EDA 2: Scatterplot]] 
-    H((Age_Numerical))-->|Graph Type|K[[❤ EDA 3: Raincloud Plot]] 
     H((Age_Numerical))-->|Graph Type|O[[Histogram]] 
+ 
+
 ```
 
 ## The Code
 
-```{mermaid}
+```{markdown}
+
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+    }
+  }
+}%%
+
 flowchart TD
     id1[(sg_demo_2024)]-->C((Pop))
     C((Pop))-->G(Sub_Zone)
@@ -232,19 +270,18 @@ flowchart TD
     F -->|Discretize| id2{{Region Type - CR, ER, NR, NER, WR}}
     id2 -->|Filter| D(Sex)
     D(Sex)--> |Filter| B(Age)
+    D(Sex)-->|Graph Type|K[[❤ EDA 2: Pyramid Bar]] 
 
     D(Sex)--> |Graph Type|L[[Pie Chart]]
     D(Sex)--> |Graph Type|N[[Stacked Bar Chart]]
-    
-    B(Age) -->|Discretize| id4{{Age_type - 0-4,5-9,...,90 & Over}}
+
     B(Age) -->|Change Type| H((Age_Numerical))
     B(Age) -->|Discretize| id3{{summarised_ages - young, working-age, elderly}}
+    B(Age) -->|Discretize| id4{{Age_type - 0-4,5-9,...,90 & Over}}
 
     id3--> |Graph Type|M[[Bar Chart]]
-    id4--> |Graph Type|A[[❤ EDA 1: Population Pyramid]]
+    id4--> |Graph Type|A[[❤ EDA 1: Population Pyramids]]
    
-    H((Age_Numerical))-->|Graph Type|J[[❤ EDA 2: Scatterplot]] 
-    H((Age_Numerical))-->|Graph Type|K[[❤ EDA 3: Raincloud Plot]] 
     H((Age_Numerical))-->|Graph Type|O[[Histogram]] 
 ```
 :::
@@ -293,7 +330,7 @@ There were no missing values or duplicates.
 
 ## 5.2 Data Transformation/ Reduction
 
-### 5.2.1 Data Label Encoding: Changing age from categorical to numerical value
+### 5.2.1 Data Label Encoding: Changing Age from categorical to numerical type
 
 Age as a continuous variable will be useful for plotting distributions.
 
@@ -310,7 +347,7 @@ sg_demo_2024 <- sg_demo_2024 %>%
 
 ### 5.2.2 Discretization: Creation of new Region_type
 
-The discretization method splits the continuous data into intervals which reduces the data size. There are 55 planning area (PA) and 332 subzone (SZ), referencing Urban Redevelopment Authority (URA), the PA or SZ can be grouped into 5 regions:
+The discretization method splits the continuous data into intervals which reduces the data size and for ease of visualising through smaller segments. There are 55 planning area (PA) and 332 subzone (SZ), referencing Urban Redevelopment Authority (URA), the PA or SZ can be grouped into 5 regions:
 
 -   Central Region (CR)
 
@@ -374,7 +411,7 @@ kable(pa_mapping, title = "Mapping of Planning Area to Region ")
 
 ### 5.2.3 Discretization: Creation of new Age_Type
 
-The ages were binned into age_type based on Singapore's Department of Statistics classification.
+The ages were binned into Age_type based on Singapore's Department of Statistics classification.
 
 ::: panel-tabset
 ## The Code
@@ -479,11 +516,11 @@ kable(summary(realis_num2))
 ```
 :::
 
-# 7. Univariate/ Bivariate Analysis
+# 6. Univariate/ Bivariate Analysis
 
 Here, we produce some univariate and bivariate analysis to obtain a general understanding of the data and also compare between and choose visualisations.
 
-## 7.1 Bar Chart of Region by Different Population Age Groups
+## 6.1 Bar Chart of Region by Different Population Age Groups
 
 The bar chart hows the percentage and absolute figures of the different age group of residents by region
 
@@ -559,7 +596,6 @@ p2 <- ggplot(pop_by_region,
   scale_fill_brewer(palette = "Set3") # Use a color palette for regions
 
 # Create an interactive plotly object with hover
-library(plotly)
 ggplotly(p2, tooltip = "text") %>%
   style(hoverlabel = list(bgcolor = "blue"))
 ```
@@ -571,7 +607,7 @@ p1/p2
 ```
 :::
 
--   There are less residents in the Eastern and Northern regions, relative to other other regions.
+-   There are less residents in the East and North regions, relative to other other regions.
 
 -   Most of the population are in the working-age group due to the larger age range (15-64).
 
@@ -581,83 +617,7 @@ p1/p2
 
 -   The population in the working age group are close to evenly distributed in the 3 regions of North-Eastern, Central and Western Regions of Singapore.
 
-## 7.2 Pie Chart vs Stacked Bar Chart
-
-### 7.2.1 Pie Chart of Gender by Population
-
-::: panel-tabset
-## The Pie Chart
-
-```{r, echo=FALSE}
-# Using groupby() and summarise 
-pop_by_sex<- sg_demo_2024 %>%
-  group_by(Sex, Region_type) %>%
-  summarize(pop_sex = sum(Pop), .groups = "drop")
-
-# Compute the position of labels
-data <- pop_by_sex %>%
-  group_by(Region_type) %>% # Group by Region_type first
-  arrange(desc(Sex)) %>%
-  mutate(prop = pop_sex / sum(pop_sex) * 100) %>% # percentage within each region
-  mutate(ypos = cumsum(prop) - 0.5 * prop) #y-positions for labels within each region
-
-# Basic piechart
-p3 <- ggplot(data, aes(x = "", y = prop, fill = Sex
-                       )) +
-  geom_bar(stat = "identity", width = 1, color = "white") +
-  coord_polar("y", start = 0) +
-  theme_void() +
-  theme(legend.position = "right",
-        plot.title = element_text(hjust = 0.5, size = 10, face = "bold")) + 
-  labs(title = "Population Distribution by Gender for different Regions") + # Added title
-
-  geom_text(aes(label = format(pop_sex, big.mark = ",")),
-            position = position_stack(vjust = 0.5), # Position the labels.
-            color = "black", size = 4) +
-  scale_fill_brewer(palette = "Set2", name = "Gender")
-
-p3 + facet_wrap(vars(Region_type), nrow=2)
-```
-
-## The Code for Pie Charts
-
-``` r
-# Using groupby() and summarise 
-pop_by_sex<- sg_demo_2024 %>%
-  group_by(Sex, Region_type) %>%
-  summarize(pop_sex = sum(Pop), .groups = "drop")
-
-# Compute the position of labels
-data <- pop_by_sex %>%
-  group_by(Region_type) %>% # Group by Region_type first
-  arrange(desc(Sex)) %>%
-  mutate(prop = pop_sex / sum(pop_sex) * 100) %>% # percentage within each region
-  mutate(ypos = cumsum(prop) - 0.5 * prop) #y-positions for labels within each region
-
-# Basic piechart
-p3 <- ggplot(data, aes(x = "", y = prop, fill = Sex
-                       )) +
-  geom_bar(stat = "identity", width = 1, color = "white") +
-  coord_polar("y", start = 0) +
-  theme_void() +
-  theme(legend.position = "right",
-        plot.title = element_text(hjust = 0.5, size = 10, face = "bold")) + 
-  labs(title = "Population Distribution by Gender for different Regions") + # Added title
-
-  geom_text(aes(label = format(pop_sex, big.mark = ",")),
-            position = position_stack(vjust = 0.5), # Position the labels.
-            color = "black", size = 4) +
-  scale_fill_brewer(palette = "Set2", name = "Gender")
-
-p3 + facet_wrap(vars(Region_type), nrow=2)
-```
-:::
-
--   There is a rather even distribution of gender in each region.
-
--   ER and NR have lesser population compared to the other regions, as confirmed in section 7.1.
-
-### 7.2.2 Stacked Bar chart of Region by Population (with gender as hue)
+### 6.2 Stacked Bar chart of Region by Population (with gender as hue)
 
 ::: panel-tabset
 ## The Stacked Bar Chart
@@ -715,152 +675,17 @@ ggplotly(p4, tooltip = "text")%>%
 ```
 :::
 
--   The stacked bar chart with hover tooltip easily summarises the multiple piecharts of distribution of genders in regions in section 7.2.1.
+-   There is a rather even distribution of gender in each region.
 
-## 7.3 Scatterplot vs Histogram
+-   ER and NR have lesser population compared to the other regions, as confirmed in section 6.1.
 
-### 7.3.1 Scatterplot of Age by Gender
+# 7. Rationalisation and Processing of Exploratory Data Analysis (EDA) before Publishing
 
-::: panel-tabset
-## The Scatterplot
+Here, the graphical editor visualises, finds insights, plans, and rationalises the appropriate chart for the article in Section 8.
 
-```{r, echo=FALSE}
+## 7.1 Population Pyramid
 
-# Using groupby() and summarise 
-pop_by_age<- sg_demo_2024 %>%
-  group_by(Age_numerical, Sex) %>%
-  summarize(pop_age = sum(Pop), .groups = "drop")
-
-# Define custom colors
-male_color <- "navyblue"  
-female_color <- "#F8766D" 
-
-# Scatterplot with linear fit line
-ggplot(pop_by_age, aes(x = Age_numerical, y = pop_age)) +
-  geom_point(data = subset(pop_by_age, Sex == "Males"),
-             aes(x = Age_numerical, y = pop_age, color = "Males")) +
-  geom_point(data = subset(pop_by_age, Sex == "Females"),
-             aes(x = Age_numerical, y = pop_age, color = "Females")) +
-  scale_color_manual(values = c("Males" = male_color, "Females" = female_color),
-                     name = "Gender") +
-  geom_smooth(method = "lm")+
-  labs(title = "Scatterplot of Age by Population",
-       x = "Age",
-       y = "Population") 
-```
-
-## The Code for Scatterplot
-
-``` r
-# Using groupby() and summarise 
-pop_by_age<- sg_demo_2024 %>%
-  group_by(Age_numerical, Sex) %>%
-  summarize(pop_age = sum(Pop), .groups = "drop")
-
-# Define custom colors
-male_color <- "navyblue"  
-female_color <- "#F8766D" 
-
-# Scatterplot with linear fit line
-ggplot(pop_by_age, aes(x = Age_numerical, y = pop_age)) +
-  geom_point(data = subset(pop_by_age, Sex == "Males"),
-             aes(x = Age_numerical, y = pop_age, color = "Males")) +
-  geom_point(data = subset(pop_by_age, Sex == "Females"),
-             aes(x = Age_numerical, y = pop_age, color = "Females")) +
-  scale_color_manual(values = c("Males" = male_color, "Females" = female_color),
-                     name = "Gender") +
-  geom_smooth(method = "lm")+
-  labs(title = "Scatterplot of Age by Population",
-       x = "Age",
-       y = "Population") 
-```
-:::
-
--   The population rises from age 0 to 35, stagnates around age 35 to 60, then dips after that. There is an overall decline in the population as the age increases which is a reality in life.
-
--   Around the ages of 0 to 30, the population of female vs males are close.
-
--   A large group of the population are around the ages of 30 to 60. Suggesting an ageing population.
-
--   After age 75, there is usually a larger gap between the higher females compared to males population. This is stark for over 90 years of age. Suggesting higher longevity for females.
-
-### 7.3.2 Histogram of Age by Population (with gender as hue)
-
-In addition to geom_histogram(), we can also create a histogram plot by using scale_x_continuous() with geom_bar(). This method plots breaks in between each bar. A bivariate chart can be produced when the bars are filled by gender like a stacked bar chart.
-
-::: panel-tabset
-## The Interactive Histogram
-
-```{r, echo=FALSE}
-
-# Using groupby() and summarise 
-pop_by_age<- sg_demo_2024 %>%
-  group_by(Age_numerical, Sex) %>%
-  summarize(pop_age = sum(Pop), .groups = "drop")
-
-sorted_ages <- sort(unique(pop_by_age$Age_numerical))
-
-# Plot the age distribution using a histogram
-p5<-ggplot(pop_by_age, aes(x = Age_numerical, y = pop_age, fill = Sex, 
-                           text = paste("Age:", Age_numerical, "<br>",
-                              "Gender:", Sex, "<br>",
-                              "Population:", scales::comma(pop_age)))) +
-  geom_bar(stat = "identity", color = "black", width = 1) +
-  scale_x_continuous(breaks = sorted_ages,
-                     labels = sorted_ages) +
-  labs(title = "Resident Population by Age and Gender",
-       x = "Age (Numerical)",
-       y = "Total Population") +
-  scale_y_continuous(labels = scales::comma) +
-  scale_fill_brewer(palette = "Set2", name = "Gender") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size=4, face = "bold"),
-        plot.title = element_text(hjust = 0.5, size = 9, face = "bold"))
-
-ggplotly(p5, width = 1000, height = 700, tooltip = "text") # Specify tooltip
-
-```
-
-## The Code for the Interactive Histogram
-
-``` r
-# Using groupby() and summarise 
-pop_by_age<- sg_demo_2024 %>%
-  group_by(Age_numerical, Sex) %>%
-  summarize(pop_age = sum(Pop), .groups = "drop")
-  
-sorted_ages <- sort(unique(pop_by_age$Age_numerical))
-
-# Plot the age distribution using a histogram
-p5<-ggplot(pop_by_age, aes(x = Age_numerical, y = pop_age, fill = Sex, 
-                           text = paste("Age:", Age_numerical, "<br>",
-                              "Gender:", Sex, "<br>",
-                              "Population:", scales::comma(pop_age)))) +
-  geom_bar(stat = "identity", color = "black", width = 1) +
-  scale_x_continuous(breaks = sorted_ages,
-                     labels = sorted_ages) +
-  labs(title = "Resident Population by Age and Gender",
-       x = "Age (Numerical)",
-       y = "Total Population") +
-  scale_y_continuous(labels = scales::comma) +
-  scale_fill_brewer(palette = "Set2", name = "Gender") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size=4, face = "bold"),
-        plot.title = element_text(hjust = 0.5, size = 9, face = "bold"))
-
-ggplotly(p5, width = 1000, height = 700, tooltip = "text") # Specify tooltip
-```
-:::
-
--   The histogram corroborates what was produced by the scatterplot in section 7.3.1.
-
--   Through the histogram is usually used to visualise distributions, the scatterplot appears to visualise and produce the insights much easier than the histogram in this case.
-
-# 8. Exploratory Data Analysis (EDA)
-
-Here, the graphical editor visualises, finds insights, plans, and rationalises the appropriate chart for the article in Section 9.
-
-## 8.1 Population Pyramid (Age and Gender Structure)
-
-Instead of the histogram produced in the earlier univariate/ bivariate analysis, a population pyramid can be produced for clearer visualisation.
+Instead of the histogram produced in the earlier univariate/ bivariate analysis, a population pyramid can be produced for clearer visualisation of **Age and Gender Structure.**
 
 #### Step 1: Preparatory work
 
@@ -871,19 +696,15 @@ Instead of the histogram produced in the earlier univariate/ bivariate analysis,
 pop_by_gender_age <-
   pop_by_gender_age |>
   mutate(total_pop = if_else(Sex == "Males", total_pop, -total_pop))
-
-#pop_by_gender_age |>
-#  ggplot(aes(
-#    x = total_pop,
-#    y = Age_type,
-#    fill = Sex
-#  )) +
-#  geom_col()
 ```
 
 ## The Code to calculate Total Population and Median Age
 
-The median age of the population is around 42 years.
+Check the total population and median ages:
+
+-   The total population is around 4,193,530.
+
+-   The median age of the population is around 42 years.
 
 ```{r}
 # Ensure total_pop is positive for this calculation
@@ -984,52 +805,14 @@ print(unique_labels_age)
 ```
 :::
 
-#### Step 2: Creation of Empty Male and Female plots
+#### Step 2: Plotting of Male + Female + Age Label plots
 
 ::: panel-tabset
-## Creation of women pyramid
+## Plot of Females and Males
 
-```{r}
-population_pyramid_women <-
-  pop_by_gender_age |>
-  filter(Sex == "Females") |>
-  ggplot(aes(
-    x = total_pop,
-    y = Age_Type_Ordered 
-  )) +
-  geom_col() +
-  theme_void()
-```
+```{r, echo=FALSE}
 
-## Creation of men pyramid
-
-```{r}
-population_pyramid_men <-
-  pop_by_gender_age |>
-  filter(Sex == "Males") |>
-  ggplot(aes(
-    x = total_pop,
-    y = Age_Type_Ordered 
-  )) +
-  geom_col() +
-  theme_void()
-```
-
-## Plot: Combining both genders
-
-```{r}
-population_pyramid_women +
-  population_pyramid_men
-```
-:::
-
-#### Step 3: Plotting of Male + Female + Age Label plots
-
-::: panel-tabset
-## Plotting Females and Males
-
-```{r, results='hide'}
-# one women plot
+#one women plot
 population_pyramid_women <-
   pop_by_gender_age |>
   filter(Sex == "Females") |>
@@ -1037,24 +820,26 @@ population_pyramid_women <-
     x = total_pop,
     y = Age_Type_Ordered  
   )) +
-  geom_col(fill = "#F8766D") +
+    geom_col(fill = "#F8766D",alpha = 0.8) +
   annotate(
   geom = "label",
   x = -120000,
   y = 19,
   label = "Females",
   fill = "#F8766D",
+  alpha = 0.8,
   color = "black",
   label.size = 0,
   label.padding = unit(0.3, "lines")
-) +
-  scale_x_continuous(breaks = breaks_pretty(),
-                     labels = function(x) scales::comma(abs(x)))+
+)+
+  scale_x_continuous(breaks = breaks_pretty(), 
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"))+
   theme_void()+
   theme(
     axis.text.x = element_text(),
     panel.grid.major.x = element_line(color = "grey90")
   )
+
 
 # one men plot
 population_pyramid_men <-
@@ -1064,33 +849,27 @@ population_pyramid_men <-
     x = total_pop,
     y = Age_Type_Ordered 
   )) +
-  geom_col(fill = "#00BFC4") +
+  geom_col(fill = "#00BFC4",alpha = 0.8)+
   annotate(
   geom = "label",
   x = 120000,
   y = 19,
   label = "Males",
   fill = "#00BFC4",
+  alpha = 0.8,
   color = "black",
   label.size = 0,
   label.padding = unit(0.3, "lines")
 ) +
   scale_x_continuous(breaks = breaks_pretty(), 
-                     labels=function(x) scales::comma(abs(x)))+
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"))+
   theme_void()+
   theme(
     axis.text.x = element_text(),
     panel.grid.major.x = element_line(color = "grey90")
   )
 
-# combine
-population_pyramid_women +
-  population_pyramid_men
-```
-
-## Combining age_labels_plot with both gender plots
-
-```{r, results='hide'}
+# Plot age plot
 age_labels_plot <-
   age_labels |>
   ggplot(
@@ -1105,11 +884,92 @@ age_labels_plot <-
   ggtitle("Age Group\n(Years)")+
   theme(plot.title = element_text(hjust = 0.5, vjust = 2, size=10,
                                   face = "bold", color = "black"))
-
+# Combine everything (age + tw0 gender plots)
 population_pyramid_women +
   age_labels_plot +
   population_pyramid_men
-  
+```
+
+## Code of the plot of Females and Males
+
+``` r
+
+#one women plot
+population_pyramid_women <-
+  pop_by_gender_age |>
+  filter(Sex == "Females") |>
+  ggplot(aes(
+    x = total_pop,
+    y = Age_Type_Ordered  
+  )) +
+    geom_col(fill = "#F8766D",alpha = 0.8) +
+  annotate(
+  geom = "label",
+  x = -120000,
+  y = 19,
+  label = "Females",
+  fill = "#F8766D",
+  alpha = 0.8,
+  color = "black",
+  label.size = 0,
+  label.padding = unit(0.3, "lines")
+)+
+  scale_x_continuous(breaks = breaks_pretty(), 
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"))+
+  theme_void()+
+  theme(
+    axis.text.x = element_text(),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
+
+
+# one men plot
+population_pyramid_men <-
+  pop_by_gender_age |>
+  filter(Sex == "Males") |>
+  ggplot(aes(
+    x = total_pop,
+    y = Age_Type_Ordered 
+  )) +
+  geom_col(fill = "#00BFC4",alpha = 0.8)+
+  annotate(
+  geom = "label",
+  x = 120000,
+  y = 19,
+  label = "Males",
+  fill = "#00BFC4",
+  alpha = 0.8,
+  color = "black",
+  label.size = 0,
+  label.padding = unit(0.3, "lines")
+) +
+  scale_x_continuous(breaks = breaks_pretty(), 
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"))+
+  theme_void()+
+  theme(
+    axis.text.x = element_text(),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
+
+# Plot age plot
+age_labels_plot <-
+  age_labels |>
+  ggplot(
+    aes(
+      x = 1,
+      y = Age_type,
+      label = Age_type
+    )
+  ) +
+  geom_text() +
+  theme_void()+
+  ggtitle("Age Group\n(Years)")+
+  theme(plot.title = element_text(hjust = 0.5, vjust = 2, size=10,
+                                  face = "bold", color = "black"))
+# Combine everything (age + tw0 gender plots)
+population_pyramid_women +
+  age_labels_plot +
+  population_pyramid_men
 ```
 :::
 
@@ -1121,19 +981,20 @@ After layout adjustments, the population pyramid was plotted.
 ## Population Pyramid
 
 ```{r, echo=FALSE}
-population_pyramid_women +
+p6<-population_pyramid_women +
   age_labels_plot +
   population_pyramid_men +
   plot_layout(
     widths = c(4.3, 1, 4.3))+ # both sides are 4.3 times the age_label_plot
   plot_annotation(
     title = "Age Pyramid of Singapore Resident Population for 2024", 
-    subtitle="(median age = 42)",
-    caption = "Source: Department of Statistics, Singapore | Designer: AT",
+    subtitle="(Population median age = 42)",
+    caption = "Data Source: Department of Statistics, Singapore | Designer: AT",
     theme = theme(plot.title = element_text(face = "bold", hjust = 0.20), 
-                  plot.subtitle = element_text( hjust = 0.07),
+                  plot.subtitle = element_text( hjust = 0.08),
                   plot.background = element_rect(fill = "#C1D3E5"))
 )
+plot(p6)
 
 grid.rect(
   x = unit(0, "npc"),  
@@ -1149,19 +1010,20 @@ grid.rect(
 ## Code for adjustments
 
 ``` r
-population_pyramid_women +
+p6<-population_pyramid_women +
   age_labels_plot +
   population_pyramid_men +
   plot_layout(
     widths = c(4.3, 1, 4.3))+ # both sides are 4.3 times the age_label_plot
   plot_annotation(
     title = "Age Pyramid of Singapore Resident Population for 2024", 
-    subtitle="(median age = 42)",
-    caption = "Source: Department of Statistics, Singapore | Designer: AT",
+    subtitle="(Population median age = 42)",
+    caption = "Data Source: Department of Statistics, Singapore | Designer: AT",
     theme = theme(plot.title = element_text(face = "bold", hjust = 0.20), 
-                  plot.subtitle = element_text( hjust = 0.07),
+                  plot.subtitle = element_text( hjust = 0.08),
                   plot.background = element_rect(fill = "#C1D3E5"))
 )
+plot(p6)
 
 grid.rect(
   x = unit(0, "npc"),  
@@ -1178,9 +1040,9 @@ The population pyramid visualises the population's age and gender distribution. 
 
 It is possible to visualise the regions within each age group as what [**Michal Palenik**](https://www.iz.sk/en/projects/eu-regions/AT) produced for three employment statuses. However, this method faces the issue of complexity and difficulty reading in our case due to having 5 regions, with the regions close in region size per age-group.
 
-See an example below which shows the complexity.
+See an example below which visualises the complexity.
 
-### Comparative Distribution and Structure of Age, Gender, and Population
+### 7.1.1 Comparative Distribution and Structure of Age, Gender, and Population
 
 ::: panel-tabset
 ## Population Pyramid with Region
@@ -1197,7 +1059,7 @@ sg_demo_2024_reshaped <- sg_demo_2024_reshaped %>%
 # Create a basic bar chart for one gender
 basic_plot <-  ggplot(sg_demo_2024_reshaped, 
                       aes(x = Age_Type_Ordered2, 
-                          y= ifelse(Sex=='Males', -Pop, Pop), 
+                          y= ifelse(Sex=='Females', -Pop, Pop), 
                           fill = Region_type)) + 
 geom_bar(stat = "identity") 
 
@@ -1214,10 +1076,10 @@ population_pyramid <- basic_plot +
     scale_y_continuous(breaks = breaks_pretty(),
                        labels = function(y) format(y, scientific = FALSE))+
   geom_hline(yintercept = 0, color = "blue", linetype = "dashed", size = 0.5) + # Males and Females separation
-  annotate(geom = "label",x = 18, y = 100000,
+  annotate(geom = "label",x = 18, y = -100000,
            label = "Females", fill = "lightpink",
            color = "black",label.size = 0)+
-  annotate(geom = "label",x = 18, y = -100000,
+  annotate(geom = "label",x = 18, y = 100000,
            label = "Males", fill = "lightsteelblue",
            color = "black",label.size = 0)
 print(population_pyramid) #  Display the plot
@@ -1237,7 +1099,7 @@ sg_demo_2024_reshaped <- sg_demo_2024_reshaped %>%
 # Create a basic bar chart for one gender
 basic_plot <-  ggplot(sg_demo_2024_reshaped, 
                       aes(x = Age_Type_Ordered2, 
-                          y= ifelse(Sex=='Males', -Pop, Pop), 
+                          y= ifelse(Sex=='Females', -Pop, Pop), 
                           fill = Region_type)) + 
 geom_bar(stat = "identity") 
 
@@ -1254,19 +1116,21 @@ population_pyramid <- basic_plot +
     scale_y_continuous(breaks = breaks_pretty(),
                        labels = function(y) format(y, scientific = FALSE))+
   geom_hline(yintercept = 0, color = "blue", linetype = "dashed", size = 0.5) + # Males and Females separation
-  annotate(geom = "label",x = 18, y = 100000,
+  annotate(geom = "label",x = 18, y = -100000,
            label = "Females", fill = "lightpink",
            color = "black",label.size = 0)+
-  annotate(geom = "label",x = 18, y = -100000,
+  annotate(geom = "label",x = 18, y = 100000,
            label = "Males", fill = "lightsteelblue",
            color = "black",label.size = 0)
 print(population_pyramid) #  Display the plot
 ```
 :::
 
-## 8.2 Histogram vs Scatterplot (Distribution of population by age stacked by gender, for different regions)
+## 7.2 Histogram
 
-### 8.2.1 The Histogram
+-   A histogram or density plot is usually used to visualise distributions. However, density plots assumes that each row of data is an independent observation of that variable. In our case, the Pop column was a summation instead of a single observation.
+
+-   Here, distribution of **Gender population by Age for Regions** is visualised.
 
 ::: panel-tabset
 ## The Histogram
@@ -1289,11 +1153,10 @@ p7<-ggplot(pop_by_age_sex_region, aes(x = Age_numerical, y = pop_age,
   geom_bar(stat = "identity", color = "black", width = 1)+
   scale_x_continuous(breaks = sorted_ages2,
                      labels = sorted_ages2) +
-  labs(title = "Resident Population by Age and Gender",
+  labs(title = "Gender population by Age for Regions",
        x = "Age",
        y = "Total Population") +
   scale_y_continuous(labels = scales::comma) + 
-  theme_economist()+
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size=5, face = "bold"),
         plot.title = element_text(hjust = 0.5, size = 11, face = "bold"),
         axis.title.x = element_text(size = 8),
@@ -1325,11 +1188,10 @@ p7<-ggplot(pop_by_age_sex_region, aes(x = Age_numerical,
   geom_bar(stat = "identity", color = "black", width = 1) +
   scale_x_continuous(breaks = sorted_ages2,
                      labels = sorted_ages2) +
-  labs(title = "Resident Population by Age and Gender",
+  labs(title = "Gender population by Age for Regions",
        x = "Age",
        y = "Total Population") +
   scale_y_continuous(labels = scales::comma) +  
-  theme_economist()+
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size=5, face = "bold"),
         plot.title = element_text(hjust = 0.5, size = 11, face = "bold"),
         axis.title.x = element_text(size = 8),
@@ -1351,434 +1213,19 @@ p7+ facet_wrap(vars(Region_type), nrow=5)
 
 The histogram/ stacked bar chart shows the regional population distribution and regional gender distribution/ structure.
 
-### 8.2.2 The Scatterplot
-
-::: panel-tabset
-## The Scatterplot
-
-```{r, echo=FALSE}
-# Define custom colors
-male_color <- "navyblue"  
-female_color <- "#F8766D" 
-
-# Scatterplot with linear fit line
-p8<-ggplot(pop_by_age_sex_region, aes(x = Age_numerical, y =pop_age)) +
-  geom_point(data = subset(pop_by_age_sex_region, Sex == "Males"), size=0.5,
-             aes(x = Age_numerical, y = pop_age, color = "Males")) +
-  geom_point(data = subset(pop_by_age_sex_region, Sex == "Females"), size=0.5,
-             aes(x = Age_numerical, y = pop_age, color = "Females")) +
-  scale_color_manual(values = c("Males" = male_color, "Females" = female_color),
-                     name = "Gender") +
-  labs(title = "Scatterplot of Age by Population",
-       x = "Age",
-       y = "Population") +
-  theme_economist()+
-  theme(axis.text.x = element_text(angle = 0, hjust = 1, size=6, face = "bold"),
-        plot.title = element_text(vjust=0.5, hjust = 0.5, size = 11, face = "bold"),
-        axis.title.x = element_text(size = 8),
-        axis.title.y = element_text(size = 8),
-        axis.text.y = element_text(size = 8),
-        legend.title = element_text(size = 7),
-        legend.text = element_text(size = 7),
-        strip.text = element_text(size = 8),
-        legend.position = c(0.9, 0.08))+
-    plot_annotation(
-    caption = "Source: Department of Statistics, Singapore | Designer: AT")
-
-p8+ facet_wrap(vars(Region_type), nrow=3)
-
-grid.rect(
-  x = unit(0 + 0.01, "npc"),  # Move 1% of the width to the right
-  y = unit(1 - 0.02, "npc"),  # Move 2% of the height down
-  width = unit(0.05, "npc"),
-  height = unit(0.025, "npc"),
-  just = c("left", "top"),
-  gp = gpar(fill = "#e5001c", lwd = 0)
-)
-```
-
-## The Code
-
-``` r
-# Define custom colors
-male_color <- "navyblue"  
-female_color <- "#F8766D" 
-
-# Scatterplot with linear fit line
-p8<-ggplot(pop_by_age_sex_region, aes(x = Age_numerical, y =pop_age)) +
-  geom_point(data = subset(pop_by_age_sex_region, Sex == "Males"), size=0.5,
-             aes(x = Age_numerical, y = pop_age, color = "Males")) +
-  geom_point(data = subset(pop_by_age_sex_region, Sex == "Females"), size=0.5,
-             aes(x = Age_numerical, y = pop_age, color = "Females")) +
-  scale_color_manual(values = c("Males" = male_color, "Females" = female_color),
-                     name = "Gender") +
-  labs(title = "Scatterplot of Age by Population",
-       x = "Age",
-       y = "Population") +
-  theme_economist()+
-  theme(axis.text.x = element_text(angle = 0, hjust = 1, size=6, face = "bold"),
-        plot.title = element_text(vjust=0.5, hjust = 0.5, size = 11, face = "bold"),
-        axis.title.x = element_text(size = 8),
-        axis.title.y = element_text(size = 8),
-        axis.text.y = element_text(size = 8),
-        legend.title = element_text(size = 7),
-        legend.text = element_text(size = 7),
-        strip.text = element_text(size = 8),
-        legend.position = c(0.9, 0.08))+
-    plot_annotation(
-    caption = "Source: Department of Statistics, Singapore | Designer: AT")
-
-p8+ facet_wrap(vars(Region_type), nrow=3)
-
-grid.rect(
-  x = unit(0 + 0.01, "npc"),  # Move 1% of the width to the right
-  y = unit(1 - 0.02, "npc"),  # Move 2% of the height down
-  width = unit(0.05, "npc"),
-  height = unit(0.025, "npc"),
-  just = c("left", "top"),
-  gp = gpar(fill = "#e5001c", lwd = 0)
-)
-```
-:::
-
-Similar to section 7.4, when a scatterplot of age by population was plotted for the different regions, the gaps between the genders are more apparent in the scatterplot. Thus, the scatterplot appears to be a better choice here.
-
-## 8.3 Raincloud Plot (Distribution of weighted population by age-groups for different regions)
-
-### 8.3.1 Creation of weighted population
-
-```{r}
-weighted_age_type <- pop_by_gender_age %>%
-  group_by(Age_type, Region_type, Sex) %>%
-  summarise(weighted_population = sum(abs(total_pop)), .groups = 'drop')
-```
-
-The `weighted_population` is the total absolute population count for each specific combination of `Age_type`, `Region_type`, and `Sex`. The "weighting" here is based on the aggregation of the population within these defined groups.
-
-### 8.3.2 Plotting Raincloud Plots
-
-::: panel-tabset
-## Raincloud Plots by Gender
-
-```{r, echo=FALSE}
-
-# Define custom flat violin geom without ggname()
-GeomFlatViolin <- ggproto("GeomFlatViolin", Geom,
-  setup_data = function(data, params) {
-    data$width <- data$width %||%
-      params$width %||% (resolution(data$x, FALSE) * 0.9)
-
-    data %>%
-      group_by(x) %>%
-      mutate(
-        ymin = min(y),
-        ymax = max(y),
-        xmin = x,
-        xmax = x + violinwidth * width
-      )
-  },
-
-  draw_group = function(data, panel_scales, coord) {
-    data <- transform(data,
-                      xminv = x,
-                      xmaxv = x + violinwidth * (xmax - x))
-
-    newdata <- rbind(
-      arrange(transform(data, x = xmaxv), y),
-      arrange(transform(data, x = xminv), -y)
-    )
-
-    newdata <- rbind(newdata, newdata[1, ])
-
-    # No need for ggname(), directly use GeomPolygon$draw_panel
-    GeomPolygon$draw_panel(newdata, panel_scales, coord)
-  },
-
-  draw_key = draw_key_polygon,
-
-  default_aes = aes(
-    weight = 1, colour = "black", fill = "white", size = 0.5,
-    alpha = NA, linetype = "solid"
-  ),
-
-  required_aes = c("x", "y")
-)
-
-# Wrapper function for geom_flat_violin
-geom_flat_violin <- function(mapping = NULL, data = NULL, stat = "ydensity",
-                             position = "dodge", trim = TRUE, scale = "area",
-                             show.legend = NA, inherit.aes = TRUE, ...) {
-  layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = GeomFlatViolin,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list(trim = trim, scale = scale, ...)
-  )
-}
-
-# Actual plot
-p9 <- ggplot(weighted_age_type, 
-       aes(x = weighted_population, 
-           y = Sex,           
-           fill = Sex)) + # Map fill to Region_type
-  stat_halfeye(adjust = 0.6,
-               justification = -0.05,
-               .width = 0,
-               point_colour = NA,
-    position = position_nudge(y = 0)) +
-  geom_boxplot(width = .18,
-               outlier.shape = NA)+
-  stat_dots(side = "left", size = 0.5, 
-            position = position_nudge(y = -0.15)) + # Nudge dots lower
-  coord_cartesian(clip = "off") + # Important for half-eye if it extends beyond the box
-  labs(title = "Age Structure by Gender (Weighted Population)",
-       x = "Population",
-       y = "Gender")+
-    theme_economist()+
-      theme(
-    axis.title.x = element_text(size = 8),
-    axis.title.y = element_text(size = 8),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 8),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    plot.title=element_text(size=8, face = "bold", vjust=2),
-    strip.text = element_text(size = 8)
-  )+
-  scale_y_discrete(expand = expansion(add = c(1, 1))) # Add vertical expansion
-
-rcp1<- p9 + facet_wrap(vars(Region_type), nrow=3)
-rcp1
-```
-
-## Code for Raincloud Plots by Gender
-
-``` r
-# Define custom flat violin geom without ggname()
-GeomFlatViolin <- ggproto("GeomFlatViolin", Geom,
-  setup_data = function(data, params) {
-    data$width <- data$width %||%
-      params$width %||% (resolution(data$x, FALSE) * 0.9)
-
-    data %>%
-      group_by(x) %>%
-      mutate(
-        ymin = min(y),
-        ymax = max(y),
-        xmin = x,
-        xmax = x + violinwidth * width
-      )
-  },
-
-  draw_group = function(data, panel_scales, coord) {
-    data <- transform(data,
-                      xminv = x,
-                      xmaxv = x + violinwidth * (xmax - x))
-
-    newdata <- rbind(
-      arrange(transform(data, x = xmaxv), y),
-      arrange(transform(data, x = xminv), -y)
-    )
-
-    newdata <- rbind(newdata, newdata[1, ])
-
-    # No need for ggname(), directly use GeomPolygon$draw_panel
-    GeomPolygon$draw_panel(newdata, panel_scales, coord)
-  },
-
-  draw_key = draw_key_polygon,
-
-  default_aes = aes(
-    weight = 1, colour = "black", fill = "white", size = 0.5,
-    alpha = NA, linetype = "solid"
-  ),
-
-  required_aes = c("x", "y")
-)
-
-# Wrapper function for geom_flat_violin
-geom_flat_violin <- function(mapping = NULL, data = NULL, stat = "ydensity",
-                             position = "dodge", trim = TRUE, scale = "area",
-                             show.legend = NA, inherit.aes = TRUE, ...) {
-  layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = GeomFlatViolin,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list(trim = trim, scale = scale, ...)
-  )
-}
-
-# Actual plot
-p9 <- ggplot(weighted_age_type, 
-       aes(x = weighted_population, 
-           y = Sex,           
-           fill = Sex)) + # Map fill to Region_type
-  stat_halfeye(adjust = 0.6,
-               justification = -0.05,
-               .width = 0,
-               point_colour = NA,
-    position = position_nudge(y = 0)) +
-  geom_boxplot(width = .18,
-               outlier.shape = NA)+
-  stat_dots(side = "left", size = 0.5, 
-            position = position_nudge(y = -0.15)) + # Nudge dots lower
-  coord_cartesian(clip = "off") + # Important for half-eye if it extends beyond the box
-  labs(title = "Age Structure by Gender (Weighted Population)",
-       x = "Population",
-       y = "Gender")+
-    theme_economist()+
-      theme(
-    axis.title.x = element_text(size = 8),
-    axis.title.y = element_text(size = 8),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 8),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    plot.title=element_text(size=8, face = "bold", vjust=2),
-    strip.text = element_text(size = 8)
-  )+
-  scale_y_discrete(expand = expansion(add = c(1, 1))) # Add vertical expansion
-
-rcp1<- p9 + facet_wrap(vars(Region_type), nrow=3)
-rcp1
-```
-
-## Raincloud Plot by Region
-
-```{r, echo=FALSE}
-p10 <- ggplot(weighted_age_type, 
-       aes(x = weighted_population, 
-           y = Region_type,           
-           fill = Region_type)) + # Map fill to Region_type
-  stat_halfeye(adjust = 0.6,
-               justification = -0.05,
-               .width = 0,
-               point_colour = NA) +
-  geom_boxplot(width = .18,
-               outlier.shape = NA)+
-  stat_dots(side = "left", size = 0.5, 
-            position = position_nudge(y = -0.15)) + # Nudge dots lower
-  coord_cartesian(clip = "off") + # Important for half-eye if it extends beyond the box
-  labs(title = "Age Structure by Region (Weighted Population)",
-       x = "Population",
-       y = "Region Type")+
-    theme_economist()+
-    theme(
-    axis.title.x = element_text(size = 8),
-    axis.title.y = element_text(size = 8),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 8),
-    legend.title = element_text(size = 5),
-    legend.text = element_text(size = 5,margin = margin(r = 0, l = 0, unit = "pt")),
-    plot.title=element_text(size=8, face="bold", vjust=2),
-    strip.text = element_text(size = 8)
-  )+
-  scale_y_discrete(expand = expansion(add = c(1, 1)))+ # Add vertical expansion
-    plot_annotation(
-    caption = "Source: Department of Statistics, Singapore | Designer: AT")
-
-rcp2<-p10 + facet_wrap(vars(Sex), nrow=1)
-rcp2
-```
-
-## Code for Raincloud Plot by Region
-
-``` r
-p10 <- ggplot(weighted_age_type, 
-       aes(x = weighted_population, 
-           y = Region_type,           
-           fill = Region_type)) + # Map fill to Region_type
-  stat_halfeye(adjust = 0.6,
-               justification = -0.05,
-               .width = 0,
-               point_colour = NA) +
-  geom_boxplot(width = .18,
-               outlier.shape = NA)+
-  stat_dots(side = "left", size = 0.5, 
-            position = position_nudge(y = -0.15)) + # Nudge dots lower
-  coord_cartesian(clip = "off") + # Important for half-eye if it extends beyond the box
-  labs(title = "Age Structure by Region (Weighted Population)",
-       x = "Population",
-       y = "Region Type")+
-    theme_economist()+
-    theme(
-    axis.title.x = element_text(size = 8),
-    axis.title.y = element_text(size = 8),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 8),
-    legend.title = element_text(size = 5),
-    legend.text = element_text(size = 5,margin = margin(r = 0, l = 0, unit = "pt")),
-    plot.title=element_text(size=8, face="bold", vjust=2),
-    strip.text = element_text(size = 8)
-  )+
-  scale_y_discrete(expand = expansion(add = c(1, 1)))+ # Add vertical expansion
-    plot_annotation(
-    caption = "Source: Department of Statistics, Singapore | Designer: AT")
-
-rcp2<-p10 + facet_wrap(vars(Sex), nrow=1)
-rcp2
-```
-:::
-
-::: panel-tabset
-## Combined Raincloud Plot
-
-```{r, echo=FALSE}
-combined<- (rcp1+ rcp2) +plot_annotation(
-    caption = "Source: Department of Statistics, Singapore | Designer: AT")
-
-plot(combined)
-
-grid.rect(
-  x = unit(0 +0.01, "npc"),  
-  y = unit(1 -0.02, "npc"),  
-  width = unit(0.05, "npc"),
-  height = unit(0.025, "npc"),
-  just = c("left", "top"),
-  gp = gpar(fill = "#e5001c", lwd = 0)
-)
-```
-
-## The Code
-
-``` r
-combined<- (rcp1+ rcp2) +plot_annotation(
-    caption = "Source: Department of Statistics, Singapore | Designer: AT")
-
-print(combined)
-
-grid.rect(
-  x = unit(0 +0.01, "npc"),  
-  y = unit(1 -0.02, "npc"),  
-  width = unit(0.05, "npc"),
-  height = unit(0.025, "npc"),
-  just = c("left", "top"),
-  gp = gpar(fill = "#e5001c", lwd = 0)
-)
-```
-:::
-
 The charts above show `weighted_population` on the x-axis and `Region_type` or `Sex` on the y-axis. The `weighted_population` on the x-axis represents the total absolute population count for each specific combination of `Age_type`, `Region_type`, and `Sex`.
 
 The y-axis of the `stat_halfeye()` component does NOT directly represent the population count, it represents the probability density of the `weighted_population` values within each level of the grouping variable on the y-axis (which is `Region_type` or `Sex)`.
 
 For each gender and region:
 
--   **Peaks:** The age categories within that region and gender that have a relatively common occurrence. (Many age-gender combination in that region have a total population around the x-axis value)
+-   **Peaks:** Higher probability of age-gender combination in that region having a total population around the x-axis value.
 
--   **Troughs:** The age categories within that region and gender that have a relatively less common occurrence. (Lesser age-gender combination in that region have a total population around the x-axis value)
+-   **Troughs:** Less common age-gender combination in that region having a total population around the x-axis value.
 
--   **Spread:** The range of total populations across the different age categories within that region. A wider distribution means a greater difference in population sizes between age groups.
+-   **Spread:** The range of total populations across age categories within that region. A wider distribution indicates greater differences in population sizes between age groups.
 
-# 9. Daily Article
+# 8. Daily Article
 
 ::: centre
 ![](/Aero_Media.png){fig-align="center"}
@@ -1793,12 +1240,12 @@ For each gender and region:
 ::: centre
 ####### Author/ Graphical Editor: Audrey Tan
 
-####### Published Date: 01 May 2025
+####### Published Date: 03 May 2025
 :::
 
-##### In this article, we will cover the population pyramid, scatterplots, and raincloud plots. These are useful to visualise the demographic structures and distributions of a country.
+##### In this article, we will cover population pyramids and pyramid graphs. These are useful to visualise the demographic structures and distributions of a country.
 
-## 9.1 Population Pyramids
+## 8.1 Population Pyramid
 
 ```{r, echo=FALSE}
 population_pyramid_women +
@@ -1808,10 +1255,10 @@ population_pyramid_women +
     widths = c(4.3, 1, 4.3))+ # both sides are 4.3 times the age_label_plot
   plot_annotation(
     title = "Age Pyramid of Singapore Resident Population for 2024", 
-    subtitle="(median age = 42)",
-    caption = "Source: Department of Statistics, Singapore | Designer: AT",
+    subtitle="(Population median age = 42)",
+    caption = "Data Source: Department of Statistics, Singapore | Designer: AT",
     theme = theme(plot.title = element_text(face = "bold", hjust = 0.20), 
-                  plot.subtitle = element_text( hjust = 0.07),
+                  plot.subtitle = element_text( hjust = 0.08),
                   plot.background = element_rect(fill = "#C1D3E5"))
 )
 
@@ -1827,11 +1274,11 @@ grid.rect(
 
 **What is a population pyramid?**
 
-Population pyramids show the distribution of age-groups between the male (on the right) and female (on the left) population divided by the center. The population size is shown on the x-axis while the age-groups are represented on the middle y-axis. The youngest age-group (at 0-4) starts at the bottom which rises to the oldest (at 90 & Over) at the top. It is useful for studying the effects of armed conflicts, infant mortality, mortality in childbirth, birth policies and migration.
+Population pyramids show the **age and gender population distribution**. It is useful for studying the effects of armed conflicts, mortality, birth policies and migration.
 
-**Why is it called a population pyramid?**
+**What are the types of population pyramid?**
 
-When more babies are born compared to population mortality, the graph forms a triangular shape like a pyramid. There are three main types of population pyramid shapes/ types: Triangular shape (Expansive), Bell shape (Stationary), Bulb shape (Constrictive).
+There are three main types: Triangular shape (Expansive), Bell shape (Stationary), Bulb shape (Constrictive).
 
 ::::: {.card .text-black .bg-light-purple .mb-3}
 ::: {.card-header style="font-size: 1.5em; display: flex;"}
@@ -1841,52 +1288,114 @@ When more babies are born compared to population mortality, the graph forms a tr
 ::: card-body
 #### **How about Singapore's population pyramid?** {.card-title}
 
--   Singapore's population pyramid here shows the age and gender distributions.
+-   Singapore has a Constrictive type in year 2024. It is wider in the middle due to larger representation by the middle-age and elderly, but fewer young people. This is corroborated with the median age at 42.
 
--   Singapore in year 2024 has a Constrictive type. It is wider in the middle due to representation by mostly middle aged and elderly people, but fewer young people. This is corroborated with the median age at 42.
+-   The top of the pyramid is wider than other two pyramid types, suggesting longer life expectancy.
 
--   The top of the pyramid is also wider than other two pyramid types, due to longer life expectancy.
+-   Females appears to outlive males as they aged, as seen from the longer bars. This difference is more prevalent for older age-groups (75s to more than 90s).
 
--   There were more females that outlived males as they aged, which is more prevalent for older age-groups (75s to more than 90s).
+-   This suggests an ageing population and low fertility.
 :::
 :::::
 
-## 9.2 Scatterplot
+## 8.2 Regional Distribution
+
+::: panel-tabset
+## Regional Population
 
 ```{r, echo=FALSE}
-# Define custom colors
-male_color <- "navyblue"  
-female_color <- "#F8766D" 
 
-# Scatterplot with linear fit line
-p8<-ggplot(pop_by_age_sex_region, aes(x = Age_numerical, y =pop_age)) +
-  geom_point(data = subset(pop_by_age_sex_region, Sex == "Males"), size=0.5,
-             aes(x = Age_numerical, y = pop_age, color = "Males")) +
-  geom_point(data = subset(pop_by_age_sex_region, Sex == "Females"), size=0.5,
-             aes(x = Age_numerical, y = pop_age, color = "Females")) +
-  scale_color_manual(values = c("Males" = male_color, "Females" = female_color),
-                     name = "Gender") +
-  labs(title = "Scatterplot of Age by Population",
-       x = "Age",
-       y = "Population") +
-  theme_economist()+
-  theme(axis.text.x = element_text(angle = 0, hjust = 1, size=6, face = "bold"),
-        plot.title = element_text(vjust=0.5, hjust = 0.5, size = 11, face = "bold"),
-        axis.title.x = element_text(size = 8),
-        axis.title.y = element_text(size = 8),
-        axis.text.y = element_text(size = 8),
-        legend.title = element_text(size = 7),
-        legend.text = element_text(size = 7),
-        strip.text = element_text(size = 8),
-        legend.position = c(0.9, 0.08))+
-    plot_annotation(
-    caption = "Source: Department of Statistics, Singapore | Designer: AT")
+# Using groupby() and summarise 
+pop_by_sex<- sg_demo_2024 %>%
+  group_by(Sex, Region_type) %>%
+  summarize(pop_sex = sum(Pop), .groups = "drop")
 
-p8+ facet_wrap(vars(Region_type), nrow=3)
+# Compute the position of labels
+data <- pop_by_sex %>%
+  group_by(Region_type) %>% # Group by Region_type first
+  arrange(desc(Sex)) %>%
+  mutate(prop = pop_sex / sum(pop_sex) * 100) %>% # percentage within each region
+  mutate(ypos = cumsum(prop) - 0.5 * prop) #y-positions for labels within each region
+
+# Calculate total population per region for ordering
+region_order <- data %>%
+    group_by(Region_type) %>%
+    summarise(total_region_pop = sum(abs(pop_sex))) %>%
+    arrange(total_region_pop) %>%
+    pull(Region_type)
+
+# Order the Region_type factor
+data$Region_type <- factor(data$Region_type, levels = region_order)
+
+# Plot
+ggplot(data, aes(y = Region_type, fill = Sex)) +
+    geom_bar(data = subset(data, Sex == "Males"),
+             aes(x = pop_sex),
+             stat = "identity", fill = "#00BFC4",alpha = 0.8) +
+    geom_label(data = subset(data, Sex == "Males"),
+               aes(x = pop_sex,
+                   label = paste0(format(pop_sex, 
+                                         scientific = FALSE, big.mark = ","))),
+                hjust = 0.5, nudge_x = -0.1 * max(abs(data$pop_sex)), 
+               size = 3, color = "black", fill = "grey90") +
+    geom_bar(data = subset(data, Sex == "Females"),
+             aes(x = -pop_sex),
+             stat = "identity", fill = "#F8766D",alpha = 0.8) +
+    geom_label(data = subset(data, Sex == "Females"),
+               aes(x = -pop_sex,
+                   label = paste0(format(abs(pop_sex), 
+                                         scientific = FALSE, big.mark = ","))),
+                hjust = 0.5, nudge_x = 0.1 * max(abs(data$pop_sex)), 
+               size = 3, color = "black", fill = "grey90") +
+scale_x_continuous(
+    breaks = breaks_pretty(10),
+    labels = function(x) scales::comma(abs(x) / 1000, suffix = "K")
+)+
+    annotate(
+        geom = "label",
+        x = -max(abs(data$pop_sex)) * 1,
+        y = length(unique(data$Region_type)) + 0.8,
+        label = "Females",
+        fill = "#F8766D",
+        alpha = 0.8,
+        color = "black",
+        label.size = 0,
+        label.padding = unit(0.2, "lines"),
+        hjust=-0.8
+    )   +
+    annotate(
+        geom = "label",
+        x = max(abs(data$pop_sex)) * 1,
+        y = length(unique(data$Region_type)) + 0.8,
+        label = "Males",
+        fill = "#00BFC4",
+        alpha = 0.8,
+        color = "black",
+        label.size = 0,
+        label.padding = unit(0.2, "lines"),
+        hjust=2.5
+    ) +
+    scale_y_discrete(expand = expansion(mult = c(0, 0.3))) +
+    theme_bw() + # Using a clean theme
+    theme(axis.text = element_text(colour = "black"),
+          plot.title = element_text(lineheight = 0.8),
+          panel.grid.major.y = element_blank(), # Remove horizontal grid lines
+          panel.grid.minor = element_blank(),
+          legend.position = "none") +
+    labs(y = "Region", x = "Population", fill = "Sex")+
+  plot_annotation(title = "Singapore Resident Population for 2024, by Region",
+                  subtitle="Relative to other regions, the North-East Region is the region with the most residents, followed closely by the Central Region.",
+                  caption = "NER: North-East Region; CR: Central Region; WR: West Region; ER: East Region; NR: North Region
+
+. \n Data Source: Department of Statistics, Singapore | Designer: AT",
+                  theme = theme(plot.title = element_text(face = "bold", hjust = 0.16), 
+                  plot.subtitle = element_text(size=8, hjust = 0.6),
+                  plot.background = element_rect(fill = "#C1D3E5"),
+                  plot.caption=element_text(size=8)))
 
 grid.rect(
-  x = unit(0 + 0.01, "npc"),  # Move 1% of the width to the right
-  y = unit(1 - 0.02, "npc"),  # Move 2% of the height down
+  x = unit(0, "npc"),  
+  y = unit(1, "npc"),  
   width = unit(0.05, "npc"),
   height = unit(0.025, "npc"),
   just = c("left", "top"),
@@ -1894,9 +1403,108 @@ grid.rect(
 )
 ```
 
-We have earlier seen the age distribution by gender through the population pyramid.
+## The Code for Regional Population
 
-To visualize the population counts in different regions a scatterplot was produced which shows the population across the five regions. The coloured dots shows the different gender.
+``` r
+
+# Using groupby() and summarise 
+pop_by_sex<- sg_demo_2024 %>%
+  group_by(Sex, Region_type) %>%
+  summarize(pop_sex = sum(Pop), .groups = "drop")
+
+# Compute the position of labels
+data <- pop_by_sex %>%
+  group_by(Region_type) %>% # Group by Region_type first
+  arrange(desc(Sex)) %>%
+  mutate(prop = pop_sex / sum(pop_sex) * 100) %>% # percentage within each region
+  mutate(ypos = cumsum(prop) - 0.5 * prop) #y-positions for labels within each region
+  
+# Calculate total population per region for ordering
+region_order <- data %>%
+    group_by(Region_type) %>%
+    summarise(total_region_pop = sum(abs(pop_sex))) %>%
+    arrange(total_region_pop) %>%
+    pull(Region_type)
+
+# Order the Region_type factor
+data$Region_type <- factor(data$Region_type, levels = region_order)
+
+# Plot
+ggplot(data, aes(y = Region_type, fill = Sex)) +
+    geom_bar(data = subset(data, Sex == "Males"),
+             aes(x = pop_sex),
+             stat = "identity", fill = "#00BFC4",alpha = 0.8) +
+    geom_label(data = subset(data, Sex == "Males"),
+               aes(x = pop_sex,
+                   label = paste0(format(pop_sex, 
+                                         scientific = FALSE, big.mark = ","))),
+                hjust = 0.5, nudge_x = -0.1 * max(abs(data$pop_sex)), 
+               size = 3, color = "black", fill = "grey90") +
+    geom_bar(data = subset(data, Sex == "Females"),
+             aes(x = -pop_sex),
+             stat = "identity", fill = "#F8766D",alpha = 0.8) +
+    geom_label(data = subset(data, Sex == "Females"),
+               aes(x = -pop_sex,
+                   label = paste0(format(abs(pop_sex), 
+                                         scientific = FALSE, big.mark = ","))),
+                hjust = 0.5, nudge_x = 0.1 * max(abs(data$pop_sex)), 
+               size = 3, color = "black", fill = "grey90") +
+scale_x_continuous(
+    breaks = breaks_pretty(10),
+    labels = function(x) scales::comma(abs(x) / 1000, suffix = "K")
+)+
+    annotate(
+        geom = "label",
+        x = -max(abs(data$pop_sex)) * 1,
+        y = length(unique(data$Region_type)) + 0.8,
+        label = "Females",
+        fill = "#F8766D",
+        alpha = 0.8,
+        color = "black",
+        label.size = 0,
+        label.padding = unit(0.2, "lines"),
+        hjust=-0.8
+    )   +
+    annotate(
+        geom = "label",
+        x = max(abs(data$pop_sex)) * 1,
+        y = length(unique(data$Region_type)) + 0.8,
+        label = "Males",
+        fill = "#00BFC4",
+        alpha = 0.8,
+        color = "black",
+        label.size = 0,
+        label.padding = unit(0.2, "lines"),
+        hjust=2.5
+    ) +
+    scale_y_discrete(expand = expansion(mult = c(0, 0.3))) +
+    theme_bw() + # Using a clean theme
+    theme(axis.text = element_text(colour = "black"),
+          plot.title = element_text(lineheight = 0.8),
+          panel.grid.major.y = element_blank(), # Remove horizontal grid lines
+          panel.grid.minor = element_blank(),
+          legend.position = "none") +
+    labs(y = "Region", x = "Population", fill = "Sex")+
+  plot_annotation(title = "Singapore Resident Population for 2024, by Region",
+                  subtitle="Relative to other regions, the North-East Region is the region with the most residents, followed closely by the Central Region.",
+                  caption = "NER: North-East Region; CR: Central Region; WR: West Region; ER: East Region; NR: North Region
+
+. \n Data Source: Department of Statistics, Singapore | Designer: AT",
+                  theme = theme(plot.title = element_text(face = "bold", hjust = 0.16), 
+                  plot.subtitle = element_text(size=8, hjust = 0.6),
+                  plot.background = element_rect(fill = "#C1D3E5"),
+                  plot.caption=element_text(size=8)))
+
+grid.rect(
+  x = unit(0, "npc"),  
+  y = unit(1, "npc"),  
+  width = unit(0.05, "npc"),
+  height = unit(0.025, "npc"),
+  just = c("left", "top"),
+  gp = gpar(fill = "#e5001c", lwd = 0)
+)
+```
+:::
 
 ::::: {.card .text-black .bg-light-purple .mb-3}
 ::: {.card-header style="font-size: 1.5em; display: flex;"}
@@ -1904,42 +1512,354 @@ To visualize the population counts in different regions a scatterplot was produc
 :::
 
 ::: card-body
-#### **What is the regional distribution from the scatterplot?** {.card-title}
+#### **What is the regional-gender population distribution?** {.card-title}
 
--   **Regional population distribution**
+-   Most residents are clustered in NER, CR, and WR. A smaller segment in ER and NR.
 
-The regions are NER: North-East, CR: Central, WR: West, ER: East, NR: North). Most residents are clustered in NER (23%), CR (23%), and WR (22%), a smaller segment are in ER (17%) and NR (14%). Perhaps because these areas are near the Central Business Districts, Shopping Districts, and also close to popular educational institutions.
-
--   **Regional gender distribution/ structure**
-
-There is a rather even distribution of males to females in each region as seen by the female and male hue colours as close to each other.
-
-Across different ages, a wider gap between the population count for both genders was observed for NER, CR, and WR as compared to ER and NR.
-
-The shape of the distribution across different regions are very similar, with ER and NR having a flatter shape, relative to the other three regions.
-
--   The population rises from age 0 to 35, stagnates around age 35 to 60, then dips after that. There is an overall decline in the population as the age increases which is a reality in life.
-
--   Around the ages of 0 to 30, the population of female vs males are close.
-
--   A large group of the population are around the ages of 30 to 60. Suggesting an ageing population.
-
--   After age 75, there is usually a larger gap between the higher females compared to males population. This is stark for over 90 years of age. Suggesting higher longevity for females.
+-   Closely even distribution of genders per region seen by colours and values.
 :::
 :::::
 
-## 9.3 Raincloud plot
+*NER: North-East Region; CR: Central Region; WR: West Region; ER: East Region; NR: North Region*
 
-```{r, echo=FALSE}
-combined<- (rcp1+ rcp2) +
+## 8.3 Region-Age-Gender Distribution
+
+::: panel-tabset
+## Code for the creation of age labels
+
+```{r}
+# Creation of age labels
+age_labels <-
+  tibble(
+    Age_type = c(
+      "0-4",
+      "5-9",
+      "10-14",
+      "15-19",
+      "20-24",
+      "25-29",
+      "30-34",
+      "35-39",
+      "40-44",
+      "45-49",
+      "50-54",
+      "55-59",
+      "60-64",
+      "65-69",
+      "70-74",
+      "75-79",
+      "80-84",
+      "85-89",
+      "90 & Over"
+    )
+  ) |>
+  mutate(
+    Age_type = fct_inorder(Age_type)
+  )
+
+
+```
+
+## Code for the creation of each region's dataframe
+
+```{r}
+library(tidyverse)
+library(scales)
+library(patchwork) # If you're combining the plots
+
+# Using groupby() and summarise 
+pop_ner <- pop_by_gender_age %>%
+  filter(Region_type == "NER") %>%
+  group_by(Sex, Age_Type_Ordered) %>%
+  summarize(pop_sex = sum(total_pop), .groups = "drop")
+
+# Using groupby() and summarise 
+pop_er <- pop_by_gender_age %>%
+  filter(Region_type == "ER") %>%
+  group_by(Sex, Age_Type_Ordered) %>%
+  summarize(pop_sex = sum(total_pop), .groups = "drop")
+
+# Using groupby() and summarise 
+pop_wr <- pop_by_gender_age %>%
+  filter(Region_type == "WR") %>%
+  group_by(Sex, Age_Type_Ordered) %>%
+  summarize(pop_sex = sum(total_pop), .groups = "drop")
+
+# Using groupby() and summarise 
+pop_cr <- pop_by_gender_age %>%
+  filter(Region_type == "CR") %>%
+  group_by(Sex, Age_Type_Ordered) %>%
+  summarize(pop_sex = sum(total_pop), .groups = "drop")
+
+# Using groupby() and summarise 
+pop_nr <- pop_by_gender_age %>%
+  filter(Region_type == "NR") %>%
+  group_by(Sex, Age_Type_Ordered) %>%
+  summarize(pop_sex = sum(total_pop), .groups = "drop")
+```
+
+## North Region
+
+```{r}
+# Initial plot
+pop_nr <-
+  pop_nr |>
+  mutate(pop_sex = if_else(Sex == "Males", pop_sex, -pop_sex))
+
+# One women plot
+population_pyramid_women <-
+  pop_nr |>
+  filter(Sex == "Females") |>
+  ggplot(aes(
+    x = -pop_sex,
+    y = Age_Type_Ordered
+  )) +
+  geom_col(fill = "#F8766D",alpha=0.8, width=0.7) +
+# Add Labelling  
+    geom_label(
+               aes(x = -pop_sex,
+                    label = paste0(format(pop_sex / 1000, 
+                                          scientific = FALSE, digits = 2, trim = TRUE), "K")
+    ),
+                hjust = 0.8, nudge_x = -0.1 * max(abs(pop_nr$pop_sex)), 
+               size = 2.6, color = "black", fill = "grey90") +
+# Annotations
+  annotate(
+    geom = "label",
+    x = -25000,
+    y = 19,
+    label = "Females",
+    fill = "#F8766D",
+    color = "black",
+    alpha=0.8,
+    label.size = 0,
+    label.padding = unit(0.3, "lines")
+  ) +
+  scale_x_continuous(breaks = seq(-50000, 0, by = 10000),
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"),
+    limits = c(-50000,0) # Extend to the left for females
+  ) +
+  
+  theme_void()+
+  theme(
+    axis.text.x = element_text(size=8,margin = margin(t = 10)),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
+
+
+# One men plot
+population_pyramid_men <-
+  pop_nr |>
+  filter(Sex == "Males") |>
+  ggplot(aes(
+    x = pop_sex,
+    y = Age_Type_Ordered
+  )) +
+  geom_col(fill = "#00BFC4",alpha=0.8, width=0.7)+
+  # Add Labelling  
+    geom_label(
+               aes(x = pop_sex,
+               label = paste0(format(pop_sex / 1000,
+                                      scientific = FALSE,
+                                      digits = 2,
+                                      trim = TRUE), "K")),
+    nudge_x = ifelse(subset(pop_nr, Sex == "Males")$Age_Type_Ordered %in% c("90 & Over", "85-89"),
+                     0.15 * max(abs(pop_nr$pop_sex)), # those less than 1K 
+                     0.15 * max(abs(pop_nr$pop_sex))), # others
+               size = 2.6, color = "black", fill = "grey90") +
+  #Annotations
+  annotate(
+    geom = "label",
+    x = 25000,
+    y = 19,
+    label = "Males",
+    fill = "#00BFC4",
+    alpha=0.8,
+    color = "black",
+    label.size = 0,
+    label.padding = unit(0.3, "lines")
+  ) +
+  scale_x_continuous(breaks = seq(0, 50000, by = 10000),
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"),
+    limits = c(0, 50000) # Extend to the right for males
+  ) +
+scale_y_discrete()+
+  theme_void()+
+  theme(
+    axis.text.x = element_text(size=8, margin = margin(t = 10)),
+    panel.grid.major.x = element_line(color = "grey90")
+    )
+  
+
+# Plot age plot
+age_labels_plot <-
+  age_labels |>
+  ggplot(
+    aes(
+      x = 1,
+      y = Age_type,
+      label = Age_type
+    )
+  ) +
+  geom_text(size=3) +
+  theme_void()+
+  ggtitle("Age Group\n(Years)")+
+  theme(plot.title = element_text(hjust = 0.5, vjust = 2, size=6,
+                                  face = "bold", color = "black"))
+
+
+p15<-population_pyramid_women +
+  age_labels_plot +
+  population_pyramid_men +
+  plot_layout(
+    widths = c(10, 1.8, 10))+ # both sides are x times the age_label_plot
   plot_annotation(
-    caption = "Source: Department of Statistics, Singapore | Designer: AT")
+    title = "Age Pyramid of Resident in North Region, 2024", 
+    subtitle="Within the region, large number of these residents are aged 25-64",
+    caption = "Data Source: Department of Statistics, Singapore | Designer: AT",
+    theme = theme(plot.title = element_text(size=12, face = "bold", hjust = 0.1), 
+                  plot.caption=element_text(size=5),
+                  plot.subtitle = element_text(hjust = 0.08),
+                  plot.background = element_rect(fill = "#C1D3E5"),
+                  plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm")))
 
-plot(combined)
+plot(p15)
 
 grid.rect(
-  x = unit(0 +0.01, "npc"),  
-  y = unit(1 -0.02, "npc"),  
+  x = unit(0, "npc"),  
+  y = unit(1, "npc"),  
+  width = unit(0.05, "npc"),
+  height = unit(0.025, "npc"),
+  just = c("left", "top"),
+  gp = gpar(fill = "#e5001c", lwd = 0)
+)
+
+```
+
+## East Region
+
+```{r}
+library(tidyverse)
+library(scales)
+library(patchwork)
+library(grid)
+
+# --- Plot for East Region (pop_er) ---
+# Initial plot
+pop_er <-
+  pop_er |>
+  mutate(pop_sex = if_else(Sex == "Males", pop_sex, -pop_sex))
+
+population_pyramid_women_er <-
+  pop_er |>
+  filter(Sex == "Females") |>
+  ggplot(aes(
+    x = -pop_sex,
+    y = Age_Type_Ordered
+  )) +
+  geom_col(fill = "#F8766D", alpha = 0.8, width = 0.7) +
+  geom_label(
+    aes(x = -pop_sex,
+        label = paste0(format(pop_sex / 1000,
+                             scientific = FALSE, digits = 2, trim = TRUE), "K")),
+    hjust = 0.7, nudge_x = -0.1 * max(abs(pop_er$pop_sex)),
+    size = 2.6, color = "black", fill = "grey90"
+  ) +
+  annotate(
+    geom = "label",
+    x = -25000,
+    y = 19,
+    label = "Females",
+    fill = "#F8766D",
+    color = "black",
+    alpha = 0.8,
+    label.size = 0,
+    label.padding = unit(0.3, "lines")
+  )   +
+  scale_x_continuous(breaks = seq(-50000, 0, by = 10000),
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"),
+    limits = c(-50000,0) # Extend to the left for females
+  ) +
+  theme_void() +
+  theme(
+    axis.text.x = element_text(size = 8, margin = margin(t = 10)),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
+
+population_pyramid_men_er <-
+  pop_er |>
+  filter(Sex == "Males") |>
+  ggplot(aes(
+    x = pop_sex,
+    y = Age_Type_Ordered
+  )) +
+  geom_col(fill = "#00BFC4", alpha = 0.8, width = 0.7) +
+  geom_label(
+    aes(x = pop_sex,
+        label = paste0(format(pop_sex / 1000,
+                             scientific = FALSE, digits = 2, trim = TRUE), "K")),
+    nudge_x = ifelse(subset(pop_er, Sex == "Males")$Age_Type_Ordered %in% c("90 & Over", "85-89"),
+                     0.13 * max(abs(pop_er$pop_sex)),
+                     0.13 * max(abs(pop_er$pop_sex))),
+    size = 2.6, color = "black", fill = "grey90"
+  ) +
+  annotate(
+    geom = "label",
+    x = 25000,
+    y = 19,
+    label = "Males",
+    fill = "#00BFC4",
+    color = "black",
+    alpha = 0.8,
+    label.size = 0,
+    label.padding = unit(0.3, "lines")
+  ) +
+  scale_x_continuous(breaks = seq(0, 50000, by = 10000),
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"),
+    limits = c(0, 50000) # Extend to the right for males
+  ) +
+  scale_y_discrete() +
+  theme_void() +
+  theme(
+    axis.text.x = element_text(size = 8, margin = margin(t = 10)),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
+
+age_labels_plot <- # Assuming this is already defined
+  age_labels |>
+  ggplot(
+    aes(
+      x = 1,
+      y = Age_type,
+      label = Age_type
+    )
+  ) +
+  geom_text(size = 3) +
+  theme_void() +
+  ggtitle("Age Group\n(Years)") +
+  theme(plot.title = element_text(hjust = 0.5, vjust = 2, size = 6,
+                                  face = "bold", color = "black"))
+
+p_er <- population_pyramid_women_er +
+  age_labels_plot +
+  population_pyramid_men_er +
+  plot_layout(
+    widths = c(10, 1.8, 10)) + # both sides are x times the age_label_plot
+  plot_annotation(
+    title = "Age Pyramid of Resident in East Region, 2024",
+    subtitle = "Within the region, large number of these residents are aged 25-69",
+    caption = "Data Source: Department of Statistics, Singapore | Designer: AT",
+    theme = theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.1),
+                  plot.caption = element_text(size = 5),
+                  plot.subtitle = element_text(hjust = 0.08),
+                  plot.background = element_rect(fill = "#C1D3E5"),
+                  plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm")))
+
+plot(p_er)
+
+grid.rect(
+  x = unit(0, "npc"),
+  y = unit(1, "npc"),
   width = unit(0.05, "npc"),
   height = unit(0.025, "npc"),
   just = c("left", "top"),
@@ -1947,35 +1867,442 @@ grid.rect(
 )
 ```
 
-Compared to the earlier scatterplots, this chart integrates the density, summary statistics, and raw data into a single, compact visualization for each group (gender or region).
+## West Region
 
-The charts above show `weighted_population` on the x-axis and `Region_type` or `Sex` on the y-axis. The `weighted_population` on the x-axis represents the total absolute population count for each specific combination of `Age_type`, `Region_type`, and `Sex`.
+```{r}
+# --- Plot for West Region (pop_wr) ---
+# Initial plot
+pop_wr <-
+  pop_wr |>
+  mutate(pop_sex = if_else(Sex == "Males", pop_sex, -pop_sex))
 
-The y-axis of the `stat_halfeye()` component does NOT represent the population count, it represents the probability density of the `weighted_population` values within each level of the grouping variable on the y-axis (which is `Region_type` or `Sex)`.
+population_pyramid_women_wr <-
+  pop_wr |>
+  filter(Sex == "Females") |>
+  ggplot(aes(
+    x = -pop_sex,
+    y = Age_Type_Ordered
+  )) +
+  geom_col(fill = "#F8766D", alpha = 0.8, width = 0.7) +
+  geom_label(
+    aes(x = -pop_sex,
+        label = paste0(format(pop_sex / 1000,
+                             scientific = FALSE, digits = 2, trim = TRUE), "K")),
+    hjust = 0.5, nudge_x = -0.1 * max(abs(pop_wr$pop_sex)),
+    size = 2.6, color = "black", fill = "grey90"
+  ) +
+  annotate(
+    geom = "label",
+    x = -25000,
+    y = 19,
+    label = "Females",
+    fill = "#F8766D",
+    color = "black",
+    alpha = 0.8,
+    label.size = 0,
+    label.padding = unit(0.3, "lines")
+  )   +
+  scale_x_continuous(breaks = seq(-50000, 0, by = 10000),
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"),
+    limits = c(-50000,0) # Extend to the left for females
+  ) +
+  theme_void() +
+  theme(
+    axis.text.x = element_text(size = 8, margin = margin(t = 10)),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
 
-**Stat halfeye:**
+population_pyramid_men_wr <-
+  pop_wr |>
+  filter(Sex == "Males") |>
+  ggplot(aes(
+    x = pop_sex,
+    y = Age_Type_Ordered
+  )) +
+  geom_col(fill = "#00BFC4", alpha = 0.8, width = 0.7) +
+  geom_label(
+    aes(x = pop_sex,
+        label = paste0(format(pop_sex / 1000,
+                             scientific = FALSE, digits = 2, trim = TRUE), "K")),
+    nudge_x = ifelse(subset(pop_wr, Sex == "Males")$Age_Type_Ordered %in% c("90 & Over", "85-89"),
+                     0.11 * max(abs(pop_wr$pop_sex)),
+                     0.11 * max(abs(pop_wr$pop_sex))),
+    size = 2.6, color = "black", fill = "grey90"
+  ) +
+  annotate(
+    geom = "label",
+    x = 25000,
+    y = 19,
+    label = "Males",
+    fill = "#00BFC4",
+    color = "black",
+    alpha = 0.8,
+    label.size = 0,
+    label.padding = unit(0.3, "lines")
+  ) +
+  scale_x_continuous(breaks = seq(0, 50000, by = 10000),
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"),
+    limits = c(0, 50000) # Extend to the right for males
+  ) +
+  scale_y_discrete() +
+  theme_void() +
+  theme(
+    axis.text.x = element_text(size = 8, margin = margin(t = 10)),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
 
-The shape shows the distribution of the weighted population values per region or gender:
+age_labels_plot <- # Assuming this is already defined
+  age_labels |>
+  ggplot(
+    aes(
+      x = 1,
+      y = Age_type,
+      label = Age_type
+    )
+  ) +
+  geom_text(size = 3) +
+  theme_void() +
+  ggtitle("Age Group\n(Years)") +
+  theme(plot.title = element_text(hjust = 0.5, vjust = 2, size = 6,
+                                  face = "bold", color = "black"))
 
--   **Peaks:** Higher probability that many age-gender combination in that region have a total population around the x-axis value, opposite is true for troughs.
+p_wr <- population_pyramid_women_wr +
+  age_labels_plot +
+  population_pyramid_men_wr +
+  plot_layout(
+    widths = c(10, 1.8, 10)) + # both sides are x times the age_label_plot
+  plot_annotation(
+    title = "Age Pyramid of Resident in West Region, 2024",
+    subtitle = "Within the region, large number of these residents are aged 25-69",
+    caption = "Data Source: Department of Statistics, Singapore | Designer: AT",
+    theme = theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.1),
+                  plot.caption = element_text(size = 5),
+                  plot.subtitle = element_text(hjust = 0.08),
+                  plot.background = element_rect(fill = "#C1D3E5"),
+                  plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm")))
 
-    -   **Peaks towards the right (left):** concentrated at higher (lower) values.
+plot(p_wr)
 
--   **Spread:** A wider distribution indicates greater differences in population sizes between age groups.
+grid.rect(
+  x = unit(0, "npc"),
+  y = unit(1, "npc"),
+  width = unit(0.05, "npc"),
+  height = unit(0.025, "npc"),
+  just = c("left", "top"),
+  gp = gpar(fill = "#e5001c", lwd = 0)
+)
 
-    -   **A wide (narrow) distribution:** greater (smaller) diversity in the weighted population values within that region/ gender, with significant individuals having both higher and lower (similar clustered) weighted populations.
+```
 
-**Boxplot:**
+## Central Region
 
--   Comparing the **medians** (the lines inside the boxes) across different `Region_type` levels, to see which regions tend to have higher or lower typical weighted populations.
+```{r}
+# --- Plot for Central Region (pop_cr) ---
+# Initial plot
+pop_cr <-
+  pop_cr |>
+  mutate(pop_sex = if_else(Sex == "Males", pop_sex, -pop_sex))
 
--   Comparing the **lengths of the boxes (IQR)**, to see which regions have more or less variability in their middle 50% of weighted population values.
 
--   Looking at the **whiskers**, a sense of the overall range of weighted population values per region can be determined.
+population_pyramid_women_cr <-
+  pop_cr |>
+  filter(Sex == "Females") |>
+  ggplot(aes(
+    x = -pop_sex,
+    y = Age_Type_Ordered
+  )) +
+  geom_col(fill = "#F8766D", alpha = 0.8, width = 0.7) +
+  geom_label(
+    aes(x = -pop_sex,
+        label = paste0(format(pop_sex / 1000,
+                             scientific = FALSE, digits = 2, trim = TRUE), "K")),
+    hjust = 0.5, nudge_x = -0.1 * max(abs(pop_cr$pop_sex)),
+    size = 2.6, color = "black", fill = "grey90"
+  ) +
+  annotate(
+    geom = "label",
+    x = -30000,
+    y = 19,
+    label = "Females",
+    fill = "#F8766D",
+    color = "black",
+    alpha = 0.8,
+    label.size = 0,
+    label.padding = unit(0.3, "lines")
+  ) +
+  scale_x_continuous(breaks = breaks_pretty(4),
+                     labels = function(x) scales::comma(abs(x) / 1000, suffix = "K"),
+                     limits = c(-max(abs(pop_cr$pop_sex)) * 1.3, 0)) +
+  theme_void() +
+  theme(
+    axis.text.x = element_text(size = 8, margin = margin(t = 10)),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
 
-**Raindrop:**
+population_pyramid_men_cr <-
+  pop_cr |>
+  filter(Sex == "Males") |>
+  ggplot(aes(
+    x = pop_sex,
+    y = Age_Type_Ordered
+  )) +
+  geom_col(fill = "#00BFC4", alpha = 0.8, width = 0.7) +
+  geom_label(
+    aes(x = pop_sex,
+        label = paste0(format(pop_sex / 1000,
+                             scientific = FALSE, digits = 2, trim = TRUE), "K")),
+    nudge_x = ifelse(subset(pop_cr, Sex == "Males")$Age_Type_Ordered %in% c("90 & Over", "85-89"),
+                     0.09 * max(abs(pop_cr$pop_sex)),
+                     0.09 * max(abs(pop_cr$pop_sex))),
+    size = 2.6, color = "black", fill = "grey90"
+  ) +
+  annotate(
+    geom = "label",
+    x = 30000,
+    y = 19,
+    label = "Males",
+    fill = "#00BFC4",
+    color = "black",
+    alpha = 0.8,
+    label.size = 0,
+    label.padding = unit(0.3, "lines")
+  ) +
+  scale_x_continuous(breaks = breaks_pretty(4),
+                     labels = function(x) scales::comma(abs(x) / 1000, suffix = "K"),
+                     limits = c(0, max(abs(pop_cr$pop_sex)) * 1.3)) +
+  scale_y_discrete() +
+  theme_void() +
+  theme(
+    axis.text.x = element_text(size = 8, margin = margin(t = 10)),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
 
--   The outlier raindrops indicate specific age/gender within a region that have exceptionally high or low total populations compared to the majority within that region.
+age_labels_plot <- # Assuming this is already defined
+  age_labels |>
+  ggplot(
+    aes(
+      x = 1,
+      y = Age_type,
+      label = Age_type
+    )
+  ) +
+  geom_text(size = 3) +
+  theme_void() +
+  ggtitle("Age Group\n(Years)") +
+  theme(plot.title = element_text(hjust = 0.5, vjust = 2, size = 6,
+                                  face = "bold", color = "black"))
+
+p_cr <- population_pyramid_women_cr +
+  age_labels_plot +
+  population_pyramid_men_cr +
+  plot_layout(
+    widths = c(10, 1.8, 10)) + # both sides are x times the age_label_plot
+  plot_annotation(
+    title = "Age Pyramid of Resident in Central Region, 2024",
+    subtitle = "Within the region, large number of these residents are aged 30-69",
+    caption = "Data Source: Department of Statistics, Singapore | Designer: AT",
+    theme = theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.1),
+                  plot.caption = element_text(size = 5),
+                  plot.subtitle = element_text(hjust = 0.08),
+                  plot.background = element_rect(fill = "#C1D3E5"),
+                  plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm")))
+
+plot(p_cr)
+
+grid.rect(
+  x = unit(0, "npc"),
+  y = unit(1, "npc"),
+  width = unit(0.05, "npc"),
+  height = unit(0.025, "npc"),
+  just = c("left", "top"),
+  gp = gpar(fill = "#e5001c", lwd = 0)
+)
+
+```
+
+## North East Region
+
+```{r}
+# --- Plot for North East Region (pop_ner) ---
+# Initial plot
+pop_ner <-
+  pop_ner |>
+  mutate(pop_sex = if_else(Sex == "Males", pop_sex, -pop_sex))
+
+
+population_pyramid_women_ner <-
+  pop_ner |>
+  filter(Sex == "Females") |>
+  ggplot(aes(
+    x = -pop_sex,
+    y = Age_Type_Ordered
+  )) +
+  geom_col(fill = "#F8766D", alpha = 0.8, width = 0.7) +
+  geom_label(
+    aes(x = -pop_sex,
+        label = paste0(format(pop_sex / 1000,
+                             scientific = FALSE, digits = 2, trim = TRUE), "K")),
+    hjust = 0.5, nudge_x = -0.1 * max(abs(pop_ner$pop_sex)),
+    size = 2.6, color = "black", fill = "grey90"
+  ) +
+  annotate(
+    geom = "label",
+    x = -30000,
+    y = 19,
+    label = "Females",
+    fill = "#F8766D",
+    color = "black",
+    alpha = 0.8,
+    label.size = 0,
+    label.padding = unit(0.3, "lines")
+  )  +
+  scale_x_continuous(breaks = seq(-50000, 0, by = 10000),
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"),
+    limits = c(-50000,0) # Extend to the left for females
+  ) +
+  theme_void() +
+  theme(
+    axis.text.x = element_text(size = 8, margin = margin(t = 10)),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
+
+population_pyramid_men_ner <-
+  pop_ner |>
+  filter(Sex == "Males") |>
+  ggplot(aes(
+    x = pop_sex,
+    y = Age_Type_Ordered
+  )) +
+  geom_col(fill = "#00BFC4", alpha = 0.8, width = 0.7) +
+  geom_label(
+    aes(x = pop_sex,
+        label = paste0(format(pop_sex / 1000,
+                             scientific = FALSE, digits = 2, trim = TRUE), "K")),
+    nudge_x = ifelse(subset(pop_ner, Sex == "Males")$Age_Type_Ordered %in% c("90 & Over", "85-89"),
+                     0.08 * max(abs(pop_ner$pop_sex)),
+                     0.08 * max(abs(pop_ner$pop_sex))),
+    size = 2.6, color = "black", fill = "grey90"
+  ) +
+  annotate(
+    geom = "label",
+    x = 30000,
+    y = 19,
+    label = "Males",
+    fill = "#00BFC4",
+    color = "black",
+    alpha = 0.8,
+    label.size = 0,
+    label.padding = unit(0.3, "lines")
+  )   +
+  scale_x_continuous(breaks = seq(0, 50000, by = 10000),
+                     labels=function(x) scales::comma(abs(x)/ 1000, suffix = "K"),
+    limits = c(0, 50000) # Extend to the right for males
+  ) +
+  scale_y_discrete() +
+  theme_void() +
+  theme(
+    axis.text.x = element_text(size = 8, margin = margin(t = 10)),
+    panel.grid.major.x = element_line(color = "grey90")
+  )
+
+age_labels_plot <- # Assuming this is already defined
+  age_labels |>
+  ggplot(
+    aes(
+      x = 1,
+      y = Age_type,
+      label = Age_type
+    )
+  ) +
+  geom_text(size = 3) +
+  theme_void() +
+  ggtitle("Age Group\n(Years)") +
+  theme(plot.title = element_text(hjust = 0.5, vjust = 2, size = 6,
+                                  face = "bold", color = "black"))
+
+p_ner <- population_pyramid_women_ner +
+  age_labels_plot +
+  population_pyramid_men_ner +
+  plot_layout(
+    widths = c(10, 1.8, 10)) + # both sides are x times the age_label_plot
+  plot_annotation(
+    title = "Age Pyramid of Resident in North-East Region, 2024",
+    subtitle = "Within the region, large number of these residents are aged 30-69",
+    caption = "Data Source: Department of Statistics, Singapore | Designer: AT",
+    theme = theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.1),
+                  plot.caption = element_text(size = 5),
+                  plot.subtitle = element_text(hjust = 0.08),
+                  plot.background = element_rect(fill = "#C1D3E5"),
+                  plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm")))
+
+plot(p_ner)
+
+grid.rect(
+  x = unit(0, "npc"),
+  y = unit(1, "npc"),
+  width = unit(0.05, "npc"),
+  height = unit(0.025, "npc"),
+  just = c("left", "top"),
+  gp = gpar(fill = "#e5001c", lwd = 0)
+)
+```
+
+## The Final Combined Plot
+
+```{r}
+# 2. Save the individual plots as image files
+ggsave("p_nr.png", p15, width = 8, height = 6, units = "in", dpi = 300)
+ggsave("p_er.png", p_er, width = 8, height = 6, units = "in", dpi = 300)
+ggsave("p_wr.png", p_wr, width = 8, height = 6, units = "in", dpi = 300)
+ggsave("p_ner.png", p_ner, width = 8, height = 6, units = "in", dpi = 300)
+ggsave("p_cr.png", p_cr, width = 8, height = 6, units = "in", dpi = 300)
+
+
+# 3. Read the image files using magick
+image_nr <- image_read("p_nr.png")
+image_er <- image_read("p_er.png")
+image_wr <- image_read("p_wr.png")
+image_ner <- image_read("p_ner.png")
+image_cr <- image_read("p_cr.png")
+
+
+# 4. Ensure consistent height and width for horizontal appending
+target_width = 10000
+target_height = 8000
+image_nr <- image_scale(image_nr, geometry = paste0(target_width, "x", target_height))
+image_er <- image_scale(image_er, geometry = paste0(target_width, "x", target_height))
+image_wr <- image_scale(image_wr, geometry = paste0(target_width, "x", target_height))
+image_ner <- image_scale(image_ner, geometry = paste0(target_width, "x", target_height))
+image_cr <- image_scale(image_cr, geometry = paste0(target_width, "x", target_height))
+
+# 5. Create the rows
+row1 <- image_append(c(image_nr, image_er), stack = FALSE)
+row2 <- image_append(c(image_wr, image_ner), stack = FALSE)
+row3 <- image_append(c(image_cr), stack = FALSE)
+
+
+# 6. Stack the rows vertically
+combined_image <- image_append(c(row1, row2, row3), stack = TRUE)
+
+# 7. Add a main title
+combined_image_with_title <- image_annotate(
+  combined_image,
+  "Age Pyramids of Resident Population in Singapore Regions, 2024",
+  size = 24,
+  color = "black",
+  boxcolor = "white",
+  font = "sans",
+  gravity = "north"
+)
+
+# 8. Save the combined image
+image_write(combined_image_with_title, "combined_pyramids_2x3.png")
+
+# 9. Optionally display the combined image in R
+print(combined_image_with_title)
+
+```
+:::
 
 ::::: {.card .text-black .bg-light-purple .mb-3}
 ::: {.card-header style="font-size: 1.5em; display: flex;"}
@@ -1983,66 +2310,58 @@ The shape shows the distribution of the weighted population values per region or
 :::
 
 ::: card-body
-#### **What are the Density, Statistics, Outliers?** {.card-title}
+#### **Gender, Age and Regional Distributions** {.card-title}
 
-**Density**:
+-   Wider distribution suggests greater diversity in the population per gender/ region:
 
--   Females have a wider distribution than Males for CR, NER, WR. Regions NER, followed by CR, then WR have a wider distribution than ER and NR. This suggestsgreater diversity in the weighted population values within Females or NER, CR, WR, with significant points having both higher and lower weighted populations.
+    -   Females have significantly wider distributions than Males for NER, CR, WR.
 
--   With that also comes greater variability in the weighted population values.
+    -   Regions NER, CR, WR have wider distributions than ER and NR.
 
--   Highest peaks nearing 40,000 for WR and CR, suggesting higher probability that many age-gender combination in those regions have a total population around the x-axis value. NER, NR and ER have highest peaks around 30,000.
+-   Across ages, wider gap between both genders' population count observed for NER, CR, and WR, compared to ER and NR.
 
-**Statistics**:
+-   A rising trend from age 0- 35, plateauing around age 35- 60, then dips.
 
--   Looking at the median, WR, CR, NER (Females) and WR, NER, CR (Males), tend to have higher weighted populations. Median is similar between genders in each region.
+-   Around the ages of 0- 30, the population values between genders are close.
 
-**Outliers:**
+-   A large population around age 30- 60 suggests an older population.
 
--   Potential outliers observed for NER (both genders), WR males, ER males.
+-   After age 75, a wider population gap is observed between the higher females compared to males. This is stark for "over-90-years" (especially for CR), suggesting longevity for older females.
+
+-   Distribution shape for (NER and CR), and (NR, ER, WR) are similar.
 :::
 :::::
 
-# 10. Summary and Future Research
+# 9. Summary and Future Research
 
-## 10.1 Summary
+## 9.1 Summary
 
-Based on the exploratory data analysis (EDA) done above, we can conclude the following about the demographic distribution and structure of Singapore in 2024:
+Based on the EDA above, we can conclude the following about the demographic distribution and structure of Singapore in 2024:
 
 1.  **Age and Gender Distribution:** The population pyramid displays age-group variation in population. There is an ageing population with residents at a median age of 42. There are lesser younger and elderly from low birth rates and decline due to old-age mortality. There were increasingly more Females compared to Males as the age-group increases, suggesting Females outliving Males which corroborates with general biological and behavioural reasons.
 
-2.  **Gender and Region Distribution**: There is a rather even distribution of males to females in each region. Also, most residents are clustered in NER, CR and WR. Across different ages, a wider gap between the population count for both genders was observed for NER, CR, and WR as compared to ER and NR. The shape of the distribution across different regions are very similar, with ER and NR having a flatter shape, relative to the other three regions.
+2.  **Age and Gender Distribution, for regions**: There is a rather even distribution of genders per region. Also, most residents are clustered in NER, CR and WR. Across different ages, a wider gap between the population count for both genders was observed for NER, CR, and WR as compared to ER and NR. The distribution shape for NER and CR are similar.
 
-3.  **Region, Gender and Age Distribution**: Females have a wider distribution than Males for CR, NER, WR.
-
-    Regions NER, followed by CR, then WR have a wider distribution than ER and NR. This suggestsgreater diversity in the weighted population values within Females or NER, CR, WR, with significant points having both higher and lower weighted populations.
-
-    Highest peaks nearing 40,000 for WR and CR, suggesting higher probability that many age-gender combination in those regions have a total population around the x-axis value. NER, NR and ER have highest peaks around 30,000.
-
-    With that also comes greater variability in the weighted population values.
-
-    Highest peaks nearing 40,000 for WR and CR, suggesting higher probability that many age-gender combination in those regions have a total population around the x-axis value. NER, NR and ER have highest peaks around 30,000.
-
-## 10.2 Future Research
+## 9.2 Future Research
 
 -   Further research can be done on the regions where the labour force (age 15 and over) reside in. This might be useful for urban planning of offices.
 
 -   With more data, labour force participation rate per region can be obtained by zooming into the working age groups (15-24, 25-54, 55-64, 65 and over).
 
-# 11. References and inspiration
+# 10. References and inspiration
 
--   Steven P. Sanderson II, MPH (2023)[**Creating Population Pyramid Plots in R with ggplot2**](https://www.r-bloggers.com/2023/09/creating-population-pyramid-plots-in-r-with-ggplot2)
+-   Steven P. Sanderson II, MPH (2023) [**Creating Population Pyramid Plots in R with ggplot2**](https://www.r-bloggers.com/2023/09/creating-population-pyramid-plots-in-r-with-ggplot2)
 
--   David Keyes (2024)[**How to make polished population pyramids in ggplot: part 1**](https://rfortherestofus.com/2024/07/population-pyramid-part-1)
+-   David Keyes (2024) [**How to make polished population pyramids in ggplot: part 1**](https://rfortherestofus.com/2024/07/population-pyramid-part-1)
 
--   Michal Palenik (2024)[**Deomographic Pyramid by Economic Activity Austria 2023**](https://www.iz.sk/en/projects/eu-regions/AT)
+-   Michal Palenik (2024) [**Deomographic Pyramid by Economic Activity Austria 2023**](https://www.iz.sk/en/projects/eu-regions/AT)
 
--   Singstat (2024)[**Population Trends**](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data)
+-   Singstat (2024) [**Population Trends**](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data)
 
--   URA (2025) [**Regional Highlights**](https://www.ura.gov.sg/Corporate/Planning/Master-Plan/Master-Plan-2019/Regional-Highlights) :
+-   URA (2025) [**Regional Highlights**](https://www.ura.gov.sg/Corporate/Planning/Master-Plan/Master-Plan-2019/Regional-Highlights)
 
 -   National Geographic (2023) [**Population Pyramid**](https://education.nationalgeographic.org/resource/population-pyramid/)
 
 -   2travelacrosstime (2023) [**Types of Population Pyramids**](https://2travellingacrosstime.com/2023/08/19/types-of-population-pyramids/)
 
--   Singapore Department of Statistics (2020) [**National Statistical Standards**](https://www.singstat.gov.sg/-/media/files/standards_and_classifications/nsa.ashx):::: ::: :::::
+-   Singapore Department of Statistics (2020) [**National Statistical Standards**](https://www.singstat.gov.sg/-/media/files/standards_and_classifications/nsa.ashx)

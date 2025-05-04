@@ -106,21 +106,14 @@ glimpse(sg_demo_2024)
 
 ## 4.2 Data Dictionary for Variables
 
-+--------------------+----------------+-----------+--------------------------------------------------------+
-| Category           | Column Headers | Type      | Description                                            |
-+====================+================+===========+========================================================+
-| Planning Area      | PA             | CHAR      | 55 area names                                          |
-+--------------------+----------------+-----------+--------------------------------------------------------+
-| Subzone            | SZ             | CHAR      | 332 area names                                         |
-+--------------------+----------------+-----------+--------------------------------------------------------+
-| Single Year of Age | Age            | NUM       | 0 to 90_and_over (in increments of 1)                  |
-+--------------------+----------------+-----------+--------------------------------------------------------+
-| Sex                | Sex            | CHAR      | Males; Females                                         |
-+--------------------+----------------+-----------+--------------------------------------------------------+
-| Resident Count     | Pop            | NUM       | 0 to 1180 (in multiples of 10, with occasional breaks) |
-+--------------------+----------------+-----------+--------------------------------------------------------+
-| Time/Period        | Time           | NUM       | 2024                                                   |
-+--------------------+----------------+-----------+--------------------------------------------------------+
+| Category | Column Headers | Type | Description |
+|----|----|----|----|
+| Planning Area | PA | CHAR | 55 area names |
+| Subzone | SZ | CHAR | 332 area names |
+| Single Year of Age | Age | NUM | 0 to 90_and_over (in increments of 1) |
+| Sex | Sex | CHAR | Males; Females |
+| Resident Count | Pop | NUM | 0 to 1180 (in multiples of 10, with occasional breaks) |
+| Time/Period | Time | NUM | 2024 |
 
 ::: callout-note
 ## Note.
@@ -2340,7 +2333,7 @@ Based on the EDA above, we can conclude the following about the demographic dist
 
 1.  **Age and Gender Distribution:** The population pyramid displays age-group variation in population. There is an ageing population with residents at a median age of 42. There are lesser younger and elderly from low birth rates and decline due to old-age mortality. There were increasingly more Females compared to Males as the age-group increases, suggesting Females outliving Males which corroborates with general biological and behavioural reasons.
 
-2.  **Age and Gender Distribution, for regions**: There is a rather even distribution of genders per region. Also, most residents are clustered in NER, CR and WR. Across different ages, a wider gap between the population count for both genders was observed for NER, CR, and WR as compared to ER and NR. Distribution shape similar within (NER and CR), and (NR, ER, WR). 
+2.  **Age and Gender Distribution, for regions**: There is a rather even distribution of genders per region. Also, most residents are clustered in NER, CR and WR. Across different ages, a wider gap between the population count for both genders was observed for NER, CR, and WR as compared to ER and NR. Distribution shape similar within (NER and CR), and (NR, ER, WR).
 
 ## 9.2 Future Research
 
