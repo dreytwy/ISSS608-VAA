@@ -684,9 +684,7 @@ ggplotly(p4, tooltip = "text")%>%
 
 -   ER and NR have lesser population compared to the other regions, as confirmed in section 6.1.
 
-# 7. Rationalisation and Processing of Exploratory Data Analysis (EDA) before Publishing
-
-Here, the graphical editor visualises, finds insights, plans, and rationalises the appropriate chart for the article in Section 8.
+# 7. Data Preparation and Prototyping
 
 ## 7.1 Population Pyramid
 
