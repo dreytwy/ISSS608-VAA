@@ -8,13 +8,14 @@ project:
     - Hands-on_Ex/Hands-on_Ex03a/Hands-on_Ex03a.qmd
     - Hands-on_Ex/Hands-on_Ex03b/Hands-on_Ex03b.qmd
     - In-class_Ex/In-class_Ex02/In-class_Ex02.qmd
+    - In-class_Ex/In-class_Ex03/In-class_Ex03.qmd
     - Take-home_Ex/Take-home_Ex01/Take-home_Ex01.qmd
   output-dir: _site #for the logo to appear
 
 website:
   favicon: favicon.png
   announcement:
-    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (01 MAY)** - [**Hands-on Exercise 3a**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex03a/Hands-on_Ex03a.html) and [**Hands-on Exercise 3b**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex03b/Hands-on_Ex03b.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> ** (04 May) Take-home Exercise 01is published...**"
+    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (01 MAY)** - [**Hands-on Exercise 3a**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex03a/Hands-on_Ex03a.html) and [**Hands-on Exercise 3b**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex03b/Hands-on_Ex03b.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(04 May)** Take-home Exercise 01 is published!"
     type: warning
     position: below-navbar
   page-navigation: true
@@ -50,6 +51,8 @@ website:
         menu:
           - text: "In-class Exercise 2"        
             href: "In-class_Ex/In-class_Ex02/In-class_Ex02.html"
+          - text: "In-class Exercise 3"        
+            href: "In-class_Ex/In-class_Ex03/In-class_Ex03.html"            
       - text: "Take-home Exercise"
         menu:
           - text: "Take-home Exercise 1"
