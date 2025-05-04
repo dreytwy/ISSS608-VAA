@@ -1,8 +1,16 @@
 ---
-title: "Hands-on_Ex04C"
+title: "4c. Visual Statistical Analysis"
 author: "Audrey Tan"
-date: "24 April 2025"
+date: "4 May 2025"
 date-modified: "last-modified"
+
+format: html
+editor: visual
+execute: 
+  eval: true
+  echo: true
+  warning: false 
+  freeze: true
 ---
 
 # **4C) Visual Statistical Analysis**
@@ -38,7 +46,7 @@ For the purpose of this exercise, the following R packages will be used, they ar
 -   ggdist for visualising distribution and uncertainty.
 
 ```{r}
-pacman::p_load(plotly, crosstalk, DT, 
+pacman::p_load(plotly, crosstalk, DT, magick,
                ggdist, ggridges, colorspace,
                gganimate, tidyverse)
 ```
@@ -74,33 +82,25 @@ my_sum <- exam %>%
   mutate(se=sd/sqrt(n-1))
 ```
 
-::: callout-Things to learn from the code chunk above
--   group_by() of dplyr package is used to group the observation by RACE,
--   summarise() is used to compute the count of observations, mean, standard deviation
--   mutate() is used to derive standard error of Maths by RACE, and
--   the output is save as a tibble data table called my_sum.
-:::
+::: callout-Things to learn from the code chunk above - group_by() of dplyr package is used to group the observation by RACE, - summarise() is used to compute the count of observations, mean, standard deviation - mutate() is used to derive standard error of Maths by RACE, and - the output is save as a tibble data table called my_sum. :::
 
-
-::: callout- note
--   For the mathematical explanation, please refer to Slide 20 of Lesson 4.
-:::
-
+::: callout- note - For the mathematical explanation, please refer to Slide 20 of Lesson 4. :::
 
 Next, the code chunk below will be used to display *my_sum* tibble data frame in an html table format.
 
 ::: panel-tabset
 ## The Code Chunk
-```r
+
+``` r
 knitr::kable(head(my_sum), format = 'html')
 ```
+
 ## The Table
+
 ```{r, echo=FALSE}
 knitr::kable(head(my_sum), format = 'html')
 ```
-
 :::
-
 
 ## 4.3.1 Plotting standard error bars of point estimates
 
@@ -108,6 +108,7 @@ Now we are ready to plot the standard error bars of mean maths score by race as 
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 ggplot(my_sum) +
   geom_errorbar(
@@ -130,7 +131,8 @@ ggplot(my_sum) +
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 ggplot(my_sum) +
   geom_errorbar(
     aes(x=RACE, 
@@ -151,10 +153,7 @@ ggplot(my_sum) +
 ```
 :::
 
-::: callout- Things to learn from the code chunk above
--   The error bars are computed by using the formula mean+/-se.
--   For geom_point(), it is important to indicate stat=“identity”.
-:::
+::: callout- Things to learn from the code chunk above - The error bars are computed by using the formula mean+/-se. - For geom_point(), it is important to indicate stat=“identity”. :::
 
 ## 4.3.2 Plotting confidence interval of point estimates
 
@@ -162,6 +161,7 @@ Instead of plotting the standard error bar of point estimates, we can also plot 
 
 ::: panel-tabset
 ## The Plot
+
 ```{r}
 ggplot(my_sum) +
   geom_errorbar(
@@ -184,7 +184,8 @@ ggplot(my_sum) +
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 ggplot(my_sum) +
   geom_errorbar(
     aes(x=reorder(RACE, -mean), 
@@ -206,11 +207,7 @@ ggplot(my_sum) +
 ```
 :::
 
-::: callout-Things to learn from the code chunk above
--   The confidence intervals are computed by using the formula mean+/-1.96*se.
--   The error bars is sorted by using the average maths scores.
--   labs() argument of ggplot2 is used to change the x-axis label
-:::
+::: callout-Things to learn from the code chunk above - The confidence intervals are computed by using the formula mean+/-1.96\*se. - The error bars is sorted by using the average maths scores. - labs() argument of ggplot2 is used to change the x-axis label :::
 
 ## 4.3.3 Visualizing the uncertainty of point estimates with interactive error bars
 
@@ -218,6 +215,7 @@ In this section, we plot interactive error bars for the 99% confidence interval 
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 shared_df = SharedData$new(my_sum)
 
@@ -266,7 +264,8 @@ bscols(widths = c(4,8),
 ```
 
 ## The Code Chunk
-```r
+
+``` r
 shared_df = SharedData$new(my_sum)
 
 bscols(widths = c(4,8),
@@ -329,7 +328,6 @@ img <- image_read("https://r4va.netlify.app/chap10/img/ggdist.png")
 plot(img)
 ```
 
-
 ### 4.4.1 Visualizing the uncertainty of point estimates: ggdist methods
 
 In the code chunk below, [`stat_pointinterval()`](https://mjskay.github.io/ggdist/reference/stat_pointinterval.html) of **ggdist** is used to build a visual for displaying distribution of maths scores by race.
@@ -369,6 +367,7 @@ exam %>%
 ```
 
 ## 4.4.2 Visualizing the uncertainty of point estimates: ggdist methods
+
 ```{r}
 exam %>%
   ggplot(aes(x = RACE, 
@@ -379,7 +378,6 @@ exam %>%
     title = "Visualising confidence intervals of mean math score",
     subtitle = "Mean Point + Multiple-interval plot")
 ```
-
 
 ## 4.4.3 Visualizing the uncertainty of point estimates: ggdist methods
 
@@ -401,6 +399,7 @@ exam %>%
 # 4.5 Visualising Uncertainty with Hypothetical Outcome Plots (HOPs)
 
 ## 4.5.1 Installing ungeviz package
+
 ```{r}
 devtools::install_github("wilkelab/ungeviz")
 ```
@@ -408,12 +407,15 @@ devtools::install_github("wilkelab/ungeviz")
 Note: You only need to perform this step once.
 
 ## 4.5.2 Launch the application in R
+
 ```{r}
 library(ungeviz)
 ```
 
 ## 4.5.3 Visualising Uncertainty with Hypothetical Outcome Plots (HOPs)
+
 Next, the code chunk below will be used to build the HOPs.
+
 ```{r}
 ggplot(data = exam, 
        (aes(x = factor(RACE), 
@@ -431,4 +433,3 @@ ggplot(data = exam,
   theme_bw() + 
   transition_states(.draw, 1, 3)
 ```
-

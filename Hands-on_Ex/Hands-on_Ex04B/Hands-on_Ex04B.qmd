@@ -1,8 +1,16 @@
 ---
-title: "Hands-on_Ex04B"
+title: "4b. Visual Statistical Analysis"
 author: "Audrey Tan"
-date: "24 April 2025"
+date: "4 May 2025"
 date-modified: "last-modified"
+
+format: html
+editor: visual
+execute: 
+  eval: true
+  echo: true
+  warning: false 
+  freeze: true
 ---
 
 # **4B) Visual Statistical Analysis** 
@@ -22,6 +30,7 @@ In this hands-on exercise, the learning outcomes are:
 [**ggstatsplot**](https://indrajeetpatil.github.io/ggstatsplot/index.html) ![](https://r4va.netlify.app/chap10/img/image1.jpg){width="30"} is an extension of [**ggplot2**](https://ggplot2.tidyverse.org/) package for creating graphics with details from statistical tests included in the information-rich plots themselves.
 
 ```{r, echo=FALSE}
+library(magick)
 img <- image_read("https://r4va.netlify.app/chap10/img/image2.jpg")
 plot(img)
 ```
@@ -130,7 +139,6 @@ ggbetweenstats(
 
 -   “all” → everything
 
-
 ### 4.3.7.1 ggbetweenstats - Summary of tests
 
 ```{r, echo=FALSE}
@@ -141,6 +149,7 @@ plot(img)
 ## **4.3.8 Significant Test of Correlation: *ggscatterstats()***
 
 In the code chunk below, [*ggscatterstats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggscatterstats.html) is used to build a visual for Significant Test of Correlation between Maths scores and English scores.
+
 ```{r}
 ggscatterstats(
   data = exam,
@@ -153,6 +162,7 @@ ggscatterstats(
 ## **4.3.9 Significant Test of Association (Depedence) : *ggbarstats()* methods**
 
 In the code chunk below, the Maths scores is binned into a 4-class variable by using [*cut()*](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cut).
+
 ```{r}
 exam1 <- exam %>% 
   mutate(MATHS_bins = 
@@ -160,7 +170,6 @@ exam1 <- exam %>%
                breaks = c(0,60,75,85,100))
 )
 ```
-
 
 In this code chunk below [*ggbarstats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggbarstats.html) is used to build a visual for Significant Test of Association.
 

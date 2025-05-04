@@ -7,6 +7,9 @@ project:
     - Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.qmd
     - Hands-on_Ex/Hands-on_Ex03a/Hands-on_Ex03a.qmd
     - Hands-on_Ex/Hands-on_Ex03b/Hands-on_Ex03b.qmd
+    - Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.qmd
+    - Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.qmd
+    - Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.qmd
     - In-class_Ex/In-class_Ex02/In-class_Ex02.qmd
     - In-class_Ex/In-class_Ex03/In-class_Ex03.qmd
     - Take-home_Ex/Take-home_Ex01/Take-home_Ex01.qmd
@@ -15,7 +18,7 @@ project:
 website:
   favicon: favicon.png
   announcement:
-    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (01 MAY)** - [**Hands-on Exercise 3a**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex03a/Hands-on_Ex03a.html) and [**Hands-on Exercise 3b**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex03b/Hands-on_Ex03b.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(04 May)** Take-home Exercise 01 is published!"
+    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (04 MAY)** - [**Hands-on Exercise 4**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(04 May)** - [**Take-home Exercise 01**](https://isss608-ay2024-25-dreytwy.netlify.app/Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html) published! " 
     type: warning
     position: below-navbar
   page-navigation: true
@@ -33,6 +36,14 @@ website:
             href: "Hands-on_Ex/Hands-on_Ex03a/Hands-on_Ex03a.html"
           - text: "Hands-on Exercise 3b"
             href: "Hands-on_Ex/Hands-on_Ex03b/Hands-on_Ex03b.html"
+          - text: "Hands-on Exercise 4a"
+            href: "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html"
+          - text: "Hands-on Exercise 4b"
+            href: "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html"  
+          - text: "Hands-on Exercise 4c"
+            href: "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html"
+          #- text: "Hands-on Exercise 4d"
+          #  href: "Hands-on_Ex/Hands-on_Ex04d/Hands-on_Ex04d.html"             
           # - text: "Hands-on Exercise 4"
           #   href: "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html"
           # - text: "Hands-on Exercise 5"

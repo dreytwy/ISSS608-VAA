@@ -2639,7 +2639,7 @@ print(combined_image)
 
 -   Across ages, wider gap between both genders' population count observed for NER, CR, and WR, compared to ER and NR.
 
--   A rising trend from age 0- 35, plateauing around age 35- 60, then dips.
+-   Rising numbers from age 0- 35, plateauing around age 35- 60, then dips.
 
 -   Around the ages of 0- 30, the population values between genders are close.
 

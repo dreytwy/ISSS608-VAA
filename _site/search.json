@@ -431,7 +431,7 @@
     "href": "index.html",
     "title": "Home",
     "section": "",
-    "text": "Welcome to my ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course.   These are my posts for Hands-On Exercises:\n\n\n\n\n\n\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Published - Oldest\n      \n      \n        Published - Newest\n      \n      \n        Title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\n\nPublished\n\n\n\n\n\n\n\n\n1. A Layered Grammar of Graphics: ggplot2 methods\n\n\nApr 18, 2025\n\n\n\n\n\n\n2. Beyond ggplot2 Fundamentals\n\n\nApr 24, 2025\n\n\n\n\n\n\n3a. Programming Interactive Data Visualisation with R\n\n\nMay 1, 2025\n\n\n\n\n\n\n3b. Programming Animated Statistical Graphics with R\n\n\nMay 1, 2025\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to my ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course.   These are my posts for Hands-On Exercises:\n\n\n\n\n\n\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Published - Oldest\n      \n      \n        Published - Newest\n      \n      \n        Title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\n\nPublished\n\n\n\n\n\n\n\n\n1. A Layered Grammar of Graphics: ggplot2 methods\n\n\nApr 18, 2025\n\n\n\n\n\n\n2. Beyond ggplot2 Fundamentals\n\n\nApr 24, 2025\n\n\n\n\n\n\n3a. Programming Interactive Data Visualisation with R\n\n\nMay 1, 2025\n\n\n\n\n\n\n3b. Programming Animated Statistical Graphics with R\n\n\nMay 1, 2025\n\n\n\n\n\n\n4a. Visualisation Distribution\n\n\nMay 4, 2025\n\n\n\n\n\n\n4b. Visual Statistical Analysis\n\n\nMay 4, 2025\n\n\n\n\n\n\n4c. Visual Statistical Analysis\n\n\nMay 4, 2025\n\n\n\n\n\n\n \n\n\n \n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -600,5 +600,194 @@
     "title": "In-class_Ex03",
     "section": "",
     "text": "View my Tableau profile :"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#installing-and-loading-the-packages",
+    "href": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#installing-and-loading-the-packages",
+    "title": "Hands-on_Ex04A",
+    "section": "4.2.1 Installing and loading the packages",
+    "text": "4.2.1 Installing and loading the packages\nFor the purpose of this exercise, the following R packages will be used, they are:\n\nggridges, a ggplot2 extension specially designed for plotting ridgeline plots,\nggdist, a ggplot2 extension spacially desgin for visualising distribution and uncertainty,\ntidyverse, a family of R packages to meet the modern data science and visual communication needs,\nggthemes, a ggplot extension that provides the user additional themes, scales, and geoms for the ggplots package, and\ncolorspace, an R package provides a broad toolbox for selecting individual colors or color palettes, manipulating these colors, and employing them in various kinds of visualisations.\n\nThe code chunk below will be used load these R packages into RStudio environment.\n\npacman::p_load(ggdist, ggridges, ggthemes,\n               colorspace, tidyverse)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#data-import",
+    "href": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#data-import",
+    "title": "Hands-on_Ex04A",
+    "section": "4.2.2 Data import",
+    "text": "4.2.2 Data import\nFor the purpose of this exercise, Exam_data.csv will be used.\nIn the code chunk below, read_csv() of readr package is used to import Exam_data.csv into R and saved it into a tibble data.frame.\n\nexam &lt;- read_csv(\"data/Exam_data.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#plotting-ridgeline-graph-ggridges-method",
+    "href": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#plotting-ridgeline-graph-ggridges-method",
+    "title": "Hands-on_Ex04A",
+    "section": "4.3.1 Plotting ridgeline graph: ggridges method",
+    "text": "4.3.1 Plotting ridgeline graph: ggridges method\nThere are several ways to plot ridgeline plot with R. In this section, you will learn how to plot ridgeline plot by using ggridges package.\nggridges package provides two main geom to plot gridgeline plots, they are: geom_ridgeline() and geom_density_ridges(). The former takes height values directly to draw the ridgelines, and the latter first estimates data densities and then draws those using ridgelines.\nThe ridgeline plot below is plotted by using geom_density_ridges().\n\nThe PlotThe Code Chunk\n\n\n\nggplot(exam,\n       aes(x = ENGLISH,\n           y = CLASS)) +\n  geom_density_ridges(\n    scale = 5,\n    rel_min_height = 0.01,\n    bandwidth = 3.4,\n    fill = lighten(\"pink\", 0.5),\n    color = \"#7097BB\"\n  ) +\n  scale_x_continuous(\n    name = \"English grades\",\n    expand = c(0,0),\n  ) +\n  scale_y_discrete(name = \"Class\", expand = expansion(add=c(0.2, 2.6))) +\n  theme_ridges(grid = FALSE)\n\n\n\n\n\n\n\n\n\n\nggplot(exam,\n       aes(x = ENGLISH,\n           y = CLASS)) +\n  geom_density_ridges(\n    scale = 3,\n    rel_min_height = 0.01,\n    bandwidth = 3.4,\n    fill = lighten(\"#7097BB\", .3),\n    color = \"white\"\n  ) +\n  scale_x_continuous(\n    name = \"English grades\",\n    expand = c(0,0),\n  ) +\n  scale_y_discrete(name = NULL, expand = expansion(add=c(0.2, 2.6))) +\n  theme_ridges()\n\n\n\n\n4.3.2 Varying fill colors along the x axis\nSometimes we would like to have the area under a ridgeline not filled with a single solid color but rather with colors that vary in some form along the x axis. This effect can be achieved by using either geom_ridgeline_gradient() or geom_density_ridges_gradient(). Both geoms work just like geom_ridgeline() and geom_density_ridges(), except that they allow for varying fill colors. However, they do not allow for alpha transparency in the fill. For technical reasons, we can have changing fill colors or transparency but not both.\n\nThe PlotThe Code Chunk\n\n\n\nggplot(exam, \n       aes(x = ENGLISH, \n           y = CLASS,\n           fill = stat(x))) +\n  geom_density_ridges_gradient(\n    scale = 3,\n    rel_min_height = 0.01) +\n  scale_fill_viridis_c(name = \"Temp. [F]\",\n                       option = \"C\") +\n  scale_x_continuous(\n    name = \"English grades\",\n    expand = c(0, 0)\n  ) +\n  scale_y_discrete(name = NULL, expand = expansion(add = c(0.2, 2.6))) +\n  theme_ridges()\n\n\n\n\n\n\n\n\n\n\nggplot(exam, \n       aes(x = ENGLISH, \n           y = CLASS,\n           fill = stat(x))) +\n  geom_density_ridges_gradient(\n    scale = 3,\n    rel_min_height = 0.01) +\n  scale_fill_viridis_c(name = \"Temp. [F]\",\n                       option = \"C\") +\n  scale_x_continuous(\n    name = \"English grades\",\n    expand = c(0, 0)\n  ) +\n  scale_y_discrete(name = NULL, expand = expansion(add = c(0.2, 2.6))) +\n  theme_ridges()"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#mapping-the-probabilities-directly-onto-colour",
+    "href": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#mapping-the-probabilities-directly-onto-colour",
+    "title": "Hands-on_Ex04A",
+    "section": "4.3.3 Mapping the probabilities directly onto colour",
+    "text": "4.3.3 Mapping the probabilities directly onto colour\nBeside providing additional geom objects to support the need to plot ridgeline plot, ggridges package also provides a stat function called stat_density_ridges() that replaces stat_density() of ggplot2.\nFigure below is plotted by mapping the probabilities calculated by using stat(ecdf) which represent the empirical cumulative density function for the distribution of English score.\n\nThe PlotThe Code Chunk\n\n\n\nggplot(exam,\n       aes(x = ENGLISH, \n           y = CLASS, \n           fill = 0.5 - abs(0.5-stat(ecdf)))) +\n  stat_density_ridges(geom = \"density_ridges_gradient\", \n                      calc_ecdf = TRUE) +\n  scale_fill_viridis_c(name = \"Tail probability\",\n                       direction = -1) +\n  theme_ridges()\n\n\n\n\n\n\n\n\n\n\nggplot(exam,\n       aes(x = ENGLISH, \n           y = CLASS, \n           fill = 0.5 - abs(0.5-stat(ecdf)))) +\n  stat_density_ridges(geom = \"density_ridges_gradient\", \n                      calc_ecdf = TRUE) +\n  scale_fill_viridis_c(name = \"Tail probability\",\n                       direction = -1) +\n  theme_ridges()\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nIt is important include the argument calc_ecdf = TRUE in stat_density_ridges().\n\n\nInstead of using number to define the quantiles, we can also specify quantiles by cut points such as 2.5% and 97.5% tails to colour the ridgeline plot as shown in the figure below.\n\nThe PlotThe Code Chunk\n\n\n\nggplot(exam,\n       aes(x = ENGLISH, \n           y = CLASS, \n           fill = factor(stat(quantile))\n           )) +\n  stat_density_ridges(\n    geom = \"density_ridges_gradient\",\n    calc_ecdf = TRUE, \n    quantiles = c(0.025, 0.975)\n    ) +\n  scale_fill_manual(\n    name = \"Probability\",\n    values = c(\"#FF0000A0\", \"#A0A0A0A0\", \"#0000FFA0\"),\n    labels = c(\"(0, 0.025]\", \"(0.025, 0.975]\", \"(0.975, 1]\")\n  ) +\n  theme_ridges()\n\n\n\n\n\n\n\n\n\n\nggplot(exam,\n       aes(x = ENGLISH, \n           y = CLASS, \n           fill = factor(stat(quantile))\n           )) +\n  stat_density_ridges(\n    geom = \"density_ridges_gradient\",\n    calc_ecdf = TRUE, \n    quantiles = c(0.025, 0.975)\n    ) +\n  scale_fill_manual(\n    name = \"Probability\",\n    values = c(\"#FF0000A0\", \"#A0A0A0A0\", \"#0000FFA0\"),\n    labels = c(\"(0, 0.025]\", \"(0.025, 0.975]\", \"(0.975, 1]\")\n  ) +\n  theme_ridges()"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#plotting-a-half-eye-graph",
+    "href": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#plotting-a-half-eye-graph",
+    "title": "Hands-on_Ex04A",
+    "section": "4.4.1 Plotting a Half Eye graph",
+    "text": "4.4.1 Plotting a Half Eye graph\nFirst, we will plot a Half-Eye graph by using stat_halfeye() of ggdist package.\nThis produces a Half Eye visualization, which is contains a half-density and a slab-interval.\n\nThe PlotThe Code Chunk\n\n\n\nggplot(exam, \n       aes(x = RACE, \n           y = ENGLISH)) +\n  stat_halfeye(adjust = 0.5,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA)\n\n\n\n\n\n\n\n\n\n\nggplot(exam, \n       aes(x = RACE, \n           y = ENGLISH)) +\n  stat_halfeye(adjust = 0.5,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA)\n\n\n\n\n\n\nThings to learn from the code chunk above\n\n\n\nWe remove the slab interval by setting .width = 0 and point_colour = NA."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#adding-the-boxplot-with-geom_boxplot",
+    "href": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#adding-the-boxplot-with-geom_boxplot",
+    "title": "Hands-on_Ex04A",
+    "section": "4.4.2 Adding the boxplot with geom_boxplot()",
+    "text": "4.4.2 Adding the boxplot with geom_boxplot()\nNext, we will add the second geometry layer using geom_boxplot() of ggplot2. This produces a narrow boxplot. We reduce the width and adjust the opacity.\n\nThe PlotThe Code Chunk\n\n\n\nggplot(exam, \n       aes(x = RACE, \n           y = ENGLISH)) +\n  stat_halfeye(adjust = 0.5,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA) +\n  geom_boxplot(width = .20,\n               outlier.shape = NA)\n\n\n\n\n\n\n\n\n\n\nggplot(exam, \n       aes(x = RACE, \n           y = ENGLISH)) +\n  stat_halfeye(adjust = 0.5,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA) +\n  geom_boxplot(width = .20,\n               outlier.shape = NA)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#adding-the-dot-plots-with-stat_dots",
+    "href": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#adding-the-dot-plots-with-stat_dots",
+    "title": "Hands-on_Ex04A",
+    "section": "4.4.3 Adding the Dot Plots with stat_dots()",
+    "text": "4.4.3 Adding the Dot Plots with stat_dots()\nNext, we will add the third geometry layer using stat_dots() of ggdist package. This produces a half-dotplot, which is similar to a histogram that indicates the number of samples (number of dots) in each bin. We select side = “left” to indicate we want it on the left-hand side.\n\nThe PlotThe Code Chunk\n\n\n\nggplot(exam, \n       aes(x = RACE, \n           y = ENGLISH)) +\n  stat_halfeye(adjust = 0.5,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA) +\n  geom_boxplot(width = .20,\n               outlier.shape = NA) +\n  stat_dots(side = \"left\", \n            justification = 1.2, \n            binwidth = .5,\n            dotsize = 2)\n\n\n\n\n\n\n\n\n\n\nggplot(exam, \n       aes(x = RACE, \n           y = ENGLISH)) +\n  stat_halfeye(adjust = 0.5,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA) +\n  geom_boxplot(width = .20,\n               outlier.shape = NA) +\n  stat_dots(side = \"left\", \n            justification = 1.2, \n            binwidth = .5,\n            dotsize = 2)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#finishing-touch",
+    "href": "Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html#finishing-touch",
+    "title": "Hands-on_Ex04A",
+    "section": "4.4.4 Finishing touch",
+    "text": "4.4.4 Finishing touch\nLastly, coord_flip() of ggplot2 package will be used to flip the raincloud chart horizontally to give it the raincloud appearance. At the same time, theme_economist() of ggthemes package is used to give the raincloud chart a professional publishing standard look.\n\nThe PlotThe Code Chunk\n\n\n\n\n\n\n\n\n\n\n\n\n\n  ggplot(exam, \n       aes(x = RACE, \n           y = ENGLISH)) +\n  stat_halfeye(adjust = 0.5,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA) +\n  geom_boxplot(width = .20,\n               outlier.shape = NA) +\n  stat_dots(side = \"left\", \n            justification = 1.2, \n            binwidth = .5,\n            dotsize = 1.5) +\n  coord_flip() +\n  theme_economist()"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#installing-and-loading-the-packages",
+    "href": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#installing-and-loading-the-packages",
+    "title": "Hands-on_Ex04B",
+    "section": "4.3.1 Installing and loading the packages",
+    "text": "4.3.1 Installing and loading the packages\nIn this exercise, ggstatsplot and tidyverse will be used.\nThe code chunk below will be used load these R packages into RStudio environment.\n\npacman::p_load(ggstatsplot, tidyverse)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#data-import",
+    "href": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#data-import",
+    "title": "Hands-on_Ex04B",
+    "section": "4.3.2 Data import",
+    "text": "4.3.2 Data import\nFor the purpose of this exercise, Exam_data.csv will be used.\nIn the code chunk below, read_csv() of readr package is used to import Exam_data.csv into R and saved it into a tibble data.frame.\n\nexam &lt;- read_csv(\"data/Exam_data.csv\", show_col_types = FALSE)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#one-sample-test-gghistostats-method",
+    "href": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#one-sample-test-gghistostats-method",
+    "title": "Hands-on_Ex04B",
+    "section": "4.3.3 One-sample test: gghistostats() method",
+    "text": "4.3.3 One-sample test: gghistostats() method\nIn the code chunk below, gghistostats() is used to to build an visual of one-sample test on English scores.\n\nset.seed(1234)\n\ngghistostats(\n  data = exam,\n  x = ENGLISH,\n  type = \"bayes\",\n  test.value = 60,\n  xlab = \"English scores\"\n)\n\n\n\n\n\n\n\n\nDefault information: - statistical details - Bayes Factor - sample sizes - distribution summary"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#unpacking-the-bayes-factor",
+    "href": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#unpacking-the-bayes-factor",
+    "title": "Hands-on_Ex04B",
+    "section": "4.3.4 Unpacking the Bayes Factor",
+    "text": "4.3.4 Unpacking the Bayes Factor\n\nA Bayes factor is the ratio of the likelihood of one particular hypothesis to the likelihood of another. It can be interpreted as a measure of the strength of evidence in favor of one theory among two competing theories.\nThat’s because the Bayes factor gives us a way to evaluate the data in favor of a null hypothesis, and to use external information to do so. It tells us what the weight of the evidence is in favor of a given hypothesis.\nWhen we are comparing two hypotheses, H1 (the alternate hypothesis) and H0 (the null hypothesis), the Bayes Factor is often written as B10. It can be defined mathematically as\n\n\n\n\n\n\n\n\n\n\n\nThe Schwarz criterion is one of the easiest ways to calculate rough approximation of the Bayes Factor."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#how-to-interpret-bayes-factor",
+    "href": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#how-to-interpret-bayes-factor",
+    "title": "Hands-on_Ex04B",
+    "section": "4.3.5 How to interpret Bayes Factor",
+    "text": "4.3.5 How to interpret Bayes Factor\nA Bayes Factor can be any positive number. One of the most common interpretations is this one—first proposed by Harold Jeffereys (1961) and slightly modified by Lee and Wagenmakers in 2013:"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#two-sample-mean-test-ggbetweenstats",
+    "href": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#two-sample-mean-test-ggbetweenstats",
+    "title": "Hands-on_Ex04B",
+    "section": "4.3.6 Two-sample mean test: ggbetweenstats()",
+    "text": "4.3.6 Two-sample mean test: ggbetweenstats()\nIn the code chunk below, ggbetweenstats() is used to build a visual for two-sample mean test of Maths scores by gender.\n\nggbetweenstats(\n  data = exam,\n  x = GENDER, \n  y = MATHS,\n  type = \"np\",\n  messages = FALSE\n)\n\n\n\n\n\n\n\n\nDefault information: - statistical details - Bayes Factor - sample sizes - distribution summary"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#oneway-anova-test-ggbetweenstats-method",
+    "href": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#oneway-anova-test-ggbetweenstats-method",
+    "title": "Hands-on_Ex04B",
+    "section": "4.3.7 Oneway ANOVA Test: ggbetweenstats() method",
+    "text": "4.3.7 Oneway ANOVA Test: ggbetweenstats() method\nIn the code chunk below, ggbetweenstats() is used to build a visual for One-way ANOVA test on English score by race.\n\nggbetweenstats(\n  data = exam,\n  x = RACE, \n  y = ENGLISH,\n  type = \"p\",\n  mean.ci = TRUE, \n  pairwise.comparisons = TRUE, \n  pairwise.display = \"s\",\n  p.adjust.method = \"fdr\",\n  messages = FALSE\n)\n\n\n\n\n\n\n\n\n\n“ns” → only non-significant\n“s” → only significant\n“all” → everything\n\n\n4.3.7.1 ggbetweenstats - Summary of tests"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#significant-test-of-correlation-ggscatterstats",
+    "href": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#significant-test-of-correlation-ggscatterstats",
+    "title": "Hands-on_Ex04B",
+    "section": "4.3.8 Significant Test of Correlation: ggscatterstats()",
+    "text": "4.3.8 Significant Test of Correlation: ggscatterstats()\nIn the code chunk below, ggscatterstats() is used to build a visual for Significant Test of Correlation between Maths scores and English scores.\n\nggscatterstats(\n  data = exam,\n  x = MATHS,\n  y = ENGLISH,\n  marginal = FALSE,\n  )"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#significant-test-of-association-depedence-ggbarstats-methods",
+    "href": "Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.html#significant-test-of-association-depedence-ggbarstats-methods",
+    "title": "Hands-on_Ex04B",
+    "section": "4.3.9 Significant Test of Association (Depedence) : ggbarstats() methods",
+    "text": "4.3.9 Significant Test of Association (Depedence) : ggbarstats() methods\nIn the code chunk below, the Maths scores is binned into a 4-class variable by using cut().\n\nexam1 &lt;- exam %&gt;% \n  mutate(MATHS_bins = \n           cut(MATHS, \n               breaks = c(0,60,75,85,100))\n)\n\nIn this code chunk below ggbarstats() is used to build a visual for Significant Test of Association.\n\nggbarstats(exam1, \n           x = MATHS_bins, \n           y = GENDER)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#installing-and-loading-the-packages",
+    "href": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#installing-and-loading-the-packages",
+    "title": "Hands-on_Ex04C",
+    "section": "4.2.1 Installing and loading the packages",
+    "text": "4.2.1 Installing and loading the packages\nFor the purpose of this exercise, the following R packages will be used, they are:\n\ntidyverse, a family of R packages for data science process,\nplotly for creating interactive plot,\ngganimate for creating animation plot,\nDT for displaying interactive html table,\ncrosstalk for for implementing cross-widget interactions (currently, linked brushing and filtering), and\nggdist for visualising distribution and uncertainty.\n\n\npacman::p_load(plotly, crosstalk, DT, magick,\n               ggdist, ggridges, colorspace,\n               gganimate, tidyverse)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#data-import",
+    "href": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#data-import",
+    "title": "Hands-on_Ex04C",
+    "section": "4.2.2 Data import",
+    "text": "4.2.2 Data import\nFor the purpose of this exercise, Exam_data.csv will be used.\n\nexam &lt;- read_csv(\"data/Exam_data.csv\", show_col_types = FALSE)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#plotting-standard-error-bars-of-point-estimates",
+    "href": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#plotting-standard-error-bars-of-point-estimates",
+    "title": "Hands-on_Ex04C",
+    "section": "4.3.1 Plotting standard error bars of point estimates",
+    "text": "4.3.1 Plotting standard error bars of point estimates\nNow we are ready to plot the standard error bars of mean maths score by race as shown below.\n\nThe PlotThe Code Chunk\n\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(my_sum) +\n  geom_errorbar(\n    aes(x=RACE, \n        ymin=mean-se, \n        ymax=mean+se), \n    width=0.2, \n    colour=\"black\", \n    alpha=0.9, \n    linewidth=0.5) +\n  geom_point(aes\n           (x=RACE, \n            y=mean), \n           stat=\"identity\", \n           color=\"red\",\n           size = 1.5,\n           alpha=1) +\n  ggtitle(\"Standard error of mean maths score by rac\")\n\n\n\n::: callout- Things to learn from the code chunk above - The error bars are computed by using the formula mean+/-se. - For geom_point(), it is important to indicate stat=“identity”. :::"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#plotting-confidence-interval-of-point-estimates",
+    "href": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#plotting-confidence-interval-of-point-estimates",
+    "title": "Hands-on_Ex04C",
+    "section": "4.3.2 Plotting confidence interval of point estimates",
+    "text": "4.3.2 Plotting confidence interval of point estimates\nInstead of plotting the standard error bar of point estimates, we can also plot the confidence intervals of mean maths score by race.\n\nThe PlotThe Code Chunk\n\n\n\nggplot(my_sum) +\n  geom_errorbar(\n    aes(x=reorder(RACE, -mean), \n        ymin=mean-1.96*se, \n        ymax=mean+1.96*se), \n    width=0.2, \n    colour=\"black\", \n    alpha=0.9, \n    linewidth=0.5) +\n  geom_point(aes\n           (x=RACE, \n            y=mean), \n           stat=\"identity\", \n           color=\"red\",\n           size = 1.5,\n           alpha=1) +\n  labs(x = \"Maths score\",\n       title = \"95% confidence interval of mean maths score by race\")\n\n\n\n\n\n\n\n\n\n\nggplot(my_sum) +\n  geom_errorbar(\n    aes(x=reorder(RACE, -mean), \n        ymin=mean-1.96*se, \n        ymax=mean+1.96*se), \n    width=0.2, \n    colour=\"black\", \n    alpha=0.9, \n    linewidth=0.5) +\n  geom_point(aes\n           (x=RACE, \n            y=mean), \n           stat=\"identity\", \n           color=\"red\",\n           size = 1.5,\n           alpha=1) +\n  labs(x = \"Maths score\",\n       title = \"95% confidence interval of mean maths score by race\")\n\n\n\n::: callout-Things to learn from the code chunk above - The confidence intervals are computed by using the formula mean+/-1.96*se. - The error bars is sorted by using the average maths scores. - labs() argument of ggplot2 is used to change the x-axis label :::"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#visualizing-the-uncertainty-of-point-estimates-with-interactive-error-bars",
+    "href": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#visualizing-the-uncertainty-of-point-estimates-with-interactive-error-bars",
+    "title": "Hands-on_Ex04C",
+    "section": "4.3.3 Visualizing the uncertainty of point estimates with interactive error bars",
+    "text": "4.3.3 Visualizing the uncertainty of point estimates with interactive error bars\nIn this section, we plot interactive error bars for the 99% confidence interval of mean maths score by race as shown in the figure below.\n\nThe PlotThe Code Chunk\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nshared_df = SharedData$new(my_sum)\n\nbscols(widths = c(4,8),\n       ggplotly((ggplot(shared_df) +\n                   geom_errorbar(aes(\n                     x=reorder(RACE, -mean),\n                     ymin=mean-2.58*se, \n                     ymax=mean+2.58*se), \n                     width=0.2, \n                     colour=\"black\", \n                     alpha=0.9, \n                     size=0.5) +\n                   geom_point(aes(\n                     x=RACE, \n                     y=mean, \n                     text = paste(\"Race:\", `RACE`, \n                                  \"&lt;br&gt;N:\", `n`,\n                                  \"&lt;br&gt;Avg. Scores:\", round(mean, digits = 2),\n                                  \"&lt;br&gt;95% CI:[\", \n                                  round((mean-2.58*se), digits = 2), \",\",\n                                  round((mean+2.58*se), digits = 2),\"]\")),\n                     stat=\"identity\", \n                     color=\"red\", \n                     size = 1.5, \n                     alpha=1) + \n                   xlab(\"Race\") + \n                   ylab(\"Average Scores\") + \n                   theme_minimal() + \n                   theme(axis.text.x = element_text(\n                     angle = 45, vjust = 0.5, hjust=1)) +\n                   ggtitle(\"99% Confidence interval of average /&lt;br&gt;maths scores by race\")), \n                tooltip = \"text\"), \n       DT::datatable(shared_df, \n                     rownames = FALSE, \n                     class=\"compact\", \n                     width=\"100%\", \n                     options = list(pageLength = 10,\n                                    scrollX=T), \n                     colnames = c(\"No. of pupils\", \n                                  \"Avg Scores\",\n                                  \"Std Dev\",\n                                  \"Std Error\")) %&gt;%\n         formatRound(columns=c('mean', 'sd', 'se'),\n                     digits=2))"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#visualizing-the-uncertainty-of-point-estimates-ggdist-methods-1",
+    "href": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#visualizing-the-uncertainty-of-point-estimates-ggdist-methods-1",
+    "title": "Hands-on_Ex04C",
+    "section": "4.4.2 Visualizing the uncertainty of point estimates: ggdist methods",
+    "text": "4.4.2 Visualizing the uncertainty of point estimates: ggdist methods\n\nexam %&gt;%\n  ggplot(aes(x = RACE, \n             y = MATHS)) +\n  stat_pointinterval(\n    show.legend = FALSE) +   \n  labs(\n    title = \"Visualising confidence intervals of mean math score\",\n    subtitle = \"Mean Point + Multiple-interval plot\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#visualizing-the-uncertainty-of-point-estimates-ggdist-methods-2",
+    "href": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#visualizing-the-uncertainty-of-point-estimates-ggdist-methods-2",
+    "title": "Hands-on_Ex04C",
+    "section": "4.4.3 Visualizing the uncertainty of point estimates: ggdist methods",
+    "text": "4.4.3 Visualizing the uncertainty of point estimates: ggdist methods\nIn the code chunk below, stat_gradientinterval() of ggdist is used to build a visual for displaying distribution of maths scores by race.\n\nexam %&gt;%\n  ggplot(aes(x = RACE, \n             y = MATHS)) +\n  stat_gradientinterval(   \n    fill = \"skyblue\",      \n    show.legend = TRUE     \n  ) +                        \n  labs(\n    title = \"Visualising confidence intervals of mean math score\",\n    subtitle = \"Gradient + interval plot\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#installing-ungeviz-package",
+    "href": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#installing-ungeviz-package",
+    "title": "Hands-on_Ex04C",
+    "section": "4.5.1 Installing ungeviz package",
+    "text": "4.5.1 Installing ungeviz package\n\ndevtools::install_github(\"wilkelab/ungeviz\")\n\nNote: You only need to perform this step once."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#launch-the-application-in-r",
+    "href": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#launch-the-application-in-r",
+    "title": "Hands-on_Ex04C",
+    "section": "4.5.2 Launch the application in R",
+    "text": "4.5.2 Launch the application in R\n\nlibrary(ungeviz)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#visualising-uncertainty-with-hypothetical-outcome-plots-hops-1",
+    "href": "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html#visualising-uncertainty-with-hypothetical-outcome-plots-hops-1",
+    "title": "Hands-on_Ex04C",
+    "section": "4.5.3 Visualising Uncertainty with Hypothetical Outcome Plots (HOPs)",
+    "text": "4.5.3 Visualising Uncertainty with Hypothetical Outcome Plots (HOPs)\nNext, the code chunk below will be used to build the HOPs.\n\nggplot(data = exam, \n       (aes(x = factor(RACE), \n            y = MATHS))) +\n  geom_point(position = position_jitter(\n    height = 0.3, \n    width = 0.05), \n    size = 0.4, \n    color = \"#0072B2\", \n    alpha = 1/2) +\n  geom_hpline(data = sampler(25, \n                             group = RACE), \n              height = 0.6, \n              color = \"#D55E00\") +\n  theme_bw() + \n  transition_states(.draw, 1, 3)"
   }
 ]

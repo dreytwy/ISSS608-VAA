@@ -1,8 +1,16 @@
 ---
-title: "Hands-on_Ex04A"
+title: "4a. Visualisation Distribution"
 author: "Audrey Tan"
-date: "24 April 2025"
+date: "4 May 2025"
 date-modified: "last-modified"
+
+format: html
+editor: visual
+execute: 
+  eval: true
+  echo: true
+  warning: false 
+  freeze: true
 ---
 
 # **4A) Visualisation Distribution**
