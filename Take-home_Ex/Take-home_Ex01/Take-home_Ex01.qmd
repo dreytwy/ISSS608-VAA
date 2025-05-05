@@ -4,8 +4,8 @@ subtitle: "Demographic structures and distribution of Singapore in 2024"
 author: "Audrey Tan"
 date: "04 May 2025"
 date-modified: "last-modified"
-format: html
 
+format: html
 editor: visual
 execute: 
   eval: true
@@ -18,7 +18,7 @@ execute:
 
 ## 1.1 Background and Task
 
-Aero Media is a local online media company that publishes daily content on digital platforms is planning to release an article on **demographic structures and distribution of Singapore in 2024**. As a graphical editor of the media company (Aero Media), there is a need to prepare **at most** **three** non-interactive data visualisation for the daily article. This article aims to explore the distribution and structure of the population age, gender, and regions. Please refer to Section 2 to 7 for the rationalisation and preparation, and Section 8 for this Article.
+Aero Media is a local online media company that publishes daily content on digital platforms is planning to release an article on **demographic structures and distribution of Singapore in 2024**. As a graphical editor of the media company (Aero Media), there is a need to prepare **at most** **three** non-interactive data visualisation for the daily article. This article aims to explore the distribution and structure of the population age, gender, and regions. Please refer to Section 2 to 7 for the rationalisation and preparation, and Section 8 for this Article. Please refer to Section 11 for the comments and edits for Phase 2 of the task.
 
 ## 1.2 The Data
 
@@ -2660,7 +2660,7 @@ Based on the EDA above, we can conclude the following about the demographic dist
 
 -   With more data, labour force participation rate per region can be obtained by zooming into the working age groups (15-24, 25-54, 55-64, 65 and over).
 
-# 10. References and inspiration
+# 10. References and Inspiration
 
 -   Steven P. Sanderson II, MPH (2023) [**Creating Population Pyramid Plots in R with ggplot2**](https://www.r-bloggers.com/2023/09/creating-population-pyramid-plots-in-r-with-ggplot2)
 
@@ -2677,3 +2677,11 @@ Based on the EDA above, we can conclude the following about the demographic dist
 -   2travelacrosstime (2023) [**Types of Population Pyramids**](https://2travellingacrosstime.com/2023/08/19/types-of-population-pyramids/)
 
 -   Singapore Department of Statistics (2020) [**National Statistical Standards**](https://www.singstat.gov.sg/-/media/files/standards_and_classifications/nsa.ashx)
+
+# 11. Comments and Edits
+
+## 11.1 Background and Task
+
+In Phase 2 of the exercise, one submission by a classmate is selected. Three good design principles and three areas for further improvement are provided. With reference to the comment, the makeover version of the data visualisation is prepared.
+
+## 11.2 Selected Graph

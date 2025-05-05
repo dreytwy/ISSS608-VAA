@@ -13,9 +13,9 @@ execute:
   freeze: true
 ---
 
-# **4B) Visual Statistical Analysis** 
+# **4B. Visual Statistical Analysis**
 
-# **4.1 Learning Outcome**
+## **4.1 Learning Outcome**
 
 In this hands-on exercise, the learning outcomes are:
 
@@ -25,7 +25,7 @@ In this hands-on exercise, the learning outcomes are:
 
 -   parameters package to visualise model parameters
 
-# **4.2 Visual Statistical Analysis with ggstatsplot**
+## **4.2 Visual Statistical Analysis with ggstatsplot**
 
 [**ggstatsplot**](https://indrajeetpatil.github.io/ggstatsplot/index.html) ![](https://r4va.netlify.app/chap10/img/image1.jpg){width="30"} is an extension of [**ggplot2**](https://ggplot2.tidyverse.org/) package for creating graphics with details from statistical tests included in the information-rich plots themselves.
 
@@ -35,9 +35,9 @@ img <- image_read("https://r4va.netlify.app/chap10/img/image2.jpg")
 plot(img)
 ```
 
-# **4.3 Getting Started**
+## **4.3 Getting Started**
 
-## **4.3.1 Installing and loading the packages**
+### **4.3.1 Installing and loading the packages**
 
 In this exercise, **ggstatsplot** and **tidyverse** will be used.
 
@@ -47,7 +47,7 @@ The code chunk below will be used load these R packages into RStudio environment
 pacman::p_load(ggstatsplot, tidyverse)
 ```
 
-## **4.3.2 Data import**
+### **4.3.2 Data import**
 
 For the purpose of this exercise, *Exam_data.csv* will be used.
 
@@ -57,7 +57,7 @@ In the code chunk below, [`read_csv()`](https://readr.tidyverse.org/reference/re
 exam <- read_csv("data/Exam_data.csv", show_col_types = FALSE)
 ```
 
-## **4.3.3 One-sample test: *gghistostats()* method**
+### **4.3.3 One-sample test: *gghistostats()* method**
 
 In the code chunk below, [*gghistostats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/gghistostats.html) is used to to build an visual of one-sample test on English scores.
 
@@ -75,7 +75,7 @@ gghistostats(
 
 Default information: - statistical details - Bayes Factor - sample sizes - distribution summary
 
-## **4.3.4 Unpacking the Bayes Factor**
+### **4.3.4 Unpacking the Bayes Factor**
 
 -   A Bayes factor is the ratio of the likelihood of one particular hypothesis to the likelihood of another. It can be interpreted as a measure of the strength of evidence in favor of one theory among two competing theories.
 
@@ -90,7 +90,7 @@ plot(img)
 
 -   The [**Schwarz criterion**](https://www.statisticshowto.com/bayesian-information-criterion/) is one of the easiest ways to calculate rough approximation of the Bayes Factor.
 
-## **4.3.5 How to interpret Bayes Factor**
+### **4.3.5 How to interpret Bayes Factor**
 
 A **Bayes Factor** can be any positive number. One of the most common interpretations is this one—first proposed by Harold Jeffereys (1961) and slightly modified by [Lee and Wagenmakers](https://www-tandfonline-com.libproxy.smu.edu.sg/doi/pdf/10.1080/00031305.1999.10474443?needAccess=true) in 2013:
 
@@ -99,7 +99,7 @@ img <- image_read("https://r4va.netlify.app/chap10/img/image6.jpg")
 plot(img)
 ```
 
-## **4.3.6 Two-sample mean test: *ggbetweenstats()***
+### **4.3.6 Two-sample mean test: *ggbetweenstats()***
 
 In the code chunk below, [*ggbetweenstats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggbetweenstats.html) is used to build a visual for two-sample mean test of Maths scores by gender.
 
@@ -115,7 +115,7 @@ ggbetweenstats(
 
 Default information: - statistical details - Bayes Factor - sample sizes - distribution summary
 
-## **4.3.7 Oneway ANOVA Test: *ggbetweenstats()* method**
+### **4.3.7 Oneway ANOVA Test: *ggbetweenstats()* method**
 
 In the code chunk below, [*ggbetweenstats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggbetweenstats.html) is used to build a visual for One-way ANOVA test on English score by race.
 
@@ -139,14 +139,14 @@ ggbetweenstats(
 
 -   “all” → everything
 
-### 4.3.7.1 ggbetweenstats - Summary of tests
+#### 4.3.7.1 ggbetweenstats - Summary of tests
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap10/img/image7.jpg")
 plot(img)
 ```
 
-## **4.3.8 Significant Test of Correlation: *ggscatterstats()***
+### **4.3.8 Significant Test of Correlation: *ggscatterstats()***
 
 In the code chunk below, [*ggscatterstats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggscatterstats.html) is used to build a visual for Significant Test of Correlation between Maths scores and English scores.
 
@@ -159,7 +159,7 @@ ggscatterstats(
   )
 ```
 
-## **4.3.9 Significant Test of Association (Depedence) : *ggbarstats()* methods**
+### **4.3.9 Significant Test of Association (Depedence) : *ggbarstats()* methods**
 
 In the code chunk below, the Maths scores is binned into a 4-class variable by using [*cut()*](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cut).
 
