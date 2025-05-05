@@ -16,7 +16,7 @@ project:
   output-dir: _site #for the logo to appear
 
 website:
-  favicon: favicon.png
+  favicon: bear_heart.png
   announcement:
     content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (04 MAY)** - [**Hands-on Exercise 4**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(04 May)** - [**Take-home Exercise 01**](https://isss608-ay2024-25-dreytwy.netlify.app/Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html) published! " 
     type: warning
@@ -24,7 +24,7 @@ website:
   page-navigation: true
   
   navbar:
-    logo: "favicon.png"
+    logo: "bear_heart.png"
     left:
       - text: "Hands-on Exercise"
         menu:
@@ -82,10 +82,10 @@ website:
 
 format:
   html:
-    favicon: favicon.png   # or favicon.svg or favicon.ico
+    favicon: bear_heart.png   # or favicon.svg or favicon.ico
     theme: pulse
     toc: true
     css: styles.css
-    logo: favicon.png
+    logo: bear_heart.png
       
 editor: visual
