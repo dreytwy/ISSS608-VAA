@@ -13,11 +13,11 @@ execute:
   freeze: true
 ---
 
-# **4a. Visualisation Distribution**
+# **4A. Visualisation Distribution**
 
 ## **4.1 Learning Outcome**
 
-Visualising distribution is not new in statistical analysis. In chapter 1 we have shared with you some of the popular statistical graphics methods for visualising distribution are histogram, probability density curve (pdf), boxplot, notch plot and violin plot and how they can be created by using ggplot2. In this chapter, we are going to share with you two relatively new statistical graphic methods for visualising distribution, namely ridgeline plot and raincloud plot by using ggplot2 and its extensions.
+Visualising distribution is not new in statistical analysis. Sharing in chapter 1 included some of the popular statistical graphics methods for visualising distribution are histogram, probability density curve (pdf), boxplot, notch plot and violin plot and how they can be created by using ggplot2. In this chapter, two relatively new statistical graphic methods for visualising distribution, namely ridgeline plot and raincloud plot by using ggplot2 and its extensions will be covered.
 
 ## **4.2 Getting Started**
 
@@ -49,7 +49,7 @@ For the purpose of this exercise, *Exam_data.csv* will be used.
 In the code chunk below, [`read_csv()`](https://readr.tidyverse.org/reference/read_delim.html) of [**readr**](https://readr.tidyverse.org/) package is used to import *Exam_data.csv* into R and saved it into a tibble data.frame.
 
 ```{r}
-exam <- read_csv("data/Exam_data.csv")
+exam <- read_csv("data/Exam_data.csv",show_col_types = FALSE)
 ```
 
 ## **4.3 Visualising Distribution with Ridgeline Plot**
@@ -58,7 +58,7 @@ exam <- read_csv("data/Exam_data.csv")
 
 Figure below is a ridgelines plot showing the distribution of English score by class.
 
-```{r}
+```{r, echo=FALSE}
 ggplot(exam,
        aes(x = ENGLISH,
            y = CLASS)) +
@@ -66,13 +66,17 @@ ggplot(exam,
     scale = 3,
     rel_min_height = 0.01,
     bandwidth = 2.5,
-  ) +
+    fill = lighten("aquamarine2", .6), 
+    color = "#7097BB") + # border color
   scale_x_continuous(
     name = "English grades",
     expand = c(0,0),
   ) +
   scale_y_discrete(name = "Class", expand = expansion(add=c(0.2, 2.6))) +
-  theme_ridges()
+  theme_ridges()+
+  theme(axis.title.y = element_text(hjust = 0.5, vjust = 0.5),
+        axis.title.x = element_text(hjust = 0.5, vjust = 0.5))+
+  labs(title  = "Distribution of English Scores Across Classes")
 ```
 
 ::: callout-note
@@ -92,7 +96,7 @@ The ridgeline plot below is plotted by using `geom_density_ridges()`.
 ::: panel-tabset
 ## The Plot
 
-```{r}
+```{r, echo=FALSE}
 ggplot(exam,
        aes(x = ENGLISH,
            y = CLASS)) +
@@ -100,7 +104,7 @@ ggplot(exam,
     scale = 5,
     rel_min_height = 0.01,
     bandwidth = 3.4,
-    fill = lighten("pink", 0.5),
+    fill = lighten("aquamarine2", 0.5),
     color = "#7097BB"
   ) +
   scale_x_continuous(
@@ -108,7 +112,10 @@ ggplot(exam,
     expand = c(0,0),
   ) +
   scale_y_discrete(name = "Class", expand = expansion(add=c(0.2, 2.6))) +
-  theme_ridges(grid = FALSE)
+  theme_ridges(grid = FALSE)+
+  theme(axis.title.y = element_text(hjust = 0.5, vjust = 0.5),
+        axis.title.x = element_text(hjust = 0.5, vjust = 0.5))+
+  labs(title  = "Distribution of English Scores Across Classes")
 ```
 
 ## The Code Chunk
@@ -118,18 +125,21 @@ ggplot(exam,
        aes(x = ENGLISH,
            y = CLASS)) +
   geom_density_ridges(
-    scale = 3,
+    scale = 5,
     rel_min_height = 0.01,
     bandwidth = 3.4,
-    fill = lighten("#7097BB", .3),
-    color = "white"
+    fill = lighten("aquamarine2", 0.5),
+    color = "#7097BB"
   ) +
   scale_x_continuous(
     name = "English grades",
     expand = c(0,0),
   ) +
-  scale_y_discrete(name = NULL, expand = expansion(add=c(0.2, 2.6))) +
-  theme_ridges()
+  scale_y_discrete(name = "Class", expand = expansion(add=c(0.2, 2.6))) +
+  theme_ridges(grid = FALSE)+
+  theme(axis.title.y = element_text(hjust = 0.5, vjust = 0.5),
+        axis.title.x = element_text(hjust = 0.5, vjust = 0.5))+
+  labs(title  = "Distribution of English Scores Across Classes")
 ```
 :::
 
@@ -140,7 +150,7 @@ Sometimes we would like to have the area under a ridgeline not filled with a sin
 ::: panel-tabset
 ## The Plot
 
-```{r}
+```{r, echo=FALSE}
 ggplot(exam, 
        aes(x = ENGLISH, 
            y = CLASS,
@@ -154,8 +164,12 @@ ggplot(exam,
     name = "English grades",
     expand = c(0, 0)
   ) +
-  scale_y_discrete(name = NULL, expand = expansion(add = c(0.2, 2.6))) +
-  theme_ridges()
+  scale_y_discrete(name = "Class", expand = expansion(add = c(0.2, 2.6))) +
+  theme_ridges()+
+  theme(axis.title.y = element_text(hjust = 0.5, vjust = 0.5),
+        axis.title.x = element_text(hjust = 0.5, vjust = 0.5),
+        plot.margin = unit(c(1, 1, 1, 2), "cm"))+
+  labs(title  = "Distribution of English Scores Across Classes")
 ```
 
 ## The Code Chunk
@@ -175,7 +189,13 @@ ggplot(exam,
     expand = c(0, 0)
   ) +
   scale_y_discrete(name = NULL, expand = expansion(add = c(0.2, 2.6))) +
-  theme_ridges()
+  theme_ridges()+
+  scale_y_discrete(name = "Class", expand = expansion(add = c(0.2, 2.6))) +
+  theme_ridges()+
+  theme(axis.title.y = element_text(hjust = 0.5, vjust = 0.5),
+        axis.title.x = element_text(hjust = 0.5, vjust = 0.5),
+        plot.margin = unit(c(1, 1, 1, 2), "cm"))+
+  labs(title  = "Distribution of English Scores Across Classes")
 ```
 :::
 
@@ -188,7 +208,7 @@ Figure below is plotted by mapping the probabilities calculated by using `stat(e
 ::: panel-tabset
 ## The Plot
 
-```{r}
+```{r, echo=FALSE}
 ggplot(exam,
        aes(x = ENGLISH, 
            y = CLASS, 
@@ -197,7 +217,13 @@ ggplot(exam,
                       calc_ecdf = TRUE) +
   scale_fill_viridis_c(name = "Tail probability",
                        direction = -1) +
-  theme_ridges()
+  theme_ridges()+
+  scale_y_discrete(name = "CLASS", expand = expansion(add = c(0.2, 2.6))) +
+  theme_ridges()+
+  theme(axis.title.y = element_text(hjust = 0.5, vjust = 0.5),
+        axis.title.x = element_text(hjust = 0.5, vjust = 0.5),
+        plot.margin = unit(c(1, 1, 1, 2), "cm"))+
+  labs(title  = "Distribution of English Scores Across Classes")
 ```
 
 ## The Code Chunk
@@ -211,7 +237,13 @@ ggplot(exam,
                       calc_ecdf = TRUE) +
   scale_fill_viridis_c(name = "Tail probability",
                        direction = -1) +
-  theme_ridges()
+  theme_ridges()+
+  scale_y_discrete(name = "CLASS", expand = expansion(add = c(0.2, 2.6))) +
+  theme_ridges()+
+  theme(axis.title.y = element_text(hjust = 0.5, vjust = 0.5),
+        axis.title.x = element_text(hjust = 0.5, vjust = 0.5),
+        plot.margin = unit(c(1, 1, 1, 2), "cm"))+
+  labs(title  = "Distribution of English Scores Across Classes")
 ```
 :::
 
@@ -226,7 +258,7 @@ Instead of using number to define the quantiles, we can also specify quantiles b
 ::: panel-tabset
 ## The Plot
 
-```{r}
+```{r, echo=FALSE}
 ggplot(exam,
        aes(x = ENGLISH, 
            y = CLASS, 
@@ -242,7 +274,13 @@ ggplot(exam,
     values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
     labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
   ) +
-  theme_ridges()
+  theme_ridges()+
+  scale_y_discrete(name = "CLASS", expand = expansion(add = c(0.2, 2.6))) +
+  theme_ridges()+
+  theme(axis.title.y = element_text(hjust = 0.5, vjust = 0.5),
+        axis.title.x = element_text(hjust = 0.5, vjust = 0.5),
+        plot.margin = unit(c(1, 1, 1, 2), "cm"))+
+  labs(title  = "Distribution of English Scores Across Classes")
 ```
 
 ## The Code Chunk
@@ -263,7 +301,13 @@ ggplot(exam,
     values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
     labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
   ) +
-  theme_ridges()
+  theme_ridges()+
+  scale_y_discrete(name = "CLASS", expand = expansion(add = c(0.2, 2.6))) +
+  theme_ridges()+
+  theme(axis.title.y = element_text(hjust = 0.5, vjust = 0.5),
+        axis.title.x = element_text(hjust = 0.5, vjust = 0.5),
+        plot.margin = unit(c(1, 1, 1, 2), "cm"))+
+  labs(title  = "Distribution of English Scores Across Classes")
 ```
 :::
 
@@ -282,14 +326,16 @@ This produces a Half Eye visualization, which is contains a half-density and a s
 :::: panel-tabset
 ## The Plot
 
-```{r}
+```{r, echo=FALSE}
 ggplot(exam, 
        aes(x = RACE, 
            y = ENGLISH)) +
   stat_halfeye(adjust = 0.5,
                justification = -0.2,
                .width = 0,
-               point_colour = NA)
+               point_colour = NA)+
+  labs(title  = "Distribution of English Scores Across Races")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ## The Code Chunk
@@ -301,7 +347,9 @@ ggplot(exam,
   stat_halfeye(adjust = 0.5,
                justification = -0.2,
                .width = 0,
-               point_colour = NA)
+               point_colour = NA)+
+  labs(title  = "Distribution of English Scores Across Races")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ::: callout-tip
@@ -318,7 +366,7 @@ Next, we will add the second geometry layer using [`geom_boxplot()`](https://r4v
 ::: panel-tabset
 ## The Plot
 
-```{r}
+```{r, echo=FALSE}
 ggplot(exam, 
        aes(x = RACE, 
            y = ENGLISH)) +
@@ -327,7 +375,9 @@ ggplot(exam,
                .width = 0,
                point_colour = NA) +
   geom_boxplot(width = .20,
-               outlier.shape = NA)
+               outlier.shape = NA)+
+  labs(title  = "Distribution of English Scores Across Races")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ## The Code Chunk
@@ -341,55 +391,15 @@ ggplot(exam,
                .width = 0,
                point_colour = NA) +
   geom_boxplot(width = .20,
-               outlier.shape = NA)
+               outlier.shape = NA)+
+  labs(title  = "Distribution of English Scores Across Races")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 :::
 
 ### **4.4.3 Adding the Dot Plots with `stat_dots()`**
 
 Next, we will add the third geometry layer using [`stat_dots()`](https://mjskay.github.io/ggdist/reference/stat_dots.html) of ggdist package. This produces a half-dotplot, which is similar to a histogram that indicates the number of samples (number of dots) in each bin. We select side = “left” to indicate we want it on the left-hand side.
-
-::: panel-tabset
-## The Plot
-
-```{r}
-ggplot(exam, 
-       aes(x = RACE, 
-           y = ENGLISH)) +
-  stat_halfeye(adjust = 0.5,
-               justification = -0.2,
-               .width = 0,
-               point_colour = NA) +
-  geom_boxplot(width = .20,
-               outlier.shape = NA) +
-  stat_dots(side = "left", 
-            justification = 1.2, 
-            binwidth = .5,
-            dotsize = 2)
-```
-
-## The Code Chunk
-
-``` r
-ggplot(exam, 
-       aes(x = RACE, 
-           y = ENGLISH)) +
-  stat_halfeye(adjust = 0.5,
-               justification = -0.2,
-               .width = 0,
-               point_colour = NA) +
-  geom_boxplot(width = .20,
-               outlier.shape = NA) +
-  stat_dots(side = "left", 
-            justification = 1.2, 
-            binwidth = .5,
-            dotsize = 2)
-```
-:::
-
-### **4.4.4 Finishing touch**
-
-Lastly, [`coord_flip()`](https://ggplot2.tidyverse.org/reference/coord_flip.html) of ggplot2 package will be used to flip the raincloud chart horizontally to give it the raincloud appearance. At the same time, `theme_economist()` of ggthemes package is used to give the raincloud chart a professional publishing standard look.
 
 ::: panel-tabset
 ## The Plot
@@ -407,15 +417,15 @@ ggplot(exam,
   stat_dots(side = "left", 
             justification = 1.2, 
             binwidth = .5,
-            dotsize = 1.5) +
-  coord_flip() +
-  theme_economist()
+            dotsize = 2)+
+  labs(title  = "Distribution of English Scores Across Races")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ## The Code Chunk
 
 ``` r
-  ggplot(exam, 
+ggplot(exam, 
        aes(x = RACE, 
            y = ENGLISH)) +
   stat_halfeye(adjust = 0.5,
@@ -427,13 +437,130 @@ ggplot(exam,
   stat_dots(side = "left", 
             justification = 1.2, 
             binwidth = .5,
-            dotsize = 1.5) +
-  coord_flip() +
-  theme_economist()
+            dotsize = 2)+
+  labs(title  = "Distribution of English Scores Across Races")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 :::
 
-## **Reference**
+### **4.4.4 Finishing touch**
+
+Lastly, [`coord_flip()`](https://ggplot2.tidyverse.org/reference/coord_flip.html) of ggplot2 package will be used to flip the raincloud chart horizontally to give it the raincloud appearance. At the same time, `theme_economist()` of ggthemes package is used to give the raincloud chart a professional publishing standard look.
+
+#### **4.4.4.1** Distribution of English Scores Across Races
+
+::: panel-tabset
+## The Plot
+
+```{r, echo=FALSE}
+ggplot(exam, 
+       aes(x = RACE, 
+           y = ENGLISH)) +
+  stat_halfeye(aes(fill=RACE),
+               adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(aes(fill=RACE),
+               width = .20,
+               outlier.shape = NA) +
+  stat_dots(aes(fill=RACE),
+            side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 1.5) +
+  coord_flip() +
+  theme_economist()+
+  labs(title  = "Distribution of English Scores Across Races")+
+  theme(legend.position = 'none',
+        plot.title = element_text(face = "bold"))
+```
+
+## The Code Chunk
+
+``` r
+
+ggplot(exam, 
+       aes(x = RACE, 
+           y = ENGLISH)) +
+  stat_halfeye(aes(fill=RACE),
+               adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(aes(fill=RACE),
+               width = .20,
+               outlier.shape = NA) +
+  stat_dots(aes(fill=RACE),
+            side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 1.5) +
+  coord_flip() +
+  theme_economist()+
+  labs(title  = "Distribution of English Scores Across Races")+
+  theme(legend.position = 'none',
+        plot.title = element_text(face = "bold"))
+```
+:::
+
+#### **4.4.4.2** Distribution of English Scores Across Classes
+
+::: panel-tabset
+## The Plot
+
+```{r, echo=FALSE}
+ggplot(exam, 
+       aes(x = CLASS, 
+           y = ENGLISH)) +
+  stat_halfeye(aes(fill=CLASS),
+               adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(aes(fill=CLASS),
+               width = .20,
+               outlier.shape = NA) +
+  stat_dots(aes(fill=CLASS),
+            side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 1.5) +
+  coord_flip() +
+  theme_economist()+
+  labs(title  = "Distribution of English Scores Across Classes")+
+  theme(legend.position = 'none',
+        plot.title = element_text(face = "bold"))
+```
+
+## The Code Chunk
+
+``` r
+ggplot(exam, 
+       aes(x = CLASS, 
+           y = ENGLISH)) +
+  stat_halfeye(aes(fill=CLASS),
+               adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(aes(fill=CLASS),
+               width = .20,
+               outlier.shape = NA) +
+  stat_dots(aes(fill=CLASS),
+            side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 1.5) +
+  coord_flip() +
+  theme_economist()+
+  labs(title  = "Distribution of English Scores Across Classes")+
+  theme(legend.position = 'none',
+        plot.title = element_text(face = "bold"))
+```
+:::
+
+## **4.5 Reference**
 
 -   [Introducing Ridgeline Plots (formerly Joyplots)](https://blog.revolutionanalytics.com/2017/07/joyplots.html)
 

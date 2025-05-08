@@ -31,7 +31,7 @@ In this hands-on exercise, the learning outcomes are:
 
 ```{r, echo=FALSE}
 library(magick)
-img <- image_read("https://r4va.netlify.app/chap10/img/image2.jpg")
+img <- image_read("https://indrajeetpatil.github.io/statsExpressions/reference/figures/stats_reporting_format.png")
 plot(img)
 ```
 
@@ -41,7 +41,7 @@ plot(img)
 
 In this exercise, **ggstatsplot** and **tidyverse** will be used.
 
-The code chunk below will be used load these R packages into RStudio environment.
+The code chunk below will be used to load these R packages into RStudio environment.
 
 ```{r}
 pacman::p_load(ggstatsplot, tidyverse)
@@ -61,7 +61,16 @@ exam <- read_csv("data/Exam_data.csv", show_col_types = FALSE)
 
 In the code chunk below, [*gghistostats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/gghistostats.html) is used to to build an visual of one-sample test on English scores.
 
-```{r}
+***Hypothesis***
+
+H0: Mean of English score = 60
+
+H1: Mean of English score != 60
+
+::: panel-tabset
+
+## The Plot
+```{r, echo=FALSE}
 set.seed(1234)
 
 gghistostats(
@@ -73,7 +82,25 @@ gghistostats(
 )
 ```
 
-Default information: - statistical details - Bayes Factor - sample sizes - distribution summary
+## The Code
+```r
+set.seed(1234)
+
+gghistostats(
+  data = exam,
+  x = ENGLISH,
+  type = "bayes",
+  test.value = 60,
+  xlab = "English scores"
+)
+```
+
+:::
+
+
+***Conclusion***
+
+Since BF = e\^-31.52, which is close to 0. We have significant evidence to reject the null hypothesis and conclude that the mean English score is not equal to 60.
 
 ### **4.3.4 Unpacking the Bayes Factor**
 
@@ -92,7 +119,9 @@ plot(img)
 
 ### **4.3.5 How to interpret Bayes Factor**
 
-A **Bayes Factor** can be any positive number. One of the most common interpretations is this one—first proposed by Harold Jeffereys (1961) and slightly modified by [Lee and Wagenmakers](https://www-tandfonline-com.libproxy.smu.edu.sg/doi/pdf/10.1080/00031305.1999.10474443?needAccess=true) in 2013:
+A **Bayes Factor** can be any positive number.
+
+One of the most common interpretations is this one—first proposed by Harold Jeffereys (1961) and slightly modified by [Lee and Wagenmakers](https://www-tandfonline-com.libproxy.smu.edu.sg/doi/pdf/10.1080/00031305.1999.10474443?needAccess=true) in 2013:
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap10/img/image6.jpg")
@@ -103,7 +132,18 @@ plot(img)
 
 In the code chunk below, [*ggbetweenstats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggbetweenstats.html) is used to build a visual for two-sample mean test of Maths scores by gender.
 
-```{r}
+***Hypothesis***
+
+H0: Mean Math score for Male = Mean Math score for Female
+
+H1: Mean Math score for Male != Mean Math score for Female
+
+Alpha = 0.05
+
+::: panel-tabset
+
+## The Plot
+```{r, echo=FALSE}
 ggbetweenstats(
   data = exam,
   x = GENDER, 
@@ -113,13 +153,40 @@ ggbetweenstats(
 )
 ```
 
+## The Code
+```r
+ggbetweenstats(
+  data = exam,
+  x = GENDER, 
+  y = MATHS,
+  type = "np",
+  messages = FALSE
+)
+```
+:::
+
 Default information: - statistical details - Bayes Factor - sample sizes - distribution summary
+
+***Conclusion***
+
+Since the p-value is \> 0.05, we don’t have enough evidence to reject the null hypothesis and conclude that there is no statistically significant difference in the mean Math scores between Males and Females.
 
 ### **4.3.7 Oneway ANOVA Test: *ggbetweenstats()* method**
 
 In the code chunk below, [*ggbetweenstats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggbetweenstats.html) is used to build a visual for One-way ANOVA test on English score by race.
 
-```{r}
+***Hypothesis***
+
+H0: There is no difference in English scores among races.
+
+H1: There are differences in English scores among races.
+
+Alpha = 0.05
+
+::: panel-tabset
+
+## The Plot
+```{r, echo=FALSE}
 ggbetweenstats(
   data = exam,
   x = RACE, 
@@ -133,16 +200,48 @@ ggbetweenstats(
 )
 ```
 
+## The Code
+```r
+ggbetweenstats(
+  data = exam,
+  x = RACE, 
+  y = ENGLISH,
+  type = "p",
+  mean.ci = TRUE, 
+  pairwise.comparisons = TRUE, 
+  pairwise.display = "s",
+  p.adjust.method = "fdr",
+  messages = FALSE
+)
+```
+:::
+
 -   “ns” → only non-significant
 
 -   “s” → only significant
 
 -   “all” → everything
 
+***Conclusion***
+
+Since p-value \< 0.05, we have enough evidence to reject the null hypothesis and conclude that there are differences in English scores among races.
+
 #### 4.3.7.1 ggbetweenstats - Summary of tests
+
+The pairwise test ggbetweenstats() below further shows that the means of English scores of Chinese, Indian and Malay are significantly different.
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap10/img/image7.jpg")
+plot(img)
+```
+
+```{r, echo=FALSE}
+img <- image_read("https://r4va.netlify.app/chap10/img/image8.jpg")
+plot(img)
+```
+
+```{r, echo=FALSE}
+img <- image_read("https://r4va.netlify.app/chap10/img/image9.jpg")
 plot(img)
 ```
 
@@ -150,19 +249,41 @@ plot(img)
 
 In the code chunk below, [*ggscatterstats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggscatterstats.html) is used to build a visual for Significant Test of Correlation between Maths scores and English scores.
 
-```{r}
+::: panel-tabset
+## The Plot
+```{r, echo=FALSE}
 ggscatterstats(
   data = exam,
   x = MATHS,
   y = ENGLISH,
-  marginal = FALSE,
+  marginal = FALSE
   )
 ```
 
+## The Code
+```r
+ggscatterstats(
+  data = exam,
+  x = MATHS,
+  y = ENGLISH,
+  marginal = FALSE
+  )
+```
+:::
+
+***Conclusion***
+
+The result indicates a statistically significant positive relationship (`r̂` = 0.83, p-value \<0.05) between English.
+
 ### **4.3.9 Significant Test of Association (Depedence) : *ggbarstats()* methods**
+
+#### 4.3.9.1 Maths and Gender
 
 In the code chunk below, the Maths scores is binned into a 4-class variable by using [*cut()*](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cut).
 
+::: panel-tabset
+
+## The Code
 ```{r}
 exam1 <- exam %>% 
   mutate(MATHS_bins = 
@@ -171,10 +292,122 @@ exam1 <- exam %>%
 )
 ```
 
+:::
+
 In this code chunk below [*ggbarstats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggbarstats.html) is used to build a visual for Significant Test of Association.
 
+***Hypothesis***
+
+H0: There is no association between Math_bin and Gender.
+
+H1: There is an association between Math_bin and Gender.
+
+Alpha = 0.05
+
+::: panel-tabset
+
+## The Plot
+```{r, echo=FALSE}
+ggbarstats(exam1, 
+           x = MATHS_bins, 
+           y = GENDER)
+```
+
+## The Code
 ```{r}
 ggbarstats(exam1, 
            x = MATHS_bins, 
            y = GENDER)
 ```
+:::
+
+***Conclusion***
+
+Since the p-value is \> 0.05, we do not have enough evidence to reject the null hypothesis that there is no association between the Math_bin and Gender variables.
+
+#### 4.3.9.2 English and Gender
+
+***Hypothesis***
+
+H0: There is no association between English_bin and Gender.
+
+H1: There is an association between English_bin and Gender.
+
+Alpha = 0.05
+
+::: panel-tabset
+
+## The Plot
+```{r, echo=FALSE}
+exam1 <- exam %>% 
+  mutate(ENGLISH_bins = 
+           cut(ENGLISH, 
+               breaks = c(0,60,75,85,100))
+)
+
+ggbarstats(exam1, 
+           x = ENGLISH_bins, 
+           y = GENDER)
+```
+
+## The Code
+```r
+exam1 <- exam %>% 
+  mutate(ENGLISH_bins = 
+           cut(ENGLISH, 
+               breaks = c(0,60,75,85,100))
+)
+
+ggbarstats(exam1, 
+           x = ENGLISH_bins, 
+           y = GENDER)
+```
+
+::: 
+
+***Conclusion***
+
+Since the p-value is \< 0.05, we reject the null hypothesis. There is an association between the English_bin and Gender variables.
+
+#### 4.3.9.2 Science and Gender
+
+***Hypothesis***
+
+H0: There is no association between Science_bin and Gender.
+
+H1: There is an association between Science_bin and Gender.
+
+Alpha = 0.05
+
+::: panel-tabset
+
+## The Plot
+```{r, echo=FALSE}
+exam1 <- exam %>% 
+  mutate(SCIENCE_bins = 
+           cut(SCIENCE, 
+               breaks = c(0,60,75,85,100))
+)
+
+ggbarstats(exam1, 
+           x = SCIENCE_bins, 
+           y = GENDER)
+```
+
+## The Code
+```r
+exam1 <- exam %>% 
+  mutate(SCIENCE_bins = 
+           cut(SCIENCE, 
+               breaks = c(0,60,75,85,100))
+)
+
+ggbarstats(exam1, 
+           x = SCIENCE_bins, 
+           y = GENDER)
+```
+:::
+
+***Conclusion***
+
+Since the p-value is \> 0.05, we do not have enough evidence to reject the null hypothesis that there is no association between the Science_bin and Gender variables.
