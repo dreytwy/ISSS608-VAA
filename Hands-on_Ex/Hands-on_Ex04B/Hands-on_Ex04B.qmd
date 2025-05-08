@@ -32,7 +32,10 @@ In this hands-on exercise, the learning outcomes are:
 ```{r, echo=FALSE}
 library(magick)
 img <- image_read("https://indrajeetpatil.github.io/statsExpressions/reference/figures/stats_reporting_format.png")
-plot(img)
+img_trimmed <- image_trim(img)
+img_scaled <- image_scale(img_trimmed, "x700")  # Only specifying height, width auto-adjusts
+
+plot(img_scaled)
 ```
 
 ## **4.3 Getting Started**
@@ -68,8 +71,8 @@ H0: Mean of English score = 60
 H1: Mean of English score != 60
 
 ::: panel-tabset
-
 ## The Plot
+
 ```{r, echo=FALSE}
 set.seed(1234)
 
@@ -79,11 +82,14 @@ gghistostats(
   type = "bayes",
   test.value = 60,
   xlab = "English scores"
-)
+)+
+  labs(title  = "One-sample Test on English Scores")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ## The Code
-```r
+
+``` r
 set.seed(1234)
 
 gghistostats(
@@ -92,11 +98,11 @@ gghistostats(
   type = "bayes",
   test.value = 60,
   xlab = "English scores"
-)
+)+
+  labs(title  = "One-sample Test on English Scores")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
-
 :::
-
 
 ***Conclusion***
 
@@ -112,7 +118,8 @@ Since BF = e\^-31.52, which is close to 0. We have significant evidence to rejec
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap10/img/image5.jpg")
-plot(img)
+img_scaled <- image_scale(img, "x100")  # Only specifying height, width auto-adjusts
+plot(img_scaled)
 ```
 
 -   The [**Schwarz criterion**](https://www.statisticshowto.com/bayesian-information-criterion/) is one of the easiest ways to calculate rough approximation of the Bayes Factor.
@@ -141,8 +148,8 @@ H1: Mean Math score for Male != Mean Math score for Female
 Alpha = 0.05
 
 ::: panel-tabset
-
 ## The Plot
+
 ```{r, echo=FALSE}
 ggbetweenstats(
   data = exam,
@@ -150,18 +157,23 @@ ggbetweenstats(
   y = MATHS,
   type = "np",
   messages = FALSE
-)
+)+
+  labs(title  = "Two-sample mean test of Maths scores by Gender")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ## The Code
-```r
+
+``` r
 ggbetweenstats(
   data = exam,
   x = GENDER, 
   y = MATHS,
   type = "np",
   messages = FALSE
-)
+)+
+  labs(title  = "Two-sample mean test of Maths scores by Gender")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 :::
 
@@ -184,8 +196,8 @@ H1: There are differences in English scores among races.
 Alpha = 0.05
 
 ::: panel-tabset
-
 ## The Plot
+
 ```{r, echo=FALSE}
 ggbetweenstats(
   data = exam,
@@ -197,11 +209,14 @@ ggbetweenstats(
   pairwise.display = "s",
   p.adjust.method = "fdr",
   messages = FALSE
-)
+)+
+  labs(title  = "One-way ANOVA test on English score by race")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ## The Code
-```r
+
+``` r
 ggbetweenstats(
   data = exam,
   x = RACE, 
@@ -212,7 +227,9 @@ ggbetweenstats(
   pairwise.display = "s",
   p.adjust.method = "fdr",
   messages = FALSE
-)
+)+
+  labs(title  = "One-way ANOVA test on English score by race")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 :::
 
@@ -251,23 +268,29 @@ In the code chunk below, [*ggscatterstats()*](https://indrajeetpatil.github.io/g
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 ggscatterstats(
   data = exam,
   x = MATHS,
   y = ENGLISH,
   marginal = FALSE
-  )
+  )+
+  labs(title  = "Significant Test of Correlation between Maths scores and English scores")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ## The Code
-```r
+
+``` r
 ggscatterstats(
   data = exam,
   x = MATHS,
   y = ENGLISH,
   marginal = FALSE
-  )
+  )+
+  labs(title  = "Significant Test of Correlation between Maths scores and English scores")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 :::
 
@@ -282,8 +305,8 @@ The result indicates a statistically significant positive relationship (`r̂` = 
 In the code chunk below, the Maths scores is binned into a 4-class variable by using [*cut()*](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cut).
 
 ::: panel-tabset
-
 ## The Code
+
 ```{r}
 exam1 <- exam %>% 
   mutate(MATHS_bins = 
@@ -291,7 +314,6 @@ exam1 <- exam %>%
                breaks = c(0,60,75,85,100))
 )
 ```
-
 :::
 
 In this code chunk below [*ggbarstats()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggbarstats.html) is used to build a visual for Significant Test of Association.
@@ -305,19 +327,24 @@ H1: There is an association between Math_bin and Gender.
 Alpha = 0.05
 
 ::: panel-tabset
-
 ## The Plot
+
 ```{r, echo=FALSE}
 ggbarstats(exam1, 
            x = MATHS_bins, 
-           y = GENDER)
+           y = GENDER)+
+  labs(title  = "Significant Test of Association between Math and Gender")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ## The Code
+
 ```{r}
 ggbarstats(exam1, 
            x = MATHS_bins, 
-           y = GENDER)
+           y = GENDER)+
+  labs(title  = "Significant Test of Association between Math and Gender")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 :::
 
@@ -336,8 +363,8 @@ H1: There is an association between English_bin and Gender.
 Alpha = 0.05
 
 ::: panel-tabset
-
 ## The Plot
+
 ```{r, echo=FALSE}
 exam1 <- exam %>% 
   mutate(ENGLISH_bins = 
@@ -347,11 +374,14 @@ exam1 <- exam %>%
 
 ggbarstats(exam1, 
            x = ENGLISH_bins, 
-           y = GENDER)
+           y = GENDER)+
+  labs(title  = "Significant Test of Association between English and Gender")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ## The Code
-```r
+
+``` r
 exam1 <- exam %>% 
   mutate(ENGLISH_bins = 
            cut(ENGLISH, 
@@ -360,10 +390,11 @@ exam1 <- exam %>%
 
 ggbarstats(exam1, 
            x = ENGLISH_bins, 
-           y = GENDER)
+           y = GENDER)+
+  labs(title  = "Significant Test of Association between English and Gender")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
-
-::: 
+:::
 
 ***Conclusion***
 
@@ -380,8 +411,8 @@ H1: There is an association between Science_bin and Gender.
 Alpha = 0.05
 
 ::: panel-tabset
-
 ## The Plot
+
 ```{r, echo=FALSE}
 exam1 <- exam %>% 
   mutate(SCIENCE_bins = 
@@ -391,11 +422,14 @@ exam1 <- exam %>%
 
 ggbarstats(exam1, 
            x = SCIENCE_bins, 
-           y = GENDER)
+           y = GENDER)+
+  labs(title  = "Significant Test of Association between Science and Gender")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 
 ## The Code
-```r
+
+``` r
 exam1 <- exam %>% 
   mutate(SCIENCE_bins = 
            cut(SCIENCE, 
@@ -404,7 +438,9 @@ exam1 <- exam %>%
 
 ggbarstats(exam1, 
            x = SCIENCE_bins, 
-           y = GENDER)
+           y = GENDER)+
+  labs(title  = "Significant Test of Association between Science and Gender")+
+  theme(plot.title = element_text(hjust=0.5, face='bold'))
 ```
 :::
 
