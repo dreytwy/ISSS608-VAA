@@ -424,7 +424,7 @@ plot(img)
 
 ### 4.4.1 Visualizing the uncertainty of point estimates: ggdist methods (Intervals)
 
-#### 4.4.1.1 Intervals of 66% and 99%.
+#### 4.4.1.1 Intervals of 66% and 95%.
 
 In the code chunk below, [`stat_pointinterval()`](https://mjskay.github.io/ggdist/reference/stat_pointinterval.html) of **ggdist** is used to build a visual for displaying distribution of maths scores by race with multiple intervals of 66% and 95%.
 
@@ -438,7 +438,7 @@ exam %>%
   stat_pointinterval() +
   labs(
     title = "Visualising confidence intervals of mean math score",
-    subtitle = "Mean Point + Multiple-interval plot of 66% and 99%")+
+    subtitle = "Mean Point + Multiple-interval plot of 66% and 95%")+
   aes(interval_color=stat(level)) +
   theme(plot.title = element_text(face='bold'))
 
@@ -453,7 +453,7 @@ exam %>%
   stat_pointinterval() +
   labs(
     title = "Visualising confidence intervals of mean math score",
-    subtitle = "Mean Point + Multiple-interval plot of 66% and 99%")+
+    subtitle = "Mean Point + Multiple-interval plot of 66% and 95%")+
   aes(interval_color=stat(level)) +
   theme(plot.title = element_text(face='bold'))
 ```
