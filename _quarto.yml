@@ -19,7 +19,7 @@ project:
 website:
   favicon: bear_heart.png
   announcement:
-    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (04 MAY)** - [**Hands-on Exercise 4**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(10 MAY)** - [**Take-home Exercise 1 Part II**](https://isss608-ay2024-25-dreytwy.netlify.app/Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html) published! " 
+    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (04 MAY)** - [**Hands-on Exercise 4**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(11 MAY)** - [**Take-home Exercise 1 Part II**](https://isss608-ay2024-25-dreytwy.netlify.app/Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html) published! " 
     type: warning
     position: below-navbar
   page-navigation: true
