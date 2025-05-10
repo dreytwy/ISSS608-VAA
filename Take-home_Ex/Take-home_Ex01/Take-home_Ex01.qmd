@@ -108,21 +108,21 @@ glimpse(sg_demo_2024)
 
 ## 4.2 Data Dictionary for Variables
 
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Category           | Column Headers | Type           | Description                                            |
-+====================+================+================+========================================================+
-| Planning Area      | PA             | CHAR           | 55 area names                                          |
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Subzone            | SZ             | CHAR           | 332 area names                                         |
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Single Year of Age | Age            | CHAR           | 0 to 90_and_over (in increments of 1)                  |
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Sex                | Sex            | CHAR           | Males; Females                                         |
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Resident Count     | Pop            | NUM            | 0 to 1180 (in multiples of 10, with occasional breaks) |
-+--------------------+----------------+----------------+--------------------------------------------------------+
-| Time/Period        | Time           | NUM            | 2024                                                   |
-+--------------------+----------------+----------------+--------------------------------------------------------+
++--------------------+----------------+--------+--------------------------------------------------------+
+| Category           | Column Headers | Type   | Description                                            |
++====================+================+========+========================================================+
+| Planning Area      | PA             | CHAR   | 55 area names                                          |
++--------------------+----------------+--------+--------------------------------------------------------+
+| Subzone            | SZ             | CHAR   | 332 area names                                         |
++--------------------+----------------+--------+--------------------------------------------------------+
+| Single Year of Age | Age            | CHAR   | 0 to 90_and_over (in increments of 1)                  |
++--------------------+----------------+--------+--------------------------------------------------------+
+| Sex                | Sex            | CHAR   | Males; Females                                         |
++--------------------+----------------+--------+--------------------------------------------------------+
+| Resident Count     | Pop            | NUM    | 0 to 1180 (in multiples of 10, with occasional breaks) |
++--------------------+----------------+--------+--------------------------------------------------------+
+| Time/Period        | Time           | NUM    | 2024                                                   |
++--------------------+----------------+--------+--------------------------------------------------------+
 
 ::: callout-note
 ## Note.
@@ -2702,7 +2702,7 @@ There is a title in bold followed by subtitles. They provide the background to t
 
 ## Choosing the right visualisation
 
-Here, the problem statement was to create at most three graphs to display the demographic structures and distributions of a country. The designer may like to look into chart types such as histograms, population pyramids, and boxplots.
+Here, the task was to create at most three graphs to display the demographic structures and distributions of a country. The designer may like to look into chart types such as histograms, population pyramids, and boxplots.
 
 ![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img/image2-16.jpg){width="500"}
 :::
