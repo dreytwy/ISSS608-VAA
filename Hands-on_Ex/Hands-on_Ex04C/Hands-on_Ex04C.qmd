@@ -464,7 +464,7 @@ exam %>%
 For example, in the code chunk below the following arguments were used:
 
 | Argument | Description |
-|-----------------|-------------------------------------------------------|
+|----|----|
 | .width | a vector of probabilities that determines the widths of the resulting intervals. The default setting is .width = c(0.66, 0.95), or plotting 66% CI and 95% CI. Here the setting is at 95%. |
 | .point | point summary (typically mean, median, or mode) |
 | .interval | interval type (quantile interval, **`qi`**; highest-density interval, **`hdi`**; or highest-density continuous interval, **`hdci`**). |

@@ -515,7 +515,7 @@ ggplot(exam,
            y = ENGLISH)) +
   stat_halfeye(aes(fill=CLASS),
                adjust = 0.5,
-               justification = -0.2,
+               justification = -0.1,
                .width = 0,
                point_colour = NA) +
   geom_boxplot(aes(fill=CLASS),
@@ -523,14 +523,17 @@ ggplot(exam,
                outlier.shape = NA) +
   stat_dots(aes(fill=CLASS),
             side = "left", 
-            justification = 1.2, 
+            justification =1.2, 
             binwidth = .5,
-            dotsize = 1.5) +
+            dotsize = 0.5) +
   coord_flip() +
   theme_economist()+
   labs(title  = "Distribution of English Scores Across Classes")+
-  theme(legend.position = 'none',
-        plot.title = element_text(face = "bold"))
+ theme(
+    panel.spacing.x = unit(10, "cm"),
+    strip.background = element_blank(),    
+    legend.position = "none" # Remove the legend
+  )
 ```
 
 ## The Code Chunk
@@ -541,7 +544,7 @@ ggplot(exam,
            y = ENGLISH)) +
   stat_halfeye(aes(fill=CLASS),
                adjust = 0.5,
-               justification = -0.2,
+               justification = -0.1,
                .width = 0,
                point_colour = NA) +
   geom_boxplot(aes(fill=CLASS),
@@ -549,14 +552,17 @@ ggplot(exam,
                outlier.shape = NA) +
   stat_dots(aes(fill=CLASS),
             side = "left", 
-            justification = 1.2, 
+            justification =1.2, 
             binwidth = .5,
-            dotsize = 1.5) +
+            dotsize = 0.5) +
   coord_flip() +
   theme_economist()+
   labs(title  = "Distribution of English Scores Across Classes")+
-  theme(legend.position = 'none',
-        plot.title = element_text(face = "bold"))
+ theme(
+    panel.spacing.x = unit(10, "cm"),
+    strip.background = element_blank(),    
+    legend.position = "none" # Remove the legend
+  )
 ```
 :::
 

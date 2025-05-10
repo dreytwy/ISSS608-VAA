@@ -216,8 +216,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <div id="quarto-announcement" data-announcement-id="ebff78115b0c9db9e6e38e510af282e6" class="alert alert-warning hidden"><div class="quarto-announcement-content">
-<p><i class="bi bi-balloon-heart-fill"></i> <strong>NEW! (04 MAY)</strong> - <a href="https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html"><strong>Hands-on Exercise 4</strong></a> published! <br> <i class="bi bi-cup-hot-fill"></i> <strong>(04 May)</strong> - <a href="https://isss608-ay2024-25-dreytwy.netlify.app/Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html"><strong>Take-home Exercise 01</strong></a> published!</p>
+  <div id="quarto-announcement" data-announcement-id="d081fd566dbf86037bb885001cc02637" class="alert alert-warning hidden"><div class="quarto-announcement-content">
+<p><i class="bi bi-balloon-heart-fill"></i> <strong>NEW! (04 MAY)</strong> - <a href="https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html"><strong>Hands-on Exercise 4</strong></a> published! <br> <i class="bi bi-cup-hot-fill"></i> <strong>(10 MAY)</strong> - <a href="https://isss608-ay2024-25-dreytwy.netlify.app/Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html"><strong>Take-home Exercise 1 Part II</strong></a> published!</p>
 </div><i class="bi bi-x-lg quarto-announcement-action"></i></div>
 </header>
 <!-- content -->
@@ -284,7 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">May 9, 2025</p>
+      <p class="date-modified">May 11, 2025</p>
     </div>
   </div>
     
@@ -723,7 +723,7 @@ Things to learn from the code chunk above
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> ENGLISH)) <span class="sc">+</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="fu">aes</span>(<span class="at">fill=</span>CLASS),</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">adjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">justification =</span> <span class="sc">-</span><span class="fl">0.2</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">justification =</span> <span class="sc">-</span><span class="fl">0.1</span>,</span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">.width =</span> <span class="dv">0</span>,</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">point_colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>CLASS),</span>
@@ -731,14 +731,17 @@ Things to learn from the code chunk above
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_dots</span>(<span class="fu">aes</span>(<span class="at">fill=</span>CLASS),</span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">side =</span> <span class="st">"left"</span>, </span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">justification =</span> <span class="fl">1.2</span>, </span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">justification =</span><span class="fl">1.2</span>, </span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">binwidth =</span> .<span class="dv">5</span>,</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">dotsize =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">dotsize =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>()<span class="sc">+</span></span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title  =</span> <span class="st">"Distribution of English Scores Across Classes"</span>)<span class="sc">+</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>,</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a> <span class="fu">theme</span>(</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing.x =</span> <span class="fu">unit</span>(<span class="dv">10</span>, <span class="st">"cm"</span>),</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),    </span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span> <span class="co"># Remove the legend</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>

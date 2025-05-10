@@ -5,7 +5,7 @@ author: "Audrey Tan"
 date: "04 May 2025"
 date-modified: "last-modified"
 
-format: html
+format: docx
 editor: visual
 execute: 
   eval: true
@@ -18,7 +18,7 @@ execute:
 
 ## 1.1 Background and Task
 
-Aero Media is a local online media company that publishes daily content on digital platforms is planning to release an article on **demographic structures and distribution of Singapore in 2024**. As a graphical editor of the media company (Aero Media), there is a need to prepare **at most** **three** non-interactive data visualisation for the daily article. This article aims to explore the distribution and structure of the population age, gender, and regions. Please refer to Section 2 to 7 for the rationalisation and preparation, and Section 8 for this Article. Please refer to Section 11 for the comments and edits for Phase 2 of the task.
+Aero Media is a local online media company that publishes daily content on digital platforms is planning to release an article on **demographic structures and distribution of Singapore in 2024**. As a graphical editor of the media company (Aero Media), there is a need to prepare **at most** **three** non-interactive data visualisation for the daily article. This article aims to explore the distribution and structure of the population age, gender, and regions. Please refer to Section 2 to 7 for the rationalisation and preparation, and Section 8 for this Article. Please refer to Section 10 for the comments and edits for Phase 2 of the task.
 
 ## 1.2 The Data
 
@@ -108,14 +108,21 @@ glimpse(sg_demo_2024)
 
 ## 4.2 Data Dictionary for Variables
 
-| Category | Column Headers | Type | Description |
-|----|----|----|----|
-| Planning Area | PA | CHAR | 55 area names |
-| Subzone | SZ | CHAR | 332 area names |
-| Single Year of Age | Age | NUM | 0 to 90_and_over (in increments of 1) |
-| Sex | Sex | CHAR | Males; Females |
-| Resident Count | Pop | NUM | 0 to 1180 (in multiples of 10, with occasional breaks) |
-| Time/Period | Time | NUM | 2024 |
++--------------------+----------------+----------------+--------------------------------------------------------+
+| Category           | Column Headers | Type           | Description                                            |
++====================+================+================+========================================================+
+| Planning Area      | PA             | CHAR           | 55 area names                                          |
++--------------------+----------------+----------------+--------------------------------------------------------+
+| Subzone            | SZ             | CHAR           | 332 area names                                         |
++--------------------+----------------+----------------+--------------------------------------------------------+
+| Single Year of Age | Age            | CHAR           | 0 to 90_and_over (in increments of 1)                  |
++--------------------+----------------+----------------+--------------------------------------------------------+
+| Sex                | Sex            | CHAR           | Males; Females                                         |
++--------------------+----------------+----------------+--------------------------------------------------------+
+| Resident Count     | Pop            | NUM            | 0 to 1180 (in multiples of 10, with occasional breaks) |
++--------------------+----------------+----------------+--------------------------------------------------------+
+| Time/Period        | Time           | NUM            | 2024                                                   |
++--------------------+----------------+----------------+--------------------------------------------------------+
 
 ::: callout-note
 ## Note.
@@ -444,7 +451,7 @@ sg_demo_2024 <- sg_demo_2024 %>%
 
 ### 5.2.4 Discretization: Creation of new summarised_ages
 
-Based on Singapore Department of Statistics's classification, elderly are persons aged 65 and older. Based on the Ministry of Manpower the working-age population comprises of persons aged 15 and over. Thus, the remaining younger population are classified as young here.
+Based on Singapore Department of Statistics' classification, elderly are persons aged 65 and older. Based on the Ministry of Manpower the working-age population comprises of persons aged 15 and over. Thus, the remaining younger population are classified as young here.
 
 ::: panel-tabset
 ## The Code
@@ -2660,7 +2667,484 @@ Based on the EDA above, we can conclude the following about the demographic dist
 
 -   With more data, labour force participation rate per region can be obtained by zooming into the working age groups (15-24, 25-54, 55-64, 65 and over).
 
-# 10. References and Inspiration
+# 10. Comments and Edits
+
+## 10.1 Background and Task
+
+In Phase 2 of the take home exercise, one submission by a fellow classmate is selected. Three good design principles and three areas for further improvement are provided. The makeover version of the data visualisation is prepared based on the suggestions from the quadrants of achieving both clarity and aesthetics, the components of a graph, having a well-worded title and the right visualisation.
+
+::: panel-tabset
+## Clarity or Aesthetics?
+
+These are what the 4 quadrants measure:
+
+-   Quadrant 1: Beautiful and Clear
+
+-   Quadrant 2: Clear and Ugly
+
+-   Quadrant 3: Ugly and Confusing
+
+-   Quadrant 4: Beautiful and Confusing
+
+![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img/image2-48b.png){width="463"}
+
+## Components of a Graph
+
+These are the different components of a graph pointed out by the blue annotations.
+
+![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img/image2-15.png){width="636"}
+
+## Well-worded title
+
+There is a title in bold followed by subtitles. They provide the background to the chart and assist to tell a data story. There is also a caption to cite the data source.
+
+![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img/image2-54.jpg){width="500"}
+
+## Choosing the right visualisation
+
+Here, the problem statement was to create at most three graphs to display the demographic structures and distributions of a country. The designer may like to look into chart types such as histograms, population pyramids, and boxplots.
+
+![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img/image2-16.jpg){width="500"}
+:::
+
+## 10.2 Selected Graph and Feedback
+
+![](https://isss608-blessmebellburve.netlify.app/take-home_ex/take-home_ex01/Take-home_Ex01_files/figure-html/unnamed-chunk-19-1.png){height="500"}
+
+::::: {.card .text-black .bg-light-purple .mb-3}
+::: {.card-header style="font-size: 1.5em; display: flex;"}
+<img src="kitten_ball.png" alt="Jedi Dog" class="card-header-icon" style="width: 70px; height: auto; vertical-align: middle; margin-right: 5px;"/> **Constructive Feedback**
+:::
+
+::: card-body
+**3 Good Design Principles:**
+
+Currently the selected graph is both beautiful (aesthetic) and clear (clarity) in Quadrant 1.
+
+1.  **Beautiful:** Overall, the font and palette throughout the chart is easy on the eyes for visual perception. This is done by the designer's choice of contrasting colours between Males (blue) and Females (red). The colours for both genders also contrast well against the white background colour.
+
+2.  **Clear:** The targeted audience of the media may not have a statistical background. Thus the population pyramid provides clear graphics, which may be the right choice of visualisation for population distribution intended for the layman. This was also the choice of graph provided by the Department of Statistics Singapore in their [**Age Pyramid of Resident Population**](https://www.singstat.gov.sg/find-data/search-by-theme/population/population-and-population-structure/visualising-data/population-dashboard). It can be seen that there were deliberations made by this designer with clever use of derived values such as totals and percentages to reveal more interesting patterns than values at granular levels. In this case, the designer self-initiated to derive categorical bins of the age groups using total counts of population for different genders. The population pyramid may then be replicated into regions. Depending on the problem statement, these may provide sufficient levels of analysis for broader information, without drilling down to introduce complexity. This communicates to a wider audience at higher levels compared to navigating selected or numerous areas.
+
+3.  **Beautiful:** The soft gridlines and elements are well spaced, and do not distract. The Y-axis follows the conventional pyramid shape of younger to older ages as it rises up the pyramid. This is as the population pyramid derived its name from having a heavy base from a growing population (more babies born than mortality), leading to an upright pyramid or triangular shape.
+
+**3 Suggested Areas for Future Improvements:**
+
+Minor adjustments and suggestions to move higher up Quadrant 1.
+
+1.  **Clear:** Further well-worded subtitle, annotations and coloured labels to provide details or tell the data story clearer.
+
+2.  **Clear:** Caption on data source for credibility and/or credits to the designer may be added.
+
+3.  **Clear:** Y-Axis may be further improved to expand the age-groups to match common 5-year age-groups standards and Singapore's census data. The breakdown provides clear details of subtle shifts in trends and patterns of the population structure.
+:::
+:::::
+
+## 10.3 Makeover of the Graph
+
+The makeover attempts to implement the earlier 3 suggested areas which are pointed out by the arrows and corresponding numbers.
+
+::: panel-tabset
+## The Plot
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(dplyr)
+library(scales)
+
+#--------- Age Groups ----------------
+sg_demo_2024 <- sg_demo_2024 %>%
+  mutate(
+    # Convert age to numeric, handle "90_and_Over"
+    Age_num = case_when(
+      Age == "90_and_Over" ~ 90,
+      TRUE ~ suppressWarnings(as.numeric(Age))  # Avoid warnings from "90_and_Over"
+    ),
+    
+    # Group into age bands
+    Age_Group = case_when(
+      Age_num >= 0  & Age_num <= 4      ~ "0-4",
+      Age_num >= 5  & Age_num <= 9      ~ "5-9",
+      Age_num >= 10 & Age_num <= 14     ~ "10-14",
+      Age_num >= 15 & Age_num <= 19     ~ "15-19",
+      Age_num >= 20 & Age_num <= 24     ~ "20-24",
+      Age_num >= 25 & Age_num <= 29     ~ "25-29",
+      Age_num >= 30 & Age_num <= 34     ~ "30-34",
+      Age_num >= 35 & Age_num <= 39     ~ "35-39",
+      Age_num >= 40 & Age_num <= 44     ~ "40-44",
+      Age_num >= 45 & Age_num <= 49     ~ "45-49",
+      Age_num >= 50 & Age_num <= 54     ~ "50-54",
+      Age_num >= 55 & Age_num <= 59     ~ "55-59",
+      Age_num >= 60 & Age_num <= 64     ~ "60-64",
+      Age_num >= 65 & Age_num <= 69     ~ "65-69",
+      Age_num >= 70 & Age_num <= 74     ~ "70-74",
+      Age_num >= 75 & Age_num <= 79     ~ "75-79",
+      Age_num >= 80 & Age_num <= 84     ~ "80-84",
+      Age_num >= 85 & Age_num <= 89     ~ "85-89",
+      Age_num >= 90                ~ "90+",
+      TRUE                         ~ NA_character_
+    )
+  )
+
+#------------------Pop Pyramid--------------------
+# Summarise and compute plot values
+pop_pyramid <- sg_demo_2024 %>%
+  group_by(Age_Group, Sex) %>%
+  summarise(Pop = sum(Pop), .groups = "drop") %>%
+  group_by(Sex) %>%
+  mutate(Percent = Pop / sum(Pop) * 100) %>%
+  ungroup()
+
+# Order Age_group for proper vertical alignment
+age_levels <- c("0-4",
+                "5-9",
+                "10-14",
+                "15-19",
+                "20-24",
+                "25-29",
+                "30-34",
+                "35-39",
+                "40-44",
+                "45-49",
+                "50-54",
+                "55-59",
+                "60-64",
+                "65-69",
+                "70-74",
+                "75-79",
+                "80-84",
+                "85-89", 
+                "90+")
+pop_pyramid$Age_Group <- factor(pop_pyramid$Age_Group, levels = age_levels)
+
+# Flip male values to negative
+pop_pyramid <- pop_pyramid %>%
+  mutate(Pop_plot = ifelse(Sex == "Males", -Pop, Pop),
+         Label = paste0(comma(abs(Pop)), "  (", round(abs(Percent), 1), "%)"))
+
+# Plot
+ggplot(pop_pyramid, aes(x = Age_Group, y = Pop_plot, fill = Sex)) +
+  geom_bar(stat = "identity", width = 0.8, position = "identity") +
+  coord_flip() +
+  geom_text(aes(label = Label),
+            position = position_nudge(y = ifelse(pop_pyramid$Sex == "Males", -50000, 10000)),
+            hjust = ifelse(pop_pyramid$Sex == "Males", 0, 0.1),
+            size = 1.8, color = 'black') +
+  scale_y_continuous(labels = function(x) comma(abs(x)), expand = expansion(mult = c(0.1, 0.1))) +
+  scale_fill_manual(values = c("Males" = "#619CFF80", "Females" = "#F8766D80")) +
+  labs(title = "Singapore Population between Genders for Age Groups (2024)",
+       subtitle = "Ageing population with a median age at 42",
+       x = "Age Group", 
+       y = "Population Count") +
+  annotate(
+    geom = "label",
+    x = 18,
+    y = 120000,
+    label = "Females",
+    fill = "#F8766D80",
+    color = "black",
+    label.size = 0,
+    label.padding = unit(0.3, "lines"),
+    size=3
+  )   +
+  annotate(
+    geom = "label",
+    x = 18,
+    y = -115000,
+    label = "Males",
+    fill = "#619CFF80",
+    color = "black",
+    label.size = 0,
+    label.padding = unit(0.3, "lines"),
+    size=3
+  )   +  
+  theme_minimal()+
+    labs(caption = "Data Source: Department of Statistics, Singapore | Designer: XYZ")+
+    theme(
+    plot.margin = margin(10, 20, 20, 20),  # top, right, bottom, left
+    legend.position = "none",
+    axis.text.x = element_text(size = 8),
+    axis.text.y = element_text(size = 8),
+    axis.title.x = element_text(size = 10),
+    axis.title.y = element_text(size = 10),
+    plot.title = element_text(size = 12, face='bold'),
+    plot.subtitle = element_text(size = 10, hjust=0),
+    plot.caption= element_text(size = 6)
+    )+ 
+#-------------------------Labelling------------------------------
+# Curve 1
+  geom_curve(
+  aes(x = 17.5, y = -200000, xend = 19, yend = -200000),
+  arrow = arrow(
+    length = unit(0.03, "npc"), 
+    type="closed" 
+  ),
+  colour = "navyblue",
+  size = 0.8,
+  angle = 180)+ 
+    # Curve 2
+  geom_curve(
+  aes(x = 16, y = -155000, xend = 17, yend = -130000),
+  arrow = arrow(
+    length = unit(0.03, "npc"), 
+    type="closed" 
+  ),
+  colour = "navyblue",
+  size = 0.8,
+  angle = 180)+ 
+      # Text 1
+  annotate(
+    "text",
+    x = 16,         # Same x-coordinate as the arrow's start
+    y = -150000,    # Same y-coordinate as the arrow's start
+    label = "(1) Edited Title, \n Added Subtitle\nand Gender labels", # The text added
+    hjust = 1.1,      # Adjust horizontal alignment to position the text relative to the point
+    vjust = 0.5,      # Adjust vertical alignment
+    size = 3,
+    colour="navyblue")+ 
+  # Curve 3
+  geom_curve(
+  aes(x = 3.5, y =-180000, xend = 5.5, yend = -200000),
+  arrow = arrow(
+    length = unit(0.03, "npc"), 
+    type="closed" 
+  ),
+  colour = "navyblue",
+  size = 0.8,
+  angle = 90)+ 
+   # Text 3
+  annotate(
+    "text",
+    x = 1.5,         # Same x-coordinate as the arrow's start
+    y = -170000,    # Same y-coordinate as the arrow's start
+    label = "(3) Expanded\nY-axis", # The text added
+    hjust = 1.1,      # Adjust horizontal alignment to position the text relative to the point
+    vjust = 0.5,      # Adjust vertical alignment
+    size = 3,
+    colour="navyblue")+ 
+  # Curve 4
+  geom_curve(
+  aes(x = 2, y = 180000, xend = 0.1, yend = 160000),
+  arrow = arrow(
+    length = unit(0.03, "npc"), 
+    type="closed" 
+  ),
+  colour = "navyblue",
+  size = 0.8,
+  angle = 90)+
+     # Text 4
+  annotate(
+    "text",
+    x = 3.1,         # Same x-coordinate as the arrow's start
+    y = 220000,    # Same y-coordinate as the arrow's start
+    label = "(2) Added\ncaption", # The text added
+    hjust = 1.1,      # Adjust horizontal alignment to position the text relative to the point
+    vjust = 0.5,      # Adjust vertical alignment
+    size = 3,
+    colour="navyblue")
+
+```
+
+## The Code
+
+``` r
+library(ggplot2)
+library(dplyr)
+library(scales)
+
+#--------- Age Groups ----------------
+sg_demo_2024 <- sg_demo_2024 %>%
+  mutate(
+    # Convert age to numeric, handle "90_and_Over"
+    Age_num = case_when(
+      Age == "90_and_Over" ~ 90,
+      TRUE ~ suppressWarnings(as.numeric(Age))  # Avoid warnings from "90_and_Over"
+    ),
+    
+    # Group into age bands
+    Age_Group = case_when(
+      Age_num >= 0  & Age_num <= 4      ~ "0-4",
+      Age_num >= 5  & Age_num <= 9      ~ "5-9",
+      Age_num >= 10 & Age_num <= 14     ~ "10-14",
+      Age_num >= 15 & Age_num <= 19     ~ "15-19",
+      Age_num >= 20 & Age_num <= 24     ~ "20-24",
+      Age_num >= 25 & Age_num <= 29     ~ "25-29",
+      Age_num >= 30 & Age_num <= 34     ~ "30-34",
+      Age_num >= 35 & Age_num <= 39     ~ "35-39",
+      Age_num >= 40 & Age_num <= 44     ~ "40-44",
+      Age_num >= 45 & Age_num <= 49     ~ "45-49",
+      Age_num >= 50 & Age_num <= 54     ~ "50-54",
+      Age_num >= 55 & Age_num <= 59     ~ "55-59",
+      Age_num >= 60 & Age_num <= 64     ~ "60-64",
+      Age_num >= 65 & Age_num <= 69     ~ "65-69",
+      Age_num >= 70 & Age_num <= 74     ~ "70-74",
+      Age_num >= 75 & Age_num <= 79     ~ "75-79",
+      Age_num >= 80 & Age_num <= 84     ~ "80-84",
+      Age_num >= 85 & Age_num <= 89     ~ "85-89",
+      Age_num >= 90                ~ "90+",
+      TRUE                         ~ NA_character_
+    )
+  )
+
+#------------------Pop Pyramid--------------------
+# Summarise and compute plot values
+pop_pyramid <- sg_demo_2024 %>%
+  group_by(Age_Group, Sex) %>%
+  summarise(Pop = sum(Pop), .groups = "drop") %>%
+  group_by(Sex) %>%
+  mutate(Percent = Pop / sum(Pop) * 100) %>%
+  ungroup()
+
+# Order Age_group for proper vertical alignment
+age_levels <- c("0-4",
+                "5-9",
+                "10-14",
+                "15-19",
+                "20-24",
+                "25-29",
+                "30-34",
+                "35-39",
+                "40-44",
+                "45-49",
+                "50-54",
+                "55-59",
+                "60-64",
+                "65-69",
+                "70-74",
+                "75-79",
+                "80-84",
+                "85-89", 
+                "90+")
+pop_pyramid$Age_Group <- factor(pop_pyramid$Age_Group, levels = age_levels)
+
+# Flip male values to negative
+pop_pyramid <- pop_pyramid %>%
+  mutate(Pop_plot = ifelse(Sex == "Males", -Pop, Pop),
+         Label = paste0(comma(abs(Pop)), "  (", round(abs(Percent), 1), "%)"))
+
+# Plot
+ggplot(pop_pyramid, aes(x = Age_Group, y = Pop_plot, fill = Sex)) +
+  geom_bar(stat = "identity", width = 0.8, position = "identity") +
+  coord_flip() +
+  geom_text(aes(label = Label),
+            position = position_nudge(y = ifelse(pop_pyramid$Sex == "Males", -50000, 10000)),
+            hjust = ifelse(pop_pyramid$Sex == "Males", 0, 0.1),
+            size = 1.8, color = 'black') +
+  scale_y_continuous(labels = function(x) comma(abs(x)), expand = expansion(mult = c(0.1, 0.1))) +
+  scale_fill_manual(values = c("Males" = "#619CFF80", "Females" = "#F8766D80")) +
+  labs(title = "Singapore Population between Genders for Age Groups (2024)",
+       subtitle = "Ageing population with a median age at 42",
+       x = "Age Group", 
+       y = "Population Count") +
+  annotate(
+    geom = "label",
+    x = 18,
+    y = 120000,
+    label = "Females",
+    fill = "#F8766D80",
+    color = "black",
+    label.size = 0,
+    label.padding = unit(0.3, "lines"),
+    size=3
+  )   +
+  annotate(
+    geom = "label",
+    x = 18,
+    y = -115000,
+    label = "Males",
+    fill = "#619CFF80",
+    color = "black",
+    label.size = 0,
+    label.padding = unit(0.3, "lines"),
+    size=3
+  )   +  
+  theme_minimal()+
+    labs(caption = "Data Source: Department of Statistics, Singapore | Designer: XYZ")+
+    theme(
+    plot.margin = margin(10, 20, 20, 20),  # top, right, bottom, left
+    legend.position = "none",
+    axis.text.x = element_text(size = 8),
+    axis.text.y = element_text(size = 8),
+    axis.title.x = element_text(size = 10),
+    axis.title.y = element_text(size = 10),
+    plot.title = element_text(size = 12, face='bold'),
+    plot.subtitle = element_text(size = 10, hjust=0),
+    plot.caption= element_text(size = 6)
+    )+ 
+#-------------------------Labelling------------------------------
+# Curve 1
+  geom_curve(
+  aes(x = 17.5, y = -200000, xend = 19, yend = -200000),
+  arrow = arrow(
+    length = unit(0.03, "npc"), 
+    type="closed" 
+  ),
+  colour = "navyblue",
+  size = 0.8,
+  angle = 180)+ 
+    # Curve 2
+  geom_curve(
+  aes(x = 16, y = -155000, xend = 17, yend = -130000),
+  arrow = arrow(
+    length = unit(0.03, "npc"), 
+    type="closed" 
+  ),
+  colour = "navyblue",
+  size = 0.8,
+  angle = 180)+ 
+      # Text 1
+  annotate(
+    "text",
+    x = 16,         # Same x-coordinate as the arrow's start
+    y = -150000,    # Same y-coordinate as the arrow's start
+    label = "(1) Edited Title, \n Added Subtitle\nand Gender labels", # The text added
+    hjust = 1.1,      # Adjust horizontal alignment to position the text relative to the point
+    vjust = 0.5,      # Adjust vertical alignment
+    size = 3,
+    colour="navyblue")+ 
+  # Curve 3
+  geom_curve(
+  aes(x = 3.5, y =-180000, xend = 5.5, yend = -200000),
+  arrow = arrow(
+    length = unit(0.03, "npc"), 
+    type="closed" 
+  ),
+  colour = "navyblue",
+  size = 0.8,
+  angle = 90)+ 
+   # Text 3
+  annotate(
+    "text",
+    x = 1.5,         # Same x-coordinate as the arrow's start
+    y = -170000,    # Same y-coordinate as the arrow's start
+    label = "(3) Expanded\nY-axis", # The text added
+    hjust = 1.1,      # Adjust horizontal alignment to position the text relative to the point
+    vjust = 0.5,      # Adjust vertical alignment
+    size = 3,
+    colour="navyblue")+ 
+  # Curve 4
+  geom_curve(
+  aes(x = 2, y = 180000, xend = 0.1, yend = 160000),
+  arrow = arrow(
+    length = unit(0.03, "npc"), 
+    type="closed" 
+  ),
+  colour = "navyblue",
+  size = 0.8,
+  angle = 90)+
+     # Text 4
+  annotate(
+    "text",
+    x = 3.1,         # Same x-coordinate as the arrow's start
+    y = 220000,    # Same y-coordinate as the arrow's start
+    label = "(2) Added\ncaption", # The text added
+    hjust = 1.1,      # Adjust horizontal alignment to position the text relative to the point
+    vjust = 0.5,      # Adjust vertical alignment
+    size = 3,
+    colour="navyblue")
+```
+:::
+
+# 11. References and Inspiration
 
 -   Steven P. Sanderson II, MPH (2023) [**Creating Population Pyramid Plots in R with ggplot2**](https://www.r-bloggers.com/2023/09/creating-population-pyramid-plots-in-r-with-ggplot2)
 
@@ -2678,10 +3162,4 @@ Based on the EDA above, we can conclude the following about the demographic dist
 
 -   Singapore Department of Statistics (2020) [**National Statistical Standards**](https://www.singstat.gov.sg/-/media/files/standards_and_classifications/nsa.ashx)
 
-# 11. Comments and Edits
-
-## 11.1 Background and Task
-
-In Phase 2 of the exercise, one submission by a classmate is selected. Three good design principles and three areas for further improvement are provided. With reference to the comment, the makeover version of the data visualisation is prepared.
-
-## 11.2 Selected Graph
+-   Dr. Kam Tin Seong (2025) [**Lesson 2: Designing Graphs to Enlighten**](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/lesson02-designing%20graphs%20to%20enlighten)
