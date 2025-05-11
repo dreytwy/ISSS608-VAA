@@ -11,6 +11,7 @@ project:
     - Hands-on_Ex/Hands-on_Ex04b/Hands-on_Ex04b.qmd
     - Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.qmd
     - Hands-on_Ex/Hands-on_Ex04d/Hands-on_Ex04d.qmd
+    - Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05.qmd
     - In-class_Ex/In-class_Ex02/In-class_Ex02.qmd
     - In-class_Ex/In-class_Ex03/In-class_Ex03.qmd
     - Take-home_Ex/Take-home_Ex01/Take-home_Ex01.qmd
@@ -19,7 +20,7 @@ project:
 website:
   favicon: bear_heart.png
   announcement:
-    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (04 MAY)** - [**Hands-on Exercise 4**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex04a/Hands-on_Ex04a.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(11 MAY)** - [**Take-home Exercise 1 Part II**](https://isss608-ay2024-25-dreytwy.netlify.app/Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html) published! " 
+    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (11 MAY)** - [**Hands-on Exercise 5**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(11 MAY)** - [**Take-home Exercise 1 Phase II**](https://isss608-ay2024-25-dreytwy.netlify.app/Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html) published! " 
     type: warning
     position: below-navbar
   page-navigation: true
@@ -45,10 +46,8 @@ website:
             href: "Hands-on_Ex/Hands-on_Ex04c/Hands-on_Ex04c.html"
           - text: "Hands-on Exercise 4d"
             href: "Hands-on_Ex/Hands-on_Ex04d/Hands-on_Ex04d.html"             
-          # - text: "Hands-on Exercise 4"
-          #   href: "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html"
-          # - text: "Hands-on Exercise 5"
-          #   href: "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05.html"
+          - text: "Hands-on Exercise 5"
+            href: "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05.html"
           # - text: "Hands-on Exercise 6"
           #   href: "Hands-on_Ex/Hands-on_Ex06/Hands-on_Ex06.html"
           # - text: "Hands-on Exercise 7"

@@ -34,8 +34,7 @@ library(magick)
 img <- image_read("https://indrajeetpatil.github.io/statsExpressions/reference/figures/stats_reporting_format.png")
 img_trimmed <- image_trim(img)
 img_scaled <- image_scale(img_trimmed, "x700")  # Only specifying height, width auto-adjusts
-
-plot(img_scaled)
+img_scaled
 ```
 
 ## **4.3 Getting Started**
@@ -119,7 +118,7 @@ Since BF = e\^-31.52, which is close to 0. We have significant evidence to rejec
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap10/img/image5.jpg")
 img_scaled <- image_scale(img, "x100")  # Only specifying height, width auto-adjusts
-plot(img_scaled)
+img_scaled
 ```
 
 -   The [**Schwarz criterion**](https://www.statisticshowto.com/bayesian-information-criterion/) is one of the easiest ways to calculate rough approximation of the Bayes Factor.
@@ -132,7 +131,7 @@ One of the most common interpretations is this one—first proposed by Harold Je
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap10/img/image6.jpg")
-plot(img)
+img
 ```
 
 ### **4.3.6 Two-sample mean test: *ggbetweenstats()***
@@ -249,17 +248,17 @@ The pairwise test ggbetweenstats() below further shows that the means of English
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap10/img/image7.jpg")
-plot(img)
+img
 ```
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap10/img/image8.jpg")
-plot(img)
+img
 ```
 
 ```{r, echo=FALSE}
 img <- image_read("https://r4va.netlify.app/chap10/img/image9.jpg")
-plot(img)
+img
 ```
 
 ### **4.3.8 Significant Test of Correlation: *ggscatterstats()***
