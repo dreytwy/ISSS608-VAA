@@ -5,7 +5,7 @@ author: "Audrey Tan"
 date: "04 May 2025"
 date-modified: "last-modified"
 
-format: docx
+format: html
 editor: visual
 execute: 
   eval: true
@@ -3146,20 +3146,20 @@ ggplot(pop_pyramid, aes(x = Age_Group, y = Pop_plot, fill = Sex)) +
 
 # 11. References and Inspiration
 
--   Steven P. Sanderson II, MPH (2023) [**Creating Population Pyramid Plots in R with ggplot2**](https://www.r-bloggers.com/2023/09/creating-population-pyramid-plots-in-r-with-ggplot2)
+-   2travelacrosstime (2023) [**Types of Population Pyramids**](https://2travellingacrosstime.com/2023/08/19/types-of-population-pyramids/)
 
 -   David Keyes (2024) [**How to make polished population pyramids in ggplot: part 1**](https://rfortherestofus.com/2024/07/population-pyramid-part-1)
 
+-   Dr. Kam Tin Seong (2025) [**Lesson 2: Designing Graphs to Enlighten**](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/lesson02-designing%20graphs%20to%20enlighten)
+
 -   Michal Palenik (2024) [**Deomographic Pyramid by Economic Activity Austria 2023**](https://www.iz.sk/en/projects/eu-regions/AT)
-
--   Singstat (2024) [**Population Trends**](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data)
-
--   URA (2025) [**Regional Highlights**](https://www.ura.gov.sg/Corporate/Planning/Master-Plan/Master-Plan-2019/Regional-Highlights)
-
--   National Geographic (2023) [**Population Pyramid**](https://education.nationalgeographic.org/resource/population-pyramid/)
-
--   2travelacrosstime (2023) [**Types of Population Pyramids**](https://2travellingacrosstime.com/2023/08/19/types-of-population-pyramids/)
 
 -   Singapore Department of Statistics (2020) [**National Statistical Standards**](https://www.singstat.gov.sg/-/media/files/standards_and_classifications/nsa.ashx)
 
--   Dr. Kam Tin Seong (2025) [**Lesson 2: Designing Graphs to Enlighten**](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/lesson02-designing%20graphs%20to%20enlighten)
+-   Singstat (2024) [**Population Trends**](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data)
+
+-   Steven P. Sanderson II, MPH (2023) [**Creating Population Pyramid Plots in R with ggplot2**](https://www.r-bloggers.com/2023/09/creating-population-pyramid-plots-in-r-with-ggplot2)
+
+-   National Geographic (2023) [**Population Pyramid**](https://education.nationalgeographic.org/resource/population-pyramid/)
+
+-   URA (2025) [**Regional Highlights**](https://www.ura.gov.sg/Corporate/Planning/Master-Plan/Master-Plan-2019/Regional-Highlights)
