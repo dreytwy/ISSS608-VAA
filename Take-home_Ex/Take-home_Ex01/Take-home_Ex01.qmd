@@ -108,14 +108,21 @@ glimpse(sg_demo_2024)
 
 ## 4.2 Data Dictionary for Variables
 
-| Category | Column Headers | Type | Description |
-|----|----|----|----|
-| Planning Area | PA | CHAR | 55 area names |
-| Subzone | SZ | CHAR | 332 area names |
-| Single Year of Age | Age | CHAR | 0 to 90_and_over (in increments of 1) |
-| Sex | Sex | CHAR | Males; Females |
-| Resident Count | Pop | NUM | 0 to 1180 (in multiples of 10, with occasional breaks) |
-| Time/Period | Time | NUM | 2024 |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Category           | Column Headers | Type      | Description                                            |
++====================+================+===========+========================================================+
+| Planning Area      | PA             | CHAR      | 55 area names                                          |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Subzone            | SZ             | CHAR      | 332 area names                                         |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Single Year of Age | Age            | CHAR      | 0 to 90_and_over (in increments of 1)                  |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Sex                | Sex            | CHAR      | Males; Females                                         |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Resident Count     | Pop            | NUM       | 0 to 1180 (in multiples of 10, with occasional breaks) |
++--------------------+----------------+-----------+--------------------------------------------------------+
+| Time/Period        | Time           | NUM       | 2024                                                   |
++--------------------+----------------+-----------+--------------------------------------------------------+
 
 ::: callout-note
 ## Note.
@@ -2703,6 +2710,8 @@ Here, the task was to create at most three graphs to display the demographic str
 ## 10.2 Selected Graph and Feedback
 
 ![](https://isss608-blessmebellburve.netlify.app/take-home_ex/take-home_ex01/Take-home_Ex01_files/figure-html/unnamed-chunk-19-1.png){height="500"}
+
+[Click here for the link to the selected graph](https://isss608-blessmebellburve.netlify.app/take-home_ex/take-home_ex01/take-home_ex01 "Selected Graph")
 
 ::::: {.card .text-black .bg-light-purple .mb-3}
 ::: {.card-header style="font-size: 1.5em; display: flex;"}
