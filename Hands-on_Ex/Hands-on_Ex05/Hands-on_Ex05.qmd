@@ -569,6 +569,47 @@ g + theme_graph()
 ```
 :::
 
+## 5.5.8 Exploring Other Layouts
+
+::: panel-tabset
+## The Plot
+
+```{r, echo=FALSE}
+graph <- as_tbl_graph(GAStech_graph) |> 
+  mutate(degree = centrality_degree())
+lapply(c('stress', 'sugiyama', 'lgl', 'graphopt','kk','nicely'), function(layout) {
+  ggraph(graph, layout = layout) + 
+    geom_edge_link(aes(width=Weight), show.legend = FALSE, alpha=0.2) +
+    scale_edge_width(range = c(0.1, 5)) +
+    geom_node_point(aes(colour = Department)) + 
+    labs(caption = paste0('Layout: ', layout))
+})
+```
+
+## The Code
+
+```{r, results='hide'}
+graph <- as_tbl_graph(GAStech_graph) |> 
+  mutate(degree = centrality_degree())
+lapply(c('stress', 'sugiyama', 'lgl', 'graphopt','kk','nicely'), function(layout) {
+  ggraph(graph, layout = layout) + 
+    geom_edge_link(aes(width=Weight), show.legend = FALSE, alpha=0.2) +
+    scale_edge_width(range = c(0.1, 5)) +
+    geom_node_point(aes(colour = Department)) + 
+    labs(caption = paste0('Layout: ', layout))
+})
+```
+:::
+
+| Layout | Description |
+|----|----|
+| Stress | Default. Uses stress majorization for node arrangements to make geometric distances between nodes show their graph distances. |
+| Sugiyama | Used for directed acyclic graphs (DAGs) that aims to minimize edge crossings and bends. |
+| LGL (Large Graph Layout) | Designed for large graphs. Fast layout to handle networks with many nodes. |
+| Graphopt | Force-directed algorithm that often produces compact layouts. |
+| KK (Kamada-Kawai) | A spring-based layout that treats edges as springs and tries to find an equilibrium state that minimizes the total energy of the system. Often produces aesthetically pleasing layouts for smaller graphs. |
+| Nicely | Layout that tries to pick a reasonable default layout based on the graph's characteristics. |
+
 # 5.6 Creating facet graphs
 
 Another very useful feature of **ggraph** is faceting. In visualising network data, this technique can be used to reduce edge over-plotting in a very meaning way by spreading nodes and edges out based on their attributes. In this section, you will learn how to use faceting technique to visualise network data.
@@ -632,7 +673,7 @@ g <- ggraph(GAStech_graph,
   scale_edge_width(range = c(0.1, 5)) +
   geom_node_point(aes(colour = Department), 
                   size = 2) +
-  theme(legend.position = 'bottom',
+  theme(legend.position = 'left',
         legend.title = element_text(size = 7),
         legend.text = element_text(size = 7))
   
@@ -651,7 +692,7 @@ g <- ggraph(GAStech_graph,
   scale_edge_width(range = c(0.1, 5)) +
   geom_node_point(aes(colour = Department), 
                   size = 2) +
-  theme(legend.position = 'bottom',
+  theme(legend.position = 'left',
         legend.title = element_text(size = 7),
         legend.text = element_text(size = 7))
   
@@ -680,7 +721,7 @@ g <- ggraph(GAStech_graph,
 g + facet_edges(~Weekday) +
   th_foreground(foreground = "grey80",  
                 border = TRUE) +
-  theme(legend.position = 'bottom',
+  theme(legend.position = 'left',
         legend.title = element_text(size = 7),
         legend.text = element_text(size = 7))
 ```
@@ -701,7 +742,7 @@ g <- ggraph(GAStech_graph,
 g + facet_edges(~Weekday) +
   th_foreground(foreground = "grey80",  
                 border = TRUE) +
-  theme(legend.position = 'bottom',
+  theme(legend.position = 'left',
         legend.title = element_text(size = 7),
         legend.text = element_text(size = 7))
 ```
@@ -728,7 +769,7 @@ g <- ggraph(GAStech_graph,
 g + facet_nodes(~Department)+
   th_foreground(foreground = "grey80",  
                 border = TRUE) +
-  theme(legend.position = 'bottom',
+  theme(legend.position = 'left',
         legend.title = element_text(size = 7),
         legend.text = element_text(size = 7))
 ```
@@ -749,7 +790,7 @@ g <- ggraph(GAStech_graph,
 g + facet_nodes(~Department)+
   th_foreground(foreground = "grey80",  
                 border = TRUE) +
-  theme(legend.position = 'bottom',
+  theme(legend.position = 'left',
         legend.title = element_text(size = 7),
         legend.text = element_text(size = 7))
 ```
