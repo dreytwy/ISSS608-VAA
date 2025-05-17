@@ -125,7 +125,7 @@ ggraph(ggraph, layout ='fr')+
 
 Plotting the line before the node. Force directed layout applied.
 
-## Step 1: Filter edges to only "Memberof"
+### Step 1: Filter edges to only "Memberof"
 
 ```{r}
 graph_memberof <- ggraph %>%
@@ -135,7 +135,7 @@ graph_memberof <- ggraph %>%
 
 Filter away the edges due to clutter from above.
 
-## Step 2: Extract only connected nodes
+### Step 2: Extract only connected nodes
 
 ```{r}
 used_node_indices <- graph_memberof %>%
@@ -146,7 +146,7 @@ used_node_indices <- graph_memberof %>%
   unique()
 ```
 
-## Step 3: Keep only those nodes
+### Step 3: Keep only those nodes
 
 ```{r}
 graph_memberof <- graph_memberof %>%
