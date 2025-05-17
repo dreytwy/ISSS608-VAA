@@ -12,10 +12,11 @@ execute:
   freeze: true
 ---
 
-In the code chunk below, p_load() of pacman package is used to load the R packages into R environment. 
+In the code chunk below, p_load() of pacman package is used to load the R packages into R environment.
 
 ::: panel-tabset
 ## The Code
+
 ```{r}
 pacman::p_load(tidyverse, jsonlite, SmartEDA, 
                tidygraph, ggraph, ggrepel)
@@ -23,24 +24,28 @@ pacman::p_load(tidyverse, jsonlite, SmartEDA,
 :::
 
 ## Importing Data
+
 ```{r}
 vc1 <- fromJSON("data/MC1_graph.json")
 ```
 
 ## Inspect Structure
+
 ```{r}
 str(vc1, max.level =1)
 ```
-This is a directed graph that is multigraph form. 
-It has 10 different nodes (node_type, name, single, release_date, genre, notable, id, written_date, stage_name, notoriety_date) and 4 edge types (edge type, source, target, key). 
+
+This is a directed graph that is multigraph form. It has 10 different nodes (node_type, name, single, release_date, genre, notable, id, written_date, stage_name, notoriety_date) and 4 edge types (edge type, source, target, key).
 
 ## Extract and Inspect
+
 ```{r}
 nodes_tbl<- as_tibble(vc1$nodes)
 edges_tbl<- as_tibble(vc1$links)
 ```
 
 ## Initial EDA for Nodes and Edges
+
 ```{r}
 ggplot(data = nodes_tbl, 
        aes(y= `Node Type`))+
@@ -56,14 +61,17 @@ ggplot(data = edges_tbl,
 ## Knowledge Graph Creation
 
 ### Step 1: Mappging from node is to row index
+
 ```{r}
 id_map <-tibble(id= nodes_tbl$id,
                  index = seq_len(
                    nrow(nodes_tbl)))
 ```
-Reassign id value. This ensures that the id from the node list is mapped to the correct row number. 
+
+Reassign id value. This ensures that the id from the node list is mapped to the correct row number.
 
 ### Step 2: Map source and target IDs to row indices
+
 ```{r}
 edges_tbl <- edges_tbl%>%
   left_join(id_map, by = c("source"="id"))%>%
@@ -72,17 +80,19 @@ edges_tbl <- edges_tbl%>%
   rename(to=index)
 ```
 
-
 ### Step 3: Filter out any unmatached (invalid) edges
+
 ```{r}
 edges_tbl <- edges_tbl %>%
   filter(!is.na(from), !is.na(to))
 
 ```
+
 Remove N/As
 
 ### Step 4: Creating the graph
-Created graph object by using code chunk below. 
+
+Created graph object by using code chunk below.
 
 ```{r}
 ggraph <- tbl_graph(nodes =nodes_tbl,
@@ -91,9 +101,11 @@ ggraph <- tbl_graph(nodes =nodes_tbl,
 ```
 
 ## Visualising the knowledge graph
+
 ```{r}
 set.seed(1234)
 ```
+
 Using a seed will allow reproducibility.
 
 ## Visualising the entire graph
@@ -110,20 +122,21 @@ ggraph(ggraph, layout ='fr')+
                  size=2.5)+
   theme_void()
 ```
-Plotting the line before the node. Force directed layout applied. 
 
+Plotting the line before the node. Force directed layout applied.
 
 ## Step 1: Filter edges to only "Memberof"
+
 ```{r}
 graph_memberof <- ggraph %>%
   activate(edges) %>%
   filter(`Edge Type`=="MemberOf")
 ```
 
-Filter away the edges due to clutter from above. 
+Filter away the edges due to clutter from above.
 
+## Step 2: Extract only connected nodes
 
-## Step 2: Extract only connected nodes 
 ```{r}
 used_node_indices <- graph_memberof %>%
   activate(edges) %>%
@@ -134,6 +147,7 @@ used_node_indices <- graph_memberof %>%
 ```
 
 ## Step 3: Keep only those nodes
+
 ```{r}
 graph_memberof <- graph_memberof %>%
   activate(nodes) %>%
@@ -143,6 +157,7 @@ graph_memberof <- graph_memberof %>%
 ```
 
 ## Plot the subgraph
+
 ```{r}
 #| eval: false
 ggraph(graph_memberof, layout ='fr')+
