@@ -1,0 +1,158 @@
+---
+title: "In-class_Ex05"
+author: "Audrey Tan"
+date: "17 May 2025"
+date-modified: "last-modified"
+format: html
+editor: visual
+execute: 
+  eval: true
+  echo: true
+  warning: false 
+  freeze: true
+---
+
+In the code chunk below, p_load() of pacman package is used to load the R packages into R environment. 
+
+::: panel-tabset
+## The Code
+```{r}
+pacman::p_load(tidyverse, jsonlite, SmartEDA, 
+               tidygraph, ggraph, ggrepel)
+```
+:::
+
+## Importing Data
+```{r}
+vc1 <- fromJSON("data/MC1_graph.json")
+```
+
+## Inspect Structure
+```{r}
+str(vc1, max.level =1)
+```
+This is a directed graph that is multigraph form. 
+It has 10 different nodes (node_type, name, single, release_date, genre, notable, id, written_date, stage_name, notoriety_date) and 4 edge types (edge type, source, target, key). 
+
+## Extract and Inspect
+```{r}
+nodes_tbl<- as_tibble(vc1$nodes)
+edges_tbl<- as_tibble(vc1$links)
+```
+
+## Initial EDA for Nodes and Edges
+```{r}
+ggplot(data = nodes_tbl, 
+       aes(y= `Node Type`))+
+  geom_bar()
+```
+
+```{r}
+ggplot(data = edges_tbl,
+       aes(y=`Edge Type`))+
+  geom_bar()
+```
+
+## Knowledge Graph Creation
+
+### Step 1: Mappging from node is to row index
+```{r}
+id_map <-tibble(id= nodes_tbl$id,
+                 index = seq_len(
+                   nrow(nodes_tbl)))
+```
+Reassign id value. This ensures that the id from the node list is mapped to the correct row number. 
+
+### Step 2: Map source and target IDs to row indices
+```{r}
+edges_tbl <- edges_tbl%>%
+  left_join(id_map, by = c("source"="id"))%>%
+  rename(from = index)%>%
+  left_join(id_map, by = c("target"="id"))%>%
+  rename(to=index)
+```
+
+
+### Step 3: Filter out any unmatached (invalid) edges
+
+```{r}
+edges_tbl <- edges_tbl %>%
+  filter(!is.na(from), !is.na(to))
+
+```
+Remove N/As
+
+### Step 4: Creating the graph
+Created graph object by using code chunk below. 
+
+```{r}
+ggraph <- tbl_graph(nodes =nodes_tbl,
+                    edges =edges_tbl,
+                    directed =vc1$directed)
+```
+
+## Visualising the knowledge graph
+```{r}
+set.seed(1234)
+```
+Using a seed will allow reproducibility.
+
+## Visualising the entire graph
+
+```{r}
+#| eval: false
+ggraph(ggraph, layout ='fr')+
+  geom_edge_link(alpha =0.3,
+                 color="gray")+ 
+  geom_node_point(aes(color ="Node Type"),
+                  size=2)+
+  geom_node_text(aes(label=name),
+                 repel= TRUE, 
+                 size=2.5)+
+  theme_void()
+```
+Plotting the line before the node. Force directed layout applied. 
+
+
+## Step 1: Filter edges to only "Memberof"
+```{r}
+graph_memberof <- ggraph %>%
+  activate(edges) %>%
+  filter(`Edge Type`=="MemberOf")
+```
+
+Filter away the edges due to clutter from above. 
+
+
+## Step 2: Extract only connected nodes 
+```{r}
+used_node_indices <- graph_memberof %>%
+  activate(edges) %>%
+  as_tibble() %>%
+  select(from, to)%>%
+  unlist() %>%
+  unique()
+```
+
+## Step 3: Keep only those nodes
+```{r}
+graph_memberof <- graph_memberof %>%
+  activate(nodes) %>%
+  mutate(row_id =row_number()) %>%
+  filter(row_id %in% used_node_indices)%>%
+  select(-row_id)
+```
+
+## Plot the subgraph
+```{r}
+#| eval: false
+ggraph(graph_memberof, layout ='fr')+
+  geom_edge_link(alpha =0.3,
+                 color="gray")+ 
+  geom_node_point(aes(color ="Node Type"),
+                  size=2)+
+  geom_node_text(aes(label=name),
+                 repel= TRUE, 
+                 size=2.5)+
+  theme_void()
+```
