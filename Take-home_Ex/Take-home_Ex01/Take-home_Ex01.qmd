@@ -681,7 +681,7 @@ ggplotly(p4, tooltip = "text")%>%
 
 ## 7.1 Population Pyramid
 
-Instead of the histogram produced in the earlier univariate/ bivariate analysis, a population pyramid can be produced for clearer visualisation of **Age and Gender Structure.**
+Instead of the bar chart produced in the earlier univariate/ bivariate analysis, a population pyramid can be produced for clearer visualisation of **Age and Gender Structure.**
 
 #### Step 1: Preparatory work
 

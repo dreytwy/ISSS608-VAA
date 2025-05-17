@@ -14,6 +14,7 @@ project:
     - Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05.qmd
     - In-class_Ex/In-class_Ex02/In-class_Ex02.qmd
     - In-class_Ex/In-class_Ex03/In-class_Ex03.qmd
+    - In-class_Ex/In-class_Ex05/In-class_Ex05.qmd
     - Take-home_Ex/Take-home_Ex01/Take-home_Ex01.qmd
   output-dir: _site #for the logo to appear
 
@@ -63,7 +64,9 @@ website:
           - text: "In-class Exercise 2"        
             href: "In-class_Ex/In-class_Ex02/In-class_Ex02.html"
           - text: "In-class Exercise 3"        
-            href: "In-class_Ex/In-class_Ex03/In-class_Ex03.html"            
+            href: "In-class_Ex/In-class_Ex03/In-class_Ex03.html"        
+          - text: "In-class Exercise 5"        
+            href: "In-class_Ex/In-class_Ex05/In-class_Ex05.html"  
       - text: "Take-home Exercise"
         menu:
           - text: "Take-home Exercise 1"

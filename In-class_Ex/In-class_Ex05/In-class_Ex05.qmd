@@ -74,7 +74,6 @@ edges_tbl <- edges_tbl%>%
 
 
 ### Step 3: Filter out any unmatached (invalid) edges
-
 ```{r}
 edges_tbl <- edges_tbl %>%
   filter(!is.na(from), !is.na(to))
