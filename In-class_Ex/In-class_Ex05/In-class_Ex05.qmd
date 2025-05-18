@@ -25,19 +25,29 @@ pacman::p_load(tidyverse, jsonlite, SmartEDA,
 
 ## Importing Data
 
+For the purpose of this exercise, *MC1_graph.json* file will be used. Before getting started, you should have the data set in the **data** sub-folder.
+
+In the code chunk below, `fromJSON()` of **jsonlite** package is used to import *MC1_graph.json* file into R and save the output object
+
 ```{r}
 vc1 <- fromJSON("data/MC1_graph.json")
 ```
 
 ## Inspect Structure
 
+Before preparing the data, it is always a good practice to examine the structure of *kg* object.
+
+In the code chunk below `str()` is used to reveal the structure of *kg* object.
+
 ```{r}
 str(vc1, max.level =1)
 ```
 
-This is a directed graph that is multigraph form. It has 10 different nodes (node_type, name, single, release_date, genre, notable, id, written_date, stage_name, notoriety_date) and 4 edge types (edge type, source, target, key).
+This is a directed graph that is multigraph form.
 
 ## Extract and Inspect
+
+Next, `as_tibble()` of **tibble** package package is used to extract the nodes and links tibble data frames from *kg* object into two separate tibble data frames called *nodes_tbl* and *edges_tbl* respectively.
 
 ```{r}
 nodes_tbl<- as_tibble(vc1$nodes)
@@ -46,11 +56,17 @@ edges_tbl<- as_tibble(vc1$links)
 
 ## Initial EDA for Nodes and Edges
 
+It is time for us to apply appropriate EDA methods to examine the data.
+
+Code chunk below uses ggplot2 functions to reveal the frequency distribution of *Node Type* field of *nodes_tbl*.
+
 ```{r}
 ggplot(data = nodes_tbl, 
        aes(y= `Node Type`))+
   geom_bar()
 ```
+
+ggplot2 functions are used the reveal the frequency distribution of *Edge Type* field of *edges_tbl*.
 
 ```{r}
 ggplot(data = edges_tbl,
@@ -60,7 +76,9 @@ ggplot(data = edges_tbl,
 
 ## Knowledge Graph Creation
 
-### Step 1: Mappging from node is to row index
+### Step 1: Mapping from node id to row index
+
+Before we can go ahead to build the tidygraph object, it is important for us to ensure each id from the node list is mapped to the correct row number. This requirement can be achieved by using the code chunk below.
 
 ```{r}
 id_map <-tibble(id= nodes_tbl$id,
@@ -68,9 +86,9 @@ id_map <-tibble(id= nodes_tbl$id,
                    nrow(nodes_tbl)))
 ```
 
-Reassign id value. This ensures that the id from the node list is mapped to the correct row number.
-
 ### Step 2: Map source and target IDs to row indices
+
+Next, we will map the source and the target IDs to row indices by using the code chunk below.
 
 ```{r}
 edges_tbl <- edges_tbl%>%
@@ -80,7 +98,9 @@ edges_tbl <- edges_tbl%>%
   rename(to=index)
 ```
 
-### Step 3: Filter out any unmatached (invalid) edges
+### Step 3: Filter out any unmatched (invalid) edges
+
+Lastly, the code chunk below will be used to exclude the unmatch edges.
 
 ```{r}
 edges_tbl <- edges_tbl %>%
@@ -88,47 +108,57 @@ edges_tbl <- edges_tbl %>%
 
 ```
 
-Remove N/As
-
 ### Step 4: Creating the graph
 
 Created graph object by using code chunk below.
 
 ```{r}
-ggraph <- tbl_graph(nodes =nodes_tbl,
+graph <- tbl_graph(nodes =nodes_tbl,
                     edges =edges_tbl,
                     directed =vc1$directed)
 ```
 
+Confirm the output object is indeed in tidygraph format by using the code chunk below.
+
+```{r}
+class(graph)
+```
+
 ## Visualising the knowledge graph
+
+In this section, we will use ggraph’s functions to visualise and analyse the graph object.
 
 ```{r}
 set.seed(1234)
 ```
 
-Using a seed will allow reproducibility.
+Several of the ggraph layouts involve randomisation. In order to ensure reproducibility, it is necessary to set the seed value before plotting by using the code chunk below.
 
 ## Visualising the entire graph
 
+In the code chunk below, ggraph functions are used to visualise the whole graph.
+
+Plotting the line is done before the node. Force directed layout applied.
+
 ```{r}
 #| eval: false
-ggraph(ggraph, layout ='fr')+
-  geom_edge_link(alpha =0.3,
-                 color="gray")+ 
-  geom_node_point(aes(color ="Node Type"),
-                  size=2)+
-  geom_node_text(aes(label=name),
-                 repel= TRUE, 
-                 size=2.5)+
+ggraph(graph, layout = "fr") +
+  geom_edge_link(alpha = 0.3, 
+                 colour = "gray") +
+  geom_node_point(aes(color = `Node Type`), 
+                  size = 2) +
+  geom_node_text(aes(label = name), 
+                 repel = TRUE, 
+                 size = 2.5) +
   theme_void()
 ```
 
-Plotting the line before the node. Force directed layout applied.
+Notice that the whole graph is very messy and we can hardy discover any useful patterns. This is always the case in graph visualisation and analysis. In order to gain meaningful visual discovery, it is always useful for us to looking into the details, for example by plotting sub-graphs.
 
 ### Step 1: Filter edges to only "Memberof"
 
 ```{r}
-graph_memberof <- ggraph %>%
+graph_memberof <- graph %>%
   activate(edges) %>%
   filter(`Edge Type`=="MemberOf")
 ```
@@ -141,7 +171,7 @@ Filter away the edges due to clutter from above.
 used_node_indices <- graph_memberof %>%
   activate(edges) %>%
   as_tibble() %>%
-  select(from, to)%>%
+  select(from, to) %>%
   unlist() %>%
   unique()
 ```
@@ -151,22 +181,25 @@ used_node_indices <- graph_memberof %>%
 ```{r}
 graph_memberof <- graph_memberof %>%
   activate(nodes) %>%
-  mutate(row_id =row_number()) %>%
-  filter(row_id %in% used_node_indices)%>%
-  select(-row_id)
+  mutate(row_id = row_number()) %>%
+  filter(row_id %in% used_node_indices) %>%
+  select(-row_id)  # optional cleanup
 ```
 
-## Plot the subgraph
+### Step 4: Plot the subgraph
 
 ```{r}
 #| eval: false
-ggraph(graph_memberof, layout ='fr')+
-  geom_edge_link(alpha =0.3,
-                 color="gray")+ 
-  geom_node_point(aes(color ="Node Type"),
-                  size=2)+
-  geom_node_text(aes(label=name),
-                 repel= TRUE, 
-                 size=2.5)+
+ggraph(graph_memberof, 
+       layout = "fr") +
+  geom_edge_link(alpha = 0.5, 
+                 colour = "gray") +
+  geom_node_point(aes(color = `Node Type`), 
+                  size = 1) +
+  geom_node_text(aes(label = name), 
+                 repel = TRUE, 
+                 size = 2.5) +
   theme_void()
 ```
+
+Notice that the sub-graph above is very clear and the relationship between musical group and person can be visualise easily.
