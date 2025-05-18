@@ -141,7 +141,6 @@ In the code chunk below, ggraph functions are used to visualise the whole graph.
 Plotting the line is done before the node. Force directed layout applied.
 
 ```{r}
-#| eval: false
 ggraph(graph, layout = "fr") +
   geom_edge_link(alpha = 0.3, 
                  colour = "gray") +
@@ -189,7 +188,6 @@ graph_memberof <- graph_memberof %>%
 ### Step 4: Plot the subgraph
 
 ```{r}
-#| eval: false
 ggraph(graph_memberof, 
        layout = "fr") +
   geom_edge_link(alpha = 0.5, 

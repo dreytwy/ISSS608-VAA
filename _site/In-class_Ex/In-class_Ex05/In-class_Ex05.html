@@ -243,17 +243,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#initial-eda-for-nodes-and-edges" id="toc-initial-eda-for-nodes-and-edges" class="nav-link" data-scroll-target="#initial-eda-for-nodes-and-edges">Initial EDA for Nodes and Edges</a></li>
   <li><a href="#knowledge-graph-creation" id="toc-knowledge-graph-creation" class="nav-link" data-scroll-target="#knowledge-graph-creation">Knowledge Graph Creation</a>
   <ul class="collapse">
-  <li><a href="#step-1-mappging-from-node-is-to-row-index" id="toc-step-1-mappging-from-node-is-to-row-index" class="nav-link" data-scroll-target="#step-1-mappging-from-node-is-to-row-index">Step 1: Mappging from node is to row index</a></li>
+  <li><a href="#step-1-mapping-from-node-id-to-row-index" id="toc-step-1-mapping-from-node-id-to-row-index" class="nav-link" data-scroll-target="#step-1-mapping-from-node-id-to-row-index">Step 1: Mapping from node id to row index</a></li>
   <li><a href="#step-2-map-source-and-target-ids-to-row-indices" id="toc-step-2-map-source-and-target-ids-to-row-indices" class="nav-link" data-scroll-target="#step-2-map-source-and-target-ids-to-row-indices">Step 2: Map source and target IDs to row indices</a></li>
-  <li><a href="#step-3-filter-out-any-unmatached-invalid-edges" id="toc-step-3-filter-out-any-unmatached-invalid-edges" class="nav-link" data-scroll-target="#step-3-filter-out-any-unmatached-invalid-edges">Step 3: Filter out any unmatached (invalid) edges</a></li>
+  <li><a href="#step-3-filter-out-any-unmatched-invalid-edges" id="toc-step-3-filter-out-any-unmatched-invalid-edges" class="nav-link" data-scroll-target="#step-3-filter-out-any-unmatched-invalid-edges">Step 3: Filter out any unmatched (invalid) edges</a></li>
   <li><a href="#step-4-creating-the-graph" id="toc-step-4-creating-the-graph" class="nav-link" data-scroll-target="#step-4-creating-the-graph">Step 4: Creating the graph</a></li>
   </ul></li>
   <li><a href="#visualising-the-knowledge-graph" id="toc-visualising-the-knowledge-graph" class="nav-link" data-scroll-target="#visualising-the-knowledge-graph">Visualising the knowledge graph</a></li>
-  <li><a href="#visualising-the-entire-graph" id="toc-visualising-the-entire-graph" class="nav-link" data-scroll-target="#visualising-the-entire-graph">Visualising the entire graph</a></li>
+  <li><a href="#visualising-the-entire-graph" id="toc-visualising-the-entire-graph" class="nav-link" data-scroll-target="#visualising-the-entire-graph">Visualising the entire graph</a>
+  <ul class="collapse">
   <li><a href="#step-1-filter-edges-to-only-memberof" id="toc-step-1-filter-edges-to-only-memberof" class="nav-link" data-scroll-target="#step-1-filter-edges-to-only-memberof">Step 1: Filter edges to only “Memberof”</a></li>
   <li><a href="#step-2-extract-only-connected-nodes" id="toc-step-2-extract-only-connected-nodes" class="nav-link" data-scroll-target="#step-2-extract-only-connected-nodes">Step 2: Extract only connected nodes</a></li>
   <li><a href="#step-3-keep-only-those-nodes" id="toc-step-3-keep-only-those-nodes" class="nav-link" data-scroll-target="#step-3-keep-only-those-nodes">Step 3: Keep only those nodes</a></li>
-  <li><a href="#plot-the-subgraph" id="toc-plot-the-subgraph" class="nav-link" data-scroll-target="#plot-the-subgraph">Plot the subgraph</a></li>
+  <li><a href="#step-4-plot-the-subgraph" id="toc-step-4-plot-the-subgraph" class="nav-link" data-scroll-target="#step-4-plot-the-subgraph">Step 4: Plot the subgraph</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -286,7 +288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">May 17, 2025</p>
+      <p class="date-modified">May 19, 2025</p>
     </div>
   </div>
     
@@ -311,12 +313,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="importing-data" class="level2">
 <h2 class="anchored" data-anchor-id="importing-data">Importing Data</h2>
+<p>For the purpose of this exercise, <em>MC1_graph.json</em> file will be used. Before getting started, you should have the data set in the <strong>data</strong> sub-folder.</p>
+<p>In the code chunk below, <code>fromJSON()</code> of <strong>jsonlite</strong> package is used to import <em>MC1_graph.json</em> file into R and save the output object</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>vc1 <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="st">"data/MC1_graph.json"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="inspect-structure" class="level2">
 <h2 class="anchored" data-anchor-id="inspect-structure">Inspect Structure</h2>
+<p>Before preparing the data, it is always a good practice to examine the structure of <em>kg</em> object.</p>
+<p>In the code chunk below <code>str()</code> is used to reveal the structure of <em>kg</em> object.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(vc1, <span class="at">max.level =</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -328,10 +334,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  $ links     :'data.frame': 37857 obs. of  4 variables:</code></pre>
 </div>
 </div>
-<p>This is a directed graph that is multigraph form. It has 10 different nodes (node_type, name, single, release_date, genre, notable, id, written_date, stage_name, notoriety_date) and 4 edge types (edge type, source, target, key).</p>
+<p>This is a directed graph that is multigraph form.</p>
 </section>
 <section id="extract-and-inspect" class="level2">
 <h2 class="anchored" data-anchor-id="extract-and-inspect">Extract and Inspect</h2>
+<p>Next,&nbsp;<code>as_tibble()</code>&nbsp;of&nbsp;<strong>tibble</strong>&nbsp;package package is used to extract the nodes and links tibble data frames from&nbsp;<em>kg</em>&nbsp;object into two separate tibble data frames called&nbsp;<em>nodes_tbl</em>&nbsp;and&nbsp;<em>edges_tbl</em>&nbsp;respectively.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nodes_tbl<span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(vc1<span class="sc">$</span>nodes)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>edges_tbl<span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(vc1<span class="sc">$</span>links)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -339,6 +346,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="initial-eda-for-nodes-and-edges" class="level2">
 <h2 class="anchored" data-anchor-id="initial-eda-for-nodes-and-edges">Initial EDA for Nodes and Edges</h2>
+<p>It is time for us to apply appropriate EDA methods to examine the data.</p>
+<p>Code chunk below uses ggplot2 functions to reveal the frequency distribution of&nbsp;<em>Node Type</em>&nbsp;field of&nbsp;<em>nodes_tbl</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> nodes_tbl, </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y=</span> <span class="st">`</span><span class="at">Node Type</span><span class="st">`</span>))<span class="sc">+</span></span>
@@ -351,6 +360,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>ggplot2 functions are used the reveal the frequency distribution of <em>Edge Type</em> field of <em>edges_tbl</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> edges_tbl,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y=</span><span class="st">`</span><span class="at">Edge Type</span><span class="st">`</span>))<span class="sc">+</span></span>
@@ -366,17 +376,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="knowledge-graph-creation" class="level2">
 <h2 class="anchored" data-anchor-id="knowledge-graph-creation">Knowledge Graph Creation</h2>
-<section id="step-1-mappging-from-node-is-to-row-index" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-mappging-from-node-is-to-row-index">Step 1: Mappging from node is to row index</h3>
+<section id="step-1-mapping-from-node-id-to-row-index" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-mapping-from-node-id-to-row-index">Step 1: Mapping from node id to row index</h3>
+<p>Before we can go ahead to build the tidygraph object, it is important for us to ensure each id from the node list is mapped to the correct row number. This requirement can be achieved by using the code chunk below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>id_map <span class="ot">&lt;-</span><span class="fu">tibble</span>(<span class="at">id=</span> nodes_tbl<span class="sc">$</span>id,</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">index =</span> <span class="fu">seq_len</span>(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">nrow</span>(nodes_tbl)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Reassign id value. This ensures that the id from the node list is mapped to the correct row number.</p>
 </section>
 <section id="step-2-map-source-and-target-ids-to-row-indices" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-map-source-and-target-ids-to-row-indices">Step 2: Map source and target IDs to row indices</h3>
+<p>Next, we will map the source and the target IDs to row indices by using the code chunk below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> edges_tbl<span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(id_map, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"source"</span><span class="ot">=</span><span class="st">"id"</span>))<span class="sc">%&gt;%</span></span>
@@ -385,91 +396,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">to=</span>index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-3-filter-out-any-unmatached-invalid-edges" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-filter-out-any-unmatached-invalid-edges">Step 3: Filter out any unmatached (invalid) edges</h3>
+<section id="step-3-filter-out-any-unmatched-invalid-edges" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-filter-out-any-unmatched-invalid-edges">Step 3: Filter out any unmatched (invalid) edges</h3>
+<p>Lastly, the code chunk below will be used to exclude the unmatch edges.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(from), <span class="sc">!</span><span class="fu">is.na</span>(to))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Remove N/As</p>
 </section>
 <section id="step-4-creating-the-graph" class="level3">
 <h3 class="anchored" data-anchor-id="step-4-creating-the-graph">Step 4: Creating the graph</h3>
 <p>Created graph object by using code chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ggraph <span class="ot">&lt;-</span> <span class="fu">tbl_graph</span>(<span class="at">nodes =</span>nodes_tbl,</span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">tbl_graph</span>(<span class="at">nodes =</span>nodes_tbl,</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">edges =</span>edges_tbl,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">directed =</span>vc1<span class="sc">$</span>directed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Confirm the output object is indeed in tidygraph format by using the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(graph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "tbl_graph" "igraph"   </code></pre>
+</div>
 </div>
 </section>
 </section>
 <section id="visualising-the-knowledge-graph" class="level2">
 <h2 class="anchored" data-anchor-id="visualising-the-knowledge-graph">Visualising the knowledge graph</h2>
+<p>In this section, we will use ggraph’s functions to visualise and analyse the graph object.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Using a seed will allow reproducibility.</p>
+<p>Several of the ggraph layouts involve randomisation. In order to ensure reproducibility, it is necessary to set the seed value before plotting by using the code chunk below.</p>
 </section>
 <section id="visualising-the-entire-graph" class="level2">
 <h2 class="anchored" data-anchor-id="visualising-the-entire-graph">Visualising the entire graph</h2>
+<p>In the code chunk below, ggraph functions are used to visualise the whole graph.</p>
+<p>Plotting the line is done before the node. Force directed layout applied.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(ggraph, <span class="at">layout =</span><span class="st">'fr'</span>)<span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">alpha =</span><span class="fl">0.3</span>,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"gray"</span>)<span class="sc">+</span> </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color =</span><span class="st">"Node Type"</span>),</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>name),</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repel=</span> <span class="cn">TRUE</span>, </span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">size=</span><span class="fl">2.5</span>)<span class="sc">+</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(graph, <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">"gray"</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="st">`</span><span class="at">Node Type</span><span class="st">`</span>), </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repel =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="In-class_Ex05_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<p>Plotting the line before the node. Force directed layout applied.</p>
-</section>
-<section id="step-1-filter-edges-to-only-memberof" class="level2">
-<h2 class="anchored" data-anchor-id="step-1-filter-edges-to-only-memberof">Step 1: Filter edges to only “Memberof”</h2>
+</div>
+</div>
+<p>Notice that the whole graph is very messy and we can hardy discover any useful patterns. This is always the case in graph visualisation and analysis. In order to gain meaningful visual discovery, it is always useful for us to looking into the details, for example by plotting sub-graphs.</p>
+<section id="step-1-filter-edges-to-only-memberof" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-filter-edges-to-only-memberof">Step 1: Filter edges to only “Memberof”</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>graph_memberof <span class="ot">&lt;-</span> ggraph <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(edges) <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Edge Type</span><span class="st">`</span><span class="sc">==</span><span class="st">"MemberOf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>graph_memberof <span class="ot">&lt;-</span> graph <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(edges) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Edge Type</span><span class="st">`</span><span class="sc">==</span><span class="st">"MemberOf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Filter away the edges due to clutter from above.</p>
 </section>
-<section id="step-2-extract-only-connected-nodes" class="level2">
-<h2 class="anchored" data-anchor-id="step-2-extract-only-connected-nodes">Step 2: Extract only connected nodes</h2>
+<section id="step-2-extract-only-connected-nodes" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-extract-only-connected-nodes">Step 2: Extract only connected nodes</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>used_node_indices <span class="ot">&lt;-</span> graph_memberof <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(edges) <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(from, to)<span class="sc">%&gt;%</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>used_node_indices <span class="ot">&lt;-</span> graph_memberof <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(edges) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(from, to) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-3-keep-only-those-nodes" class="level2">
-<h2 class="anchored" data-anchor-id="step-3-keep-only-those-nodes">Step 3: Keep only those nodes</h2>
+<section id="step-3-keep-only-those-nodes" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-keep-only-those-nodes">Step 3: Keep only those nodes</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>graph_memberof <span class="ot">&lt;-</span> graph_memberof <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(nodes) <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">row_id =</span><span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(row_id <span class="sc">%in%</span> used_node_indices)<span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>row_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>graph_memberof <span class="ot">&lt;-</span> graph_memberof <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(nodes) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">row_id =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(row_id <span class="sc">%in%</span> used_node_indices) <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>row_id)  <span class="co"># optional cleanup</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="plot-the-subgraph" class="level2">
-<h2 class="anchored" data-anchor-id="plot-the-subgraph">Plot the subgraph</h2>
+<section id="step-4-plot-the-subgraph" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-plot-the-subgraph">Step 4: Plot the subgraph</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(graph_memberof, <span class="at">layout =</span><span class="st">'fr'</span>)<span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">alpha =</span><span class="fl">0.3</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"gray"</span>)<span class="sc">+</span> </span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color =</span><span class="st">"Node Type"</span>),</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>name),</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repel=</span> <span class="cn">TRUE</span>, </span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">size=</span><span class="fl">2.5</span>)<span class="sc">+</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(graph_memberof, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">"gray"</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="st">`</span><span class="at">Node Type</span><span class="st">`</span>), </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repel =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="In-class_Ex05_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
+</div>
+</div>
+<p>Notice that the sub-graph above is very clear and the relationship between musical group and person can be visualise easily.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

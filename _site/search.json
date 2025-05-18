@@ -795,7 +795,7 @@
     "href": "index.html",
     "title": "Home",
     "section": "",
-    "text": "Welcome to my ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course.   These are my posts for Hands-On Exercises:\n\n\n\n\n\n\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Published - Oldest\n      \n      \n        Published - Newest\n      \n      \n        Title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\n\nPublished\n\n\n\n\n\n\n\n\n1. A Layered Grammar of Graphics: ggplot2 methods\n\n\nApr 18, 2025\n\n\n\n\n\n\n2. Beyond ggplot2 Fundamentals\n\n\nApr 24, 2025\n\n\n\n\n\n\n3a. Programming Interactive Data Visualisation with R\n\n\nMay 1, 2025\n\n\n\n\n\n\n3b. Programming Animated Statistical Graphics with R\n\n\nMay 1, 2025\n\n\n\n\n\n\n4a. Visualisation Distribution\n\n\nMay 4, 2025\n\n\n\n\n\n\n4b. Visual Statistical Analysis\n\n\nMay 4, 2025\n\n\n\n\n\n\n4c. Visualising Uncertainty\n\n\nMay 4, 2025\n\n\n\n\n\n\n4d. Funnel Plots for Fair Comparisons\n\n\nMay 5, 2025\n\n\n\n\n\n\n5. Modelling, Visualising and Analysing Network Data with R\n\n\nMay 11, 2025\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to my ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course.   These are my posts for Hands-On Exercises:\n\n\n\n\n\n\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Published - Oldest\n      \n      \n        Published - Newest\n      \n      \n        Title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\n\nPublished\n\n\n\n\n\n\n\n\n1. A Layered Grammar of Graphics: ggplot2 methods\n\n\nApr 18, 2025\n\n\n\n\n\n\n2. Beyond ggplot2 Fundamentals\n\n\nApr 24, 2025\n\n\n\n\n\n\n3a. Programming Interactive Data Visualisation with R\n\n\nMay 1, 2025\n\n\n\n\n\n\n3b. Programming Animated Statistical Graphics with R\n\n\nMay 1, 2025\n\n\n\n\n\n\n4a. Visualisation Distribution\n\n\nMay 4, 2025\n\n\n\n\n\n\n4b. Visual Statistical Analysis\n\n\nMay 4, 2025\n\n\n\n\n\n\n4c. Visualising Uncertainty\n\n\nMay 4, 2025\n\n\n\n\n\n\n4d. Funnel Plots for Fair Comparisons\n\n\nMay 5, 2025\n\n\n\n\n\n\n5. Modelling, Visualising and Analysing Network Data with R\n\n\nMay 11, 2025\n\n\n\n\n\n\n \n\n\n \n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -1054,49 +1054,49 @@
     "href": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#importing-data",
     "title": "In-class_Ex05",
     "section": "Importing Data",
-    "text": "Importing Data\n\nvc1 &lt;- fromJSON(\"data/MC1_graph.json\")"
+    "text": "Importing Data\nFor the purpose of this exercise, MC1_graph.json file will be used. Before getting started, you should have the data set in the data sub-folder.\nIn the code chunk below, fromJSON() of jsonlite package is used to import MC1_graph.json file into R and save the output object\n\nvc1 &lt;- fromJSON(\"data/MC1_graph.json\")"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#inspect-structure",
     "href": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#inspect-structure",
     "title": "In-class_Ex05",
     "section": "Inspect Structure",
-    "text": "Inspect Structure\n\nstr(vc1, max.level =1)\n\nList of 5\n $ directed  : logi TRUE\n $ multigraph: logi TRUE\n $ graph     :List of 2\n $ nodes     :'data.frame': 17412 obs. of  10 variables:\n $ links     :'data.frame': 37857 obs. of  4 variables:\n\n\nThis is a directed graph that is multigraph form. It has 10 different nodes (node_type, name, single, release_date, genre, notable, id, written_date, stage_name, notoriety_date) and 4 edge types (edge type, source, target, key)."
+    "text": "Inspect Structure\nBefore preparing the data, it is always a good practice to examine the structure of kg object.\nIn the code chunk below str() is used to reveal the structure of kg object.\n\nstr(vc1, max.level =1)\n\nList of 5\n $ directed  : logi TRUE\n $ multigraph: logi TRUE\n $ graph     :List of 2\n $ nodes     :'data.frame': 17412 obs. of  10 variables:\n $ links     :'data.frame': 37857 obs. of  4 variables:\n\n\nThis is a directed graph that is multigraph form."
   },
   {
     "objectID": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#extract-and-inspect",
     "href": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#extract-and-inspect",
     "title": "In-class_Ex05",
     "section": "Extract and Inspect",
-    "text": "Extract and Inspect\n\nnodes_tbl&lt;- as_tibble(vc1$nodes)\nedges_tbl&lt;- as_tibble(vc1$links)"
+    "text": "Extract and Inspect\nNext, as_tibble() of tibble package package is used to extract the nodes and links tibble data frames from kg object into two separate tibble data frames called nodes_tbl and edges_tbl respectively.\n\nnodes_tbl&lt;- as_tibble(vc1$nodes)\nedges_tbl&lt;- as_tibble(vc1$links)"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#initial-eda-for-nodes-and-edges",
     "href": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#initial-eda-for-nodes-and-edges",
     "title": "In-class_Ex05",
     "section": "Initial EDA for Nodes and Edges",
-    "text": "Initial EDA for Nodes and Edges\n\nggplot(data = nodes_tbl, \n       aes(y= `Node Type`))+\n  geom_bar()\n\n\n\n\n\n\n\n\n\nggplot(data = edges_tbl,\n       aes(y=`Edge Type`))+\n  geom_bar()"
+    "text": "Initial EDA for Nodes and Edges\nIt is time for us to apply appropriate EDA methods to examine the data.\nCode chunk below uses ggplot2 functions to reveal the frequency distribution of Node Type field of nodes_tbl.\n\nggplot(data = nodes_tbl, \n       aes(y= `Node Type`))+\n  geom_bar()\n\n\n\n\n\n\n\n\nggplot2 functions are used the reveal the frequency distribution of Edge Type field of edges_tbl.\n\nggplot(data = edges_tbl,\n       aes(y=`Edge Type`))+\n  geom_bar()"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#knowledge-graph-creation",
     "href": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#knowledge-graph-creation",
     "title": "In-class_Ex05",
     "section": "Knowledge Graph Creation",
-    "text": "Knowledge Graph Creation\n\nStep 1: Mappging from node is to row index\n\nid_map &lt;-tibble(id= nodes_tbl$id,\n                 index = seq_len(\n                   nrow(nodes_tbl)))\n\nReassign id value. This ensures that the id from the node list is mapped to the correct row number.\n\n\nStep 2: Map source and target IDs to row indices\n\nedges_tbl &lt;- edges_tbl%&gt;%\n  left_join(id_map, by = c(\"source\"=\"id\"))%&gt;%\n  rename(from = index)%&gt;%\n  left_join(id_map, by = c(\"target\"=\"id\"))%&gt;%\n  rename(to=index)\n\n\n\nStep 3: Filter out any unmatached (invalid) edges\n\nedges_tbl &lt;- edges_tbl %&gt;%\n  filter(!is.na(from), !is.na(to))\n\nRemove N/As\n\n\nStep 4: Creating the graph\nCreated graph object by using code chunk below.\n\nggraph &lt;- tbl_graph(nodes =nodes_tbl,\n                    edges =edges_tbl,\n                    directed =vc1$directed)"
+    "text": "Knowledge Graph Creation\n\nStep 1: Mapping from node id to row index\nBefore we can go ahead to build the tidygraph object, it is important for us to ensure each id from the node list is mapped to the correct row number. This requirement can be achieved by using the code chunk below.\n\nid_map &lt;-tibble(id= nodes_tbl$id,\n                 index = seq_len(\n                   nrow(nodes_tbl)))\n\n\n\nStep 2: Map source and target IDs to row indices\nNext, we will map the source and the target IDs to row indices by using the code chunk below.\n\nedges_tbl &lt;- edges_tbl%&gt;%\n  left_join(id_map, by = c(\"source\"=\"id\"))%&gt;%\n  rename(from = index)%&gt;%\n  left_join(id_map, by = c(\"target\"=\"id\"))%&gt;%\n  rename(to=index)\n\n\n\nStep 3: Filter out any unmatched (invalid) edges\nLastly, the code chunk below will be used to exclude the unmatch edges.\n\nedges_tbl &lt;- edges_tbl %&gt;%\n  filter(!is.na(from), !is.na(to))\n\n\n\nStep 4: Creating the graph\nCreated graph object by using code chunk below.\n\ngraph &lt;- tbl_graph(nodes =nodes_tbl,\n                    edges =edges_tbl,\n                    directed =vc1$directed)\n\nConfirm the output object is indeed in tidygraph format by using the code chunk below.\n\nclass(graph)\n\n[1] \"tbl_graph\" \"igraph\""
   },
   {
     "objectID": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#visualising-the-knowledge-graph",
     "href": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#visualising-the-knowledge-graph",
     "title": "In-class_Ex05",
     "section": "Visualising the knowledge graph",
-    "text": "Visualising the knowledge graph\n\nset.seed(1234)\n\nUsing a seed will allow reproducibility."
+    "text": "Visualising the knowledge graph\nIn this section, we will use ggraph’s functions to visualise and analyse the graph object.\n\nset.seed(1234)\n\nSeveral of the ggraph layouts involve randomisation. In order to ensure reproducibility, it is necessary to set the seed value before plotting by using the code chunk below."
   },
   {
     "objectID": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#visualising-the-entire-graph",
     "href": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#visualising-the-entire-graph",
     "title": "In-class_Ex05",
     "section": "Visualising the entire graph",
-    "text": "Visualising the entire graph\n\nggraph(ggraph, layout ='fr')+\n  geom_edge_link(alpha =0.3,\n                 color=\"gray\")+ \n  geom_node_point(aes(color =\"Node Type\"),\n                  size=2)+\n  geom_node_text(aes(label=name),\n                 repel= TRUE, \n                 size=2.5)+\n  theme_void()\n\nPlotting the line before the node. Force directed layout applied."
+    "text": "Visualising the entire graph\nIn the code chunk below, ggraph functions are used to visualise the whole graph.\nPlotting the line is done before the node. Force directed layout applied.\n\nggraph(graph, layout = \"fr\") +\n  geom_edge_link(alpha = 0.3, \n                 colour = \"gray\") +\n  geom_node_point(aes(color = `Node Type`), \n                  size = 2) +\n  geom_node_text(aes(label = name), \n                 repel = TRUE, \n                 size = 2.5) +\n  theme_void()\n\n\n\n\n\n\n\n\nNotice that the whole graph is very messy and we can hardy discover any useful patterns. This is always the case in graph visualisation and analysis. In order to gain meaningful visual discovery, it is always useful for us to looking into the details, for example by plotting sub-graphs.\n\nStep 1: Filter edges to only “Memberof”\n\ngraph_memberof &lt;- graph %&gt;%\n  activate(edges) %&gt;%\n  filter(`Edge Type`==\"MemberOf\")\n\nFilter away the edges due to clutter from above.\n\n\nStep 2: Extract only connected nodes\n\nused_node_indices &lt;- graph_memberof %&gt;%\n  activate(edges) %&gt;%\n  as_tibble() %&gt;%\n  select(from, to) %&gt;%\n  unlist() %&gt;%\n  unique()\n\n\n\nStep 3: Keep only those nodes\n\ngraph_memberof &lt;- graph_memberof %&gt;%\n  activate(nodes) %&gt;%\n  mutate(row_id = row_number()) %&gt;%\n  filter(row_id %in% used_node_indices) %&gt;%\n  select(-row_id)  # optional cleanup\n\n\n\nStep 4: Plot the subgraph\n\nggraph(graph_memberof, \n       layout = \"fr\") +\n  geom_edge_link(alpha = 0.5, \n                 colour = \"gray\") +\n  geom_node_point(aes(color = `Node Type`), \n                  size = 1) +\n  geom_node_text(aes(label = name), \n                 repel = TRUE, \n                 size = 2.5) +\n  theme_void()\n\n\n\n\n\n\n\n\nNotice that the sub-graph above is very clear and the relationship between musical group and person can be visualise easily."
   },
   {
     "objectID": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#step-1-filter-edges-to-only-memberof",
