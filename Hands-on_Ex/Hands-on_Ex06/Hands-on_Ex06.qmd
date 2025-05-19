@@ -351,7 +351,7 @@ air$month <- factor(month(air$`Month-Year`),
 air$year <- year(ymd(air$`Month-Year`))
 ```
 
-### Step 4: Extracting the target country
+### Step 3: Extracting the target country
 
 Next, the code chunk below is use to extract data for the target country (i.e. Vietnam)
 
@@ -363,7 +363,7 @@ Vietnam <- air %>%
   filter(year >= 2010)
 ```
 
-### Step 5: Computing year average arrivals by month
+### Step 4: Computing year average arrivals by month
 
 The code chunk below uses `group_by()` and `summarise()` of **dplyr** to compute year average arrivals by month.
 
@@ -373,7 +373,7 @@ hline.data <- Vietnam %>%
   summarise(avgvalue = mean(`Vietnam`))
 ```
 
-### Step 6: Plotting the cycle plot
+### Step 5: Plotting the cycle plot
 
 The code chunk below is used to plot the cycle plot as shown in Slide 12/23.
 

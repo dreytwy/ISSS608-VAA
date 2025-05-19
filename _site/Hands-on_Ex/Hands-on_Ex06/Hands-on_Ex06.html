@@ -258,9 +258,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#step-1-data-import" id="toc-step-1-data-import" class="nav-link" data-scroll-target="#step-1-data-import">Step 1: Data Import</a></li>
   <li><a href="#step-2-deriving-month-and-year-fields" id="toc-step-2-deriving-month-and-year-fields" class="nav-link" data-scroll-target="#step-2-deriving-month-and-year-fields">Step 2: Deriving month and year fields</a></li>
-  <li><a href="#step-4-extracting-the-target-country" id="toc-step-4-extracting-the-target-country" class="nav-link" data-scroll-target="#step-4-extracting-the-target-country">Step 4: Extracting the target country</a></li>
-  <li><a href="#step-5-computing-year-average-arrivals-by-month" id="toc-step-5-computing-year-average-arrivals-by-month" class="nav-link" data-scroll-target="#step-5-computing-year-average-arrivals-by-month">Step 5: Computing year average arrivals by month</a></li>
-  <li><a href="#step-6-plotting-the-cycle-plot" id="toc-step-6-plotting-the-cycle-plot" class="nav-link" data-scroll-target="#step-6-plotting-the-cycle-plot">Step 6: Plotting the cycle plot</a></li>
+  <li><a href="#step-3-extracting-the-target-country" id="toc-step-3-extracting-the-target-country" class="nav-link" data-scroll-target="#step-3-extracting-the-target-country">Step 3: Extracting the target country</a></li>
+  <li><a href="#step-4-computing-year-average-arrivals-by-month" id="toc-step-4-computing-year-average-arrivals-by-month" class="nav-link" data-scroll-target="#step-4-computing-year-average-arrivals-by-month">Step 4: Computing year average arrivals by month</a></li>
+  <li><a href="#step-5-plotting-the-cycle-plot" id="toc-step-5-plotting-the-cycle-plot" class="nav-link" data-scroll-target="#step-5-plotting-the-cycle-plot">Step 5: Plotting the cycle plot</a></li>
   </ul></li>
   <li><a href="#plotting-slopegraph" id="toc-plotting-slopegraph" class="nav-link" data-scroll-target="#plotting-slopegraph">6.5 Plotting Slopegraph</a>
   <ul class="collapse">
@@ -699,8 +699,8 @@ Things to learn from the code chunk
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>air<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">year</span>(<span class="fu">ymd</span>(air<span class="sc">$</span><span class="st">`</span><span class="at">Month-Year</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-4-extracting-the-target-country" class="level3">
-<h3 class="anchored" data-anchor-id="step-4-extracting-the-target-country">Step 4: Extracting the target country</h3>
+<section id="step-3-extracting-the-target-country" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-extracting-the-target-country">Step 3: Extracting the target country</h3>
 <p>Next, the code chunk below is use to extract data for the target country (i.e.&nbsp;Vietnam)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Vietnam <span class="ot">&lt;-</span> air <span class="sc">%&gt;%</span> </span>
@@ -710,8 +710,8 @@ Things to learn from the code chunk
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2010</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-5-computing-year-average-arrivals-by-month" class="level3">
-<h3 class="anchored" data-anchor-id="step-5-computing-year-average-arrivals-by-month">Step 5: Computing year average arrivals by month</h3>
+<section id="step-4-computing-year-average-arrivals-by-month" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-computing-year-average-arrivals-by-month">Step 4: Computing year average arrivals by month</h3>
 <p>The code chunk below uses <code>group_by()</code> and <code>summarise()</code> of <strong>dplyr</strong> to compute year average arrivals by month.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>hline.data <span class="ot">&lt;-</span> Vietnam <span class="sc">%&gt;%</span> </span>
@@ -719,8 +719,8 @@ Things to learn from the code chunk
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avgvalue =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Vietnam</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-6-plotting-the-cycle-plot" class="level3">
-<h3 class="anchored" data-anchor-id="step-6-plotting-the-cycle-plot">Step 6: Plotting the cycle plot</h3>
+<section id="step-5-plotting-the-cycle-plot" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-plotting-the-cycle-plot">Step 5: Plotting the cycle plot</h3>
 <p>The code chunk below is used to plot the cycle plot as shown in Slide 12/23.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">The Plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">The Code</a></li></ul>
