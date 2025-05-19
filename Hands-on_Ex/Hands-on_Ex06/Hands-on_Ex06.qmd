@@ -78,7 +78,6 @@ There are three columns, namely *timestamp*, *source_country* and *tz*.
 -   *source_country* field stores the source of the attack. It is in *ISO 3166-1 alpha-2* country code.
 -   *tz* field stores time zone of the source IP address.
 
-
 ### 6.3.4 Data Preparation
 
 Step 1: Deriving *weekday* and *hour of day* fields
@@ -132,6 +131,7 @@ kable(head(attacks))
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 grouped <- attacks %>% 
   count(wkday, hour) %>% 
@@ -157,8 +157,10 @@ theme(axis.ticks = element_blank(),
       legend.title = element_text(size = 8),
       legend.text = element_text(size = 6) )
 ```
+
 ## The Code
-```r
+
+``` r
 grouped <- attacks %>% 
   count(wkday, hour) %>% 
   ungroup() %>%
@@ -184,7 +186,6 @@ theme(axis.ticks = element_blank(),
       legend.text = element_text(size = 6) )
 ```
 :::
-
 
 ::: callout-tip
 # Things to learn from the code chunk
@@ -270,7 +271,6 @@ top4_attacks <- attacks %>%
 Step 3: Plotting the Multiple Calender Heatmap by using ggplot2 package.
 
 ::: panel-tabset
-
 ## The Plot
 
 ```{r, fig.width = 12, echo=FALSE}
@@ -296,7 +296,8 @@ ggplot(top4_attacks,
 ```
 
 ## The Code
-```r
+
+``` r
 ggplot(top4_attacks, 
        aes(hour, 
            wkday, 
@@ -318,7 +319,6 @@ ggplot(top4_attacks,
         legend.text = element_text(size = 6) )
 ```
 :::
-
 
 ## 6.4 Plotting Cycle Plot
 
@@ -397,7 +397,8 @@ ggplot() +
        title = "Visitor arrivals from Vietnam by air, Jan 2010-Dec 2019") +
   xlab("") +
   ylab("No. of Visitors") +
-  theme_tufte(base_family = "Helvetica")
+  theme_gray()+
+  theme(axis.text.x = element_text(angle = 90, size=6))
 ```
 
 ## The Code
@@ -418,8 +419,9 @@ ggplot() +
   labs(axis.text.x = element_blank(),
        title = "Visitor arrivals from Vietnam by air, Jan 2010-Dec 2019") +
   xlab("") +
-  ylab("No. of Visitors") +
-  theme_tufte(base_family = "Helvetica")
+  ylab("No. of Visitors")+
+  theme_gray()+
+  theme(axis.text.x = element_text(angle = 90, size=6))
 ```
 :::
 
@@ -443,6 +445,7 @@ Next, code chunk below will be used to plot a basic slopegraph as shown below.
 
 ::: panel-tabset
 ## The Plot
+
 ```{r, echo=FALSE}
 #| fig-height: 6 
 rice %>% 
@@ -455,6 +458,7 @@ rice %>%
 ```
 
 ## The Code
+
 ``` r
 #| fig-height: 6 
 rice %>% 
@@ -473,8 +477,695 @@ rice %>%
 For effective data visualisation design, `factor()` is used convert the value type of *Year* field from numeric to factor.
 :::
 
-## **6.6 References**
+## 6.6 Self-sourced dataset: Sandhill Cranes
+
+Sandhill cranes are a long-lived bird species found in North America. This dataset includes locations of 5 cranes during a single autumn migration from their breeding areas in northeastern Asia and south through Alaska, central Canada, and the Great Plains. The migration ends in northern Texas and northern Mexico.
+
+### 6.6.1 Import Data and View
+
+::: panel-tabset
+## Import Data
+
+```{r}
+crane <- read_csv("data/sacr_locations.csv")
+```
+
+## View Data
+
+```{r}
+kable(head(crane))
+```
+:::
+
+-   Coordinate data are not as Geographic coordinates. They are in a projected coordinate system (World Azimuthal Equidistance), with units in kilometers. The X and Y values represent distances from the central point of that projection at Longitude -110 and Latitude 51.
+
+    *Projected data from latitude and longitude (WGS84) to current projection.*
+
+### 6.6.2 Data Preparation
+
+::: panel-tabset
+## Time classification
+
+```{r}
+# --- Data Preparation ---
+crane_data <- crane %>%
+    mutate(
+        Time = strptime(Time, format = "%d/%m/%Y %H:%M", tz = "UTC"),
+        Time = as.POSIXct(Time, origin = "1970-01-01", tz = "UTC")  # Explicit origin
+    )
+
+# --- Time Class Verification ---
+cat("Time column class: ", class(crane_data$Time), "\n") # More readable output
+head(crane_data$Time)
+summary(crane_data$Time)
+
+# --- Check for NA values after conversion ---
+cat("Number of NA values in Time: ", sum(is.na(crane_data$Time)), "\n")
+if (any(is.na(crane_data$Time))) {
+    crane_data <- crane_data %>% filter(!is.na(Time)) # Remove rows
+    warning("Removed rows with NA Time values.")
+}
+
+```
+
+## Filtering
+
+```{r}
+# Get x and y range
+x_range <- range(crane_data$X, na.rm = TRUE)  # na.rm = TRUE handles potential missing values
+y_range <- range(crane_data$Y, na.rm = TRUE)
+
+# Extract the day (9th or 10th) and month_year
+crane_data <- crane_data %>%
+    mutate(
+        Day = day(Time),
+        Month_Year = floor_date(Time, "month"), # For grouping
+        Month_Label = format(floor_date(Time, "month"), "%b")  # Abbreviated month name
+    )
+
+# --- Inspect Month_Label ---
+print("First 10 rows of crane_data:")
+print(head(crane_data, 10))  # Show the first 10 rows
+print("\nUnique values in Month_Label:")
+print(unique(crane_data$Month_Label)) # Show all unique month labels
+print("\nClass of Month_Label:")
+print(class(crane_data$Month_Label)) # Show the class (should be character)
+
+```
+:::
+
+### 6.6.3 Crane Sightings at Area, Overtime interactively
+
+::: panel-tabset
+## The Plot
+
+```{r, echo=FALSE}
+library(tidyverse)
+library(lubridate)
+library(gganimate)
+library(RColorBrewer)
+# Ensure Crane is a factor
+crane_data <- crane_data %>%
+  mutate(Crane = as.factor(Crane))
+
+# Create a sequence for manual transition
+crane_data <- crane_data %>%
+  mutate(
+    Month_Year = floor_date(Time, "month"),
+    Month_Label = format(floor_date(Time, "month"), "%b"),
+    frame_order = as.integer(Time) # Use the numeric representation of Time
+  ) %>%
+  arrange(Time) # Ensure the data is sorted chronologically
+
+# Get unique cranes and number of cranes for color mapping
+unique_cranes <- unique(crane_data$Crane)
+num_cranes <- length(unique_cranes)
+my_colors <- brewer.pal(n = max(3, num_cranes), name = "Set1")
+
+# Basic Time-Series Animation
+animation <- ggplot(crane_data, aes(x = X, y = Y, color = Crane, group = Crane)) +
+  geom_point(size = 5) +
+  geom_path(alpha = 0.3) +
+  transition_manual(frame_order, cumulative = FALSE) +
+labs(title = "Crane Movement in 2013\n Month: {format(lubridate::as_datetime(as.numeric(current_frame), origin='1970-01-01', tz='UTC'), '%b')} Day: {format(lubridate::as_datetime(as.numeric(current_frame), origin='1970-01-01', tz='UTC'), '%d')}",
+     x = "X Coordinate",
+     y = "Y Coordinate") +
+theme(
+    legend.position = "bottom",
+    plot.margin = unit(c(1, 1, 1, 1), "cm") # top, right, bottom, left margins
+  ) +
+  scale_color_manual(values = setNames(my_colors[1:num_cranes], unique_cranes))
+
+# View
+animate(animation, duration = 100, fps = 5, renderer = gifski_renderer())
+
+```
+
+## The Code
+
+``` r
+library(tidyverse)
+library(lubridate)
+library(gganimate)
+library(RColorBrewer)
+# Ensure Crane is a factor
+crane_data <- crane_data %>%
+  mutate(Crane = as.factor(Crane))
+
+# Create a sequence for manual transition
+crane_data <- crane_data %>%
+  mutate(
+    Month_Year = floor_date(Time, "month"),
+    Month_Label = format(floor_date(Time, "month"), "%b"),
+    frame_order = as.integer(Time) # Use the numeric representation of Time
+  ) %>%
+  arrange(Time) # Ensure the data is sorted chronologically
+
+# Get unique cranes and number of cranes for color mapping
+unique_cranes <- unique(crane_data$Crane)
+num_cranes <- length(unique_cranes)
+my_colors <- brewer.pal(n = max(3, num_cranes), name = "Set1")
+
+# Basic Time-Series Animation
+animation <- ggplot(crane_data, aes(x = X, y = Y, color = Crane, group = Crane)) +
+  geom_point(size = 5) +
+  geom_path(alpha = 0.3) +
+  transition_manual(frame_order, cumulative = FALSE) +
+labs(title = "Crane Movement in 2013\n Month: {format(lubridate::as_datetime(as.numeric(current_frame), origin='1970-01-01', tz='UTC'), '%b')} Day: {format(lubridate::as_datetime(as.numeric(current_frame), origin='1970-01-01', tz='UTC'), '%d')}",
+     x = "X Coordinate",
+     y = "Y Coordinate") +
+theme(
+    legend.position = "bottom",
+    plot.margin = unit(c(1, 1, 1, 1), "cm") # top, right, bottom, left margins
+  ) +
+  scale_color_manual(values = setNames(my_colors[1:num_cranes], unique_cranes))
+
+# View
+animate(animation, duration = 100, fps = 5, renderer = gifski_renderer())
+```
+:::
+
+-   Sightings on the 9th are at around the Y coordinates of 2000 to 3000 and X coordinates of -2000 to -2500. Sightings on 10th are at the coordinates close to 0 for both X and Y.
+
+### 6.6.4 Heatmap of sightings by Month and Day
+
+#### By Month
+
+::: panel-tabset
+## The Plot-By Month
+
+```{r, echo=FALSE}
+# Prepare data
+crane_heatmap_data_monthly <- crane_data %>%
+  mutate(
+    Month_Label = format(Time, "%b") # Extract month label
+  ) %>%
+  group_by(Crane, Month_Label) %>%
+  summarise(Sighting_Count = n(), .groups = 'drop')
+
+# order of months on the y-axis
+month_order <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                 "Jul", "Aug", "Sept", "Oct", "Nov", "Dec")
+
+# Ensure Month_Label is a factor with the desired order
+crane_heatmap_data_monthly <- crane_heatmap_data_monthly %>%
+  mutate(Month_Label = factor(Month_Label, levels = month_order))
+
+# plot
+ggplot(crane_heatmap_data_monthly,
+       aes(x = Crane,
+           y = Month_Label,
+           fill = Sighting_Count)) +
+  geom_tile(color = "white", size = 0.5) +
+  scale_fill_gradient(name = "Sighting Count", low = "lightgrey", high = "navyblue") +
+  coord_equal() +
+  labs(title = "Monthly Crane Sightings",
+       x = "Crane",
+       y = "Month") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.ticks = element_blank() # Remove axis ticks for cleaner look
+  )
+```
+
+## The Code-By Month
+
+``` r
+# Prepare data
+crane_heatmap_data_monthly <- crane_data %>%
+  mutate(
+    Month_Label = format(Time, "%b") # Extract month label
+  ) %>%
+  group_by(Crane, Month_Label) %>%
+  summarise(Sighting_Count = n(), .groups = 'drop')
+
+# order of months on the y-axis
+month_order <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                 "Jul", "Aug", "Sept", "Oct", "Nov", "Dec")
+
+# Ensure Month_Label is a factor with the desired order
+crane_heatmap_data_monthly <- crane_heatmap_data_monthly %>%
+  mutate(Month_Label = factor(Month_Label, levels = month_order))
+
+# plot
+ggplot(crane_heatmap_data_monthly,
+       aes(x = Crane,
+           y = Month_Label,
+           fill = Sighting_Count)) +
+  geom_tile(color = "white", size = 0.5) +
+  scale_fill_gradient(name = "Sighting Count", low = "lightgrey", high = "navyblue") +
+  coord_equal() +
+  labs(title = "Monthly Crane Sightings",
+       x = "Crane",
+       y = "Month") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.ticks = element_blank() # Remove axis ticks for cleaner look
+  )
+```
+:::
+
+#### Drilling Down by Day
+
+::: panel-tabset
+## The Plot- By Day
+
+```{r, echo=FALSE}
+# Prepare data
+crane_heatmap_data_monthly <- crane_data %>%
+  mutate(
+    Month_Label = format(Time, "%b") # Extract month label
+  ) %>%
+  group_by(Crane, Month_Label, Day) %>%
+  summarise(Sighting_Count = n(), .groups = 'drop')
+
+# order of months on the y-axis
+month_order <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                 "Jul", "Aug", "Sept", "Oct", "Nov", "Dec")
+
+# Ensure Month_Label is a factor with the desired order
+crane_heatmap_data_monthly <- crane_heatmap_data_monthly %>%
+  mutate(Month_Label = factor(Month_Label, levels = month_order))
+
+# plot
+ggplot(crane_heatmap_data_monthly,
+       aes(x = Crane,
+           y = Month_Label,
+           fill = Sighting_Count)) +
+  geom_tile(color = "white", size = 0.5) +
+  scale_fill_gradient(name = "Sighting Count", low = "lightgrey", high = "navyblue") +
+  coord_equal() +
+  labs(title = "Monthly Crane Sightings for 9th and 10th of the Month",
+       x = "Crane",
+       y = "Month") +
+    facet_wrap(~Day, ncol = 2) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.ticks = element_blank() # Remove axis ticks for cleaner look
+  )
+```
+
+## The Code- By Day
+
+``` r
+# Prepare data
+crane_heatmap_data_monthly <- crane_data %>%
+  mutate(
+    Month_Label = format(Time, "%b") # Extract month label
+  ) %>%
+  group_by(Crane, Month_Label, Day) %>%
+  summarise(Sighting_Count = n(), .groups = 'drop')
+
+# order of months on the y-axis
+month_order <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                 "Jul", "Aug", "Sept", "Oct", "Nov", "Dec")
+
+# Ensure Month_Label is a factor with the desired order
+crane_heatmap_data_monthly <- crane_heatmap_data_monthly %>%
+  mutate(Month_Label = factor(Month_Label, levels = month_order))
+
+# plot
+ggplot(crane_heatmap_data_monthly,
+       aes(x = Crane,
+           y = Month_Label,
+           fill = Sighting_Count)) +
+  geom_tile(color = "white", size = 0.5) +
+  scale_fill_gradient(name = "Sighting Count", low = "lightgrey", high = "navyblue") +
+  coord_equal() +
+  labs(title = "Monthly Crane Sightings for 9th and 10th of the Month",
+       x = "Crane",
+       y = "Month") +
+    facet_wrap(~Day, ncol = 2) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.ticks = element_blank() # Remove axis ticks for cleaner look
+  )
+```
+:::
+
+-   Heatmaps allows side-by-side comparison of multiple datasets for 9th and 10th of each month, facilitating the identification of similarities, differences, and relationships between variables.
+
+-   We are able to identify that almost all cranes were sighted on the 10th of each month. Exception for Crane 100845 that was not sighted on 10th Jan and 10th Feb.
+
+-   Less cranes were sighted on 9th of the month at that specific X and Y coordinate area, especially from Nov to Dec 2013.
+
+### 6.6.5 Slope Graphs
+
+-   **Two Time Points:** We will be comparing crane counts on two specific days (the 9th and 10th) of each month. The slope graph will assist to illustrate the changes in crane sightings.
+
+#### 6.6.5.1 Data Prepration
+
+:::panel-tabset
+## The Code
+```{r}
+# Aggregate the data to count unique cranes per month per day
+crane_counts_9_10 <- crane_data %>%
+  filter(day(Time) %in% c(9, 10)) %>%
+  mutate(Day = as.factor(day(Time))) %>%
+  group_by(Crane, Month_Label, Day) %>%
+  summarise(Count = n(), .groups = 'drop')
+crane_counts_9_10
+
+# order of months on the y-axis
+month_order <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                 "Jul", "Aug", "Sept", "Oct", "Nov", "Dec")
+
+# Ensure Month_Label is a factor with the desired order
+crane_counts_9_10 <- crane_counts_9_10 %>%
+  mutate(Month_Label = factor(Month_Label, levels = month_order))
+
+```
+
+:::
+
+#### 6.6.5.2 Slopegraph for sightings- GGPLOT
+
+::: panel-tabset
+## The Plot
+
+```{r, echo=FALSE}
+# plot
+ggplot(crane_counts_9_10, aes(x = Day, y = Count, color = Crane)) +
+  geom_point(size = 1) +
+  geom_line(aes(group = Crane), linewidth = 0.5) + # Group for the line within each facet
+  facet_wrap(~ Month_Label, nrow = NULL) +
+  labs(
+    title ="Slopegraph of Crane Sightings in 2013",
+    subtitle= "9th and 10th of Each Month",
+    x = "Day of Month",
+    y = "Count"
+  ) +
+  theme_tufte(base_family = "Helvetica") +
+  theme(legend.position = "bottom")
+```
+
+## The Code
+
+``` r
+# plot
+ggplot(crane_counts_9_10, aes(x = Day, y = Count, color = Crane)) +
+  geom_point(size = 1) +
+  geom_line(aes(group = Crane), linewidth = 0.5) + # Group for the line within each facet
+  facet_wrap(~ Month_Label, nrow = NULL) +
+  labs(
+    title ="Slopegraph of Crane Sightings in 2013",
+    subtitle= "9th and 10th of Each Month",
+    x = "Day of Month",
+    y = "Count"
+  ) +
+  theme_tufte(base_family = "Helvetica") +
+  theme(legend.position = "bottom")
+```
+:::
+
+**Activity throughout the year:**
+
+-   Crane 100853 (Blue) was rather active around the two areas throughout the year during those two days.
+
+**Activity for certain periods:**
+
+-   Less crane sightings for both two days by November and December 2013.
+
+-   Only Crane 100853 (Blue) was sighted on 9th December.
+
+#### 6.6.5.3 Slopegraph for sightings- newggslopegraph
+
+::: panel-tabset
+## The Plot
+
+```{r, echo=FALSE}
+# Prepare
+crane_counts_slope <- crane_data %>%
+  filter(day(Time) %in% c(9, 10)) %>%
+  mutate(Day = as.factor(day(Time))) %>% # Convert Day to factor for newggslopegraph
+  group_by(Crane, Day) %>%           # Group by Crane and Day
+  summarise(Count = n(), .groups = 'drop') # Sum the counts for each Crane on each Day
+
+# Create the slopegraph using newggslopegraph
+#| fig-height: 6 
+crane_counts_slope %>% 
+  mutate(Day = factor(Day)) %>%
+  filter(Day %in% c(9, 10)) %>%
+  newggslopegraph(Day, Count, Crane,
+                Title = "Crane Sightings for Different Days",
+                SubTitle = "9th and 10th of Month",             
+                Caption = "Prepared by: AT")
+```
+
+## The Code
+
+``` r
+# Prepare
+crane_counts_slope <- crane_data %>%
+  filter(day(Time) %in% c(9, 10)) %>%
+  mutate(Day = as.factor(day(Time))) %>% # Convert Day to factor for newggslopegraph
+  group_by(Crane, Day) %>%           # Group by Crane and Day
+  summarise(Count = n(), .groups = 'drop') # Sum the counts for each Crane on each Day
+
+# Create the slopegraph using newggslopegraph
+#| fig-height: 6 
+crane_counts_slope %>% 
+  mutate(Day = factor(Day)) %>%
+  filter(Day %in% c(9, 10)) %>%
+  newggslopegraph(Day, Count, Crane,
+                Title = "Crane Sightings for Different Days",
+                SubTitle = "9th and 10th of Month",             
+                Caption = "Prepared by: AT")
+```
+:::
+
+-   Overall, crane 100853 (Blue) was the most active while 100854 (Green) was the least active in those two areas on those two days of the month.
+
+-   Overall more sightings for cranes at X and Y coordinates of close to 0 as the location for sightings on the 10th is around that area. Exception for crane 100853 which has a slight drop of 1 sighting between two areas.
+
+### 6.6.6 Cycle Plot
+
+Here, we study the sightings:
+
+-   6 hour periods for each crane
+
+-   Monthly sightings for each crane
+
+-   Total crane sightings by month and 6 hour periods
+
+-   Sightings by month and 6 hour periods for each crane
+
+::: panel-tabset
+## 6 hour period sightings per crane
+
+```{r}
+# 1. Create a 6-hour period variable
+crane_sightings_6hr <- crane_data %>%
+  mutate(
+    Six_Hour_Period = case_when(
+      hour(Time) >= 0 & hour(Time) < 6   ~ "00:00-05:59",
+      hour(Time) >= 6 & hour(Time) < 12  ~ "06:00-11:59",
+      hour(Time) >= 12 & hour(Time) < 18 ~ "12:00-17:59",
+      hour(Time) >= 18 & hour(Time) < 24 ~ "18:00-23:59",
+      TRUE ~ NA_character_ #Should not happen, unless there are times outside 0-23
+    ),
+    Six_Hour_Period = factor(Six_Hour_Period, levels = c("00:00-05:59", "06:00-11:59", "12:00-17:59", "18:00-23:59")) #order
+  ) %>%
+  group_by(Crane, Six_Hour_Period) %>%
+  summarise(Sightings = n(), .groups = 'drop')
+
+# 2. Create the cycle plot
+ggplot(crane_sightings_6hr, aes(x = Six_Hour_Period, y = Sightings, group=Crane, color=Crane)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ Crane, ncol = 2) +
+  labs(
+    title = "Annual Crane Sightings by 6-Hour Period",
+    x = "6-Hour Period",
+    y = "Total Sightings"
+  ) +
+  theme_grey() +
+  theme(
+    strip.text = element_text(size = 10),
+    panel.spacing = unit(1, "lines"),
+    legend.position="none"
+  )
+
+```
+
+## Monthly sightings per crane
+
+```{r}
+# Order of months on the y-axis
+month_order <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                 "Jul", "Aug", "Sept", "Oct", "Nov", "Dec")
+
+# 1. Aggregate data by Crane and Month
+crane_activity_by_month <- crane_data %>%
+  group_by(Crane, Month_Label) %>%  # Group by Crane and Month
+  summarise(Sightings = n(), .groups = 'drop')
+
+# 2. Define the order of the months
+month_order <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
+# 3. Create the cycle plots, one for each crane
+ggplot(crane_activity_by_month, aes(x = Month_Label, y = Sightings, group = Crane, color = Crane)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ Crane, ncol = 2) + # Facet by Crane, adjust ncol as needed
+  scale_x_discrete(limits = month_order) +  # Ensure months are ordered correctly on x-axis
+  labs(
+    title = "Monthly Crane Activity",
+    x = "Month",
+    y = "Total Sightings"
+  ) +
+  theme_grey()+
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),  # Adjust text angle and size
+    strip.text = element_text(size = 10),
+    panel.spacing = unit(1, "lines"),
+    legend.position = "none" # Remove the legend
+  )
+
+```
+
+## CyclePlot for all cranes
+
+```{r}
+# 1. Create the grouping
+crane_sightings_new <- crane_data %>%
+  mutate(
+    # Handle potential errors in Time column
+    Month_Label = case_when(
+      is.na(Time) ~ NA_character_,  # Assign NA for missing Time values
+      TRUE ~ format(Time, "%b") # Extract month label,
+    ),
+    Month_Label = factor(Month_Label, levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec")),
+    Six_Hour_Period = case_when(
+      hour(Time) >= 0 & hour(Time) < 6   ~ "00:00-05:59",
+      hour(Time) >= 6 & hour(Time) < 12  ~ "06:00-11:59",
+      hour(Time) >= 12 & hour(Time) < 18 ~ "12:00-17:59",
+      hour(Time) >= 18 & hour(Time) < 24 ~ "18:00-23:59",
+      TRUE ~ NA_character_
+    ),
+    Six_Hour_Period = factor(Six_Hour_Period, levels = c("00:00-05:59", "06:00-11:59", "12:00-17:59", "18:00-23:59")) #order
+  ) %>%
+  group_by(Month_Label, Six_Hour_Period) %>%
+  summarise(Sightings = n(), .groups = 'drop')
+
+# 2. Calculate average sightings per month
+hline.data <- crane_sightings_new %>% 
+  group_by(Month_Label) %>%
+  summarise(avgvalue = mean(`Sightings`))
+
+# 3. Create the cycle plots, one for each crane
+ggplot() + 
+  geom_line(data=crane_sightings_new, 
+            aes(x=Six_Hour_Period, y = Sightings, group = Month_Label)) +
+  facet_grid(~Month_Label) + # Facet by Month
+  labs(
+    title = "Crane Sightings by Month and 6-Hour Period",
+    x = "Month",
+    y = "Total Sightings") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 5),
+    strip.text = element_text(size = 8),
+    panel.spacing = unit(1, "lines"),
+    legend.position = "bottom",
+    strip.text.y = element_text(size = 8)
+  )+
+    geom_hline(aes(yintercept=avgvalue), 
+             data=hline.data, 
+             linetype=6, 
+             colour="red", 
+             size=0.5) 
+```
+
+## CyclePlot per crane
+
+```{r}
+# 1. Create the grouping
+crane_sightings_new <- crane_data %>%
+  mutate(
+    # Handle potential errors in Time column
+    Month_Label = case_when(
+      is.na(Time) ~ NA_character_,  # Assign NA for missing Time values
+      TRUE ~ format(Time, "%b") # Extract month label,
+    ),
+    Month_Label = factor(Month_Label, levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec")),
+    Six_Hour_Period = case_when(
+      hour(Time) >= 0 & hour(Time) < 6   ~ "00:00-05:59",
+      hour(Time) >= 6 & hour(Time) < 12  ~ "06:00-11:59",
+      hour(Time) >= 12 & hour(Time) < 18 ~ "12:00-17:59",
+      hour(Time) >= 18 & hour(Time) < 24 ~ "18:00-23:59",
+      TRUE ~ NA_character_
+    ),
+    Six_Hour_Period = factor(Six_Hour_Period, levels = c("00:00-05:59", "06:00-11:59", "12:00-17:59", "18:00-23:59")) #order
+  ) %>%
+  group_by(Crane, Month_Label, Six_Hour_Period) %>%
+  summarise(Sightings = n(), .groups = 'drop')
+
+# 2. Calculate average sightings per month
+avg_sightings_month <- crane_sightings_new %>%
+  group_by(Month_Label) %>%
+  summarise(avg_sightings = mean(Sightings), .groups = 'drop')
+
+# 3. Create the cycle plots, one for each crane
+ggplot()+
+  geom_line(data=crane_sightings_new, 
+            aes(x=Six_Hour_Period, y = Sightings, group = Month_Label)) +
+  facet_grid(Crane ~ Month_Label) +  #  Crane on rows, Month_Label on columns
+  labs(
+    title = "Sightings by Month and 6-Hour Period, per crane",
+    x = "6-Hour Period",
+    y = "Total Sightings",
+    color = "Month"
+  ) +
+  theme_grey() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 5),
+    strip.text = element_text(size = 10),
+    panel.spacing = unit(1, "lines"),
+    legend.position = "bottom",
+    strip.text.y = element_text(size = 8)
+  ) 
+```
+:::
+
+**From the annual crane sightings by 6-hour period:**
+
+-   Crane 100854 had a pronounced drop in sightings around 1800hrs to 2359hrs, relative to other cranes.
+
+**From the cycleplot of all cranes:**
+
+-   With respect to the annual sightings within the 6 hour period, the highest sighting was 9 within a month at 1200-1759hrs in Feb , 0600-1159hrs in Aug, 0000-0559hrs in Oct. The lowest annual sighting was of 3 in Dec at 1200-1759hrs.
+
+-   Across the months, the highest average sightings were in Jan and Feb 2013, and least in Nov and Dec 2013.
+
+-   Across the 24 hours period, a drop in activity or sightings from 1800hrs-2359hrs from Jan to Aug, and Oct-Nov 2013 (Possibly resting). However, an intersting rise in sightings observed in Sept (crane count: 5 to 8) and Dec (crane count: 3 to 4) around 1800hrs-2359hrs.
+
+**From the cycleplot per crane:**
+
+-   Crane 100854 was not sighted at 1800hrs to 2359hrs during the year, except in Aug and Sep.
+
+-   Crane 100845 and 100853 were sighted more often in Sept around 1800hrs to 2359hrs, leading to the rise in sightings for Sept.
+
+## 6.7 References
 
 -   [Using newggslopegraph](https://cran.r-project.org/web/packages/CGPfunctions/vignettes/Using-newggslopegraph.html)
 
 -   [newggslopegraph()](https://www.rdocumentation.org/packages/CGPfunctions/versions/0.6.3/topics/newggslopegraph)
+
+-   [Sandhill Crane Locations from USGS](https://www.sciencebase.gov/catalog/item/59a472d7e4b077f005673486)
