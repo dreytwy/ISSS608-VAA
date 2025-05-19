@@ -78,9 +78,6 @@ There are three columns, namely *timestamp*, *source_country* and *tz*.
 -   *source_country* field stores the source of the attack. It is in *ISO 3166-1 alpha-2* country code.
 -   *tz* field stores time zone of the source IP address.
 
-```{r echo=FALSE}
-kable(head(attacks))
-```
 
 ### 6.3.4 Data Preparation
 
