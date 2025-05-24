@@ -1,0 +1,883 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20251.25.0313.2002                               -->
+<workbook original-version='18.1' source-build='2025.1.0 (20251.25.0313.2002)' source-platform='win' version='18.1' xml:base='https://public.tableau.com' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AccessibleZoneTabOrder />
+    <AnimationOnByDefault />
+    <AutoCreateAndUpdateDSDPhoneLayouts />
+    <MapboxVectorStylesAndLayers />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <ObjectModelExtractV2 />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SetMembershipControl />
+    <SheetIdentifierTracking />
+    <_.fcp.VConnDownstreamExtractsWithWarnings.true...VConnDownstreamExtractsWithWarnings />
+    <WindowsPersistSimpleIdentifiers />
+    <ZoneBackgroundTransparency />
+  </document-format-change-manifest>
+  <repository-location id='In-class_Ex06_17480717926280' path='/workbooks' revision='1.1' />
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='Data (arrivals_by_air)' inline='true' name='federated.11hoel01wfk2kf15m9evv0ve7kz6' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='arrivals_by_air' name='excel-direct.1vdsyt50sk145r10nf0ml0i0fjc2'>
+            <connection class='excel-direct' cleaning='no' compat='no' dataRefreshTime='' filename='C:/dreytwy/ISSS608-VAA/In-class_Ex/In-class_Ex06/arrivals_by_air.xlsx' interpretationMode='0' password='' server='' validate='no' workgroup-auth-mode='as-is' />
+          </named-connection>
+        </named-connections>
+        <relation name='Pivot' type='pivot'>
+          <columns>
+            <column datatype='string' name='Pivot Field Names' />
+            <column datatype='integer' name='Pivot Field Values' />
+          </columns>
+          <tag name='Pivot Field Names'>
+            <value name='[Australia]' />
+            <value name='[Bangladesh]' />
+            <value name='[Belgium &amp; Luxembourg]' />
+            <value name='[Brunei]' />
+            <value name='[CIS]' />
+            <value name='[Canada]' />
+            <value name='[China]' />
+            <value name='[Finland]' />
+            <value name='[France]' />
+            <value name='[Germany]' />
+            <value name='[Hong Kong SAR (China)]' />
+            <value name='[India]' />
+            <value name='[Indonesia]' />
+            <value name='[Ireland]' />
+            <value name='[Italy]' />
+            <value name='[Japan]' />
+            <value name='[Kuwait]' />
+            <value name='[Malaysia]' />
+            <value name='[Myanmar]' />
+            <value name='[Netherlands]' />
+            <value name='[New Zealand]' />
+            <value name='[Pakistan]' />
+            <value name='[Philippines]' />
+            <value name='[Republic of South Africa]' />
+            <value name='[Saudi Arabia]' />
+            <value name='[South Korea]' />
+            <value name='[Spain]' />
+            <value name='[Sri Lanka]' />
+            <value name='[Switzerland]' />
+            <value name='[Taiwan]' />
+            <value name='[Thailand]' />
+            <value name='[USA]' />
+            <value name='[United Arab Emirates]' />
+            <value name='[United Kingdom]' />
+            <value name='[Vietnam]' />
+          </tag>
+          <groups>
+            <group name='Pivot Field Values'>
+              <field name='[Data].[Australia]' />
+              <field name='[Data].[Bangladesh]' />
+              <field name='[Data].[Belgium &amp; Luxembourg]' />
+              <field name='[Data].[Brunei]' />
+              <field name='[Data].[CIS]' />
+              <field name='[Data].[Canada]' />
+              <field name='[Data].[China]' />
+              <field name='[Data].[Finland]' />
+              <field name='[Data].[France]' />
+              <field name='[Data].[Germany]' />
+              <field name='[Data].[Hong Kong SAR (China)]' />
+              <field name='[Data].[India]' />
+              <field name='[Data].[Indonesia]' />
+              <field name='[Data].[Ireland]' />
+              <field name='[Data].[Italy]' />
+              <field name='[Data].[Japan]' />
+              <field name='[Data].[Kuwait]' />
+              <field name='[Data].[Malaysia]' />
+              <field name='[Data].[Myanmar]' />
+              <field name='[Data].[Netherlands]' />
+              <field name='[Data].[New Zealand]' />
+              <field name='[Data].[Pakistan]' />
+              <field name='[Data].[Philippines]' />
+              <field name='[Data].[Republic of South Africa]' />
+              <field name='[Data].[Saudi Arabia]' />
+              <field name='[Data].[South Korea]' />
+              <field name='[Data].[Spain]' />
+              <field name='[Data].[Sri Lanka]' />
+              <field name='[Data].[Switzerland]' />
+              <field name='[Data].[Taiwan]' />
+              <field name='[Data].[Thailand]' />
+              <field name='[Data].[USA]' />
+              <field name='[Data].[United Arab Emirates]' />
+              <field name='[Data].[United Kingdom]' />
+              <field name='[Data].[Vietnam]' />
+            </group>
+          </groups>
+          <relation connection='excel-direct.1vdsyt50sk145r10nf0ml0i0fjc2' name='Data' table='[Data$]' type='table'>
+            <columns gridOrigin='A1:AJ241:no:A1:AJ241:0' header='yes' outcome='2'>
+              <column datatype='date' name='Month-Year' ordinal='0' />
+              <column datatype='integer' name='Republic of South Africa' ordinal='1' />
+              <column datatype='integer' name='Canada' ordinal='2' />
+              <column datatype='integer' name='USA' ordinal='3' />
+              <column datatype='integer' name='Bangladesh' ordinal='4' />
+              <column datatype='integer' name='Brunei' ordinal='5' />
+              <column datatype='integer' name='China' ordinal='6' />
+              <column datatype='integer' name='Hong Kong SAR (China)' ordinal='7' />
+              <column datatype='integer' name='India' ordinal='8' />
+              <column datatype='integer' name='Indonesia' ordinal='9' />
+              <column datatype='integer' name='Japan' ordinal='10' />
+              <column datatype='integer' name='South Korea' ordinal='11' />
+              <column datatype='integer' name='Kuwait' ordinal='12' />
+              <column datatype='integer' name='Malaysia' ordinal='13' />
+              <column datatype='integer' name='Myanmar' ordinal='14' />
+              <column datatype='integer' name='Pakistan' ordinal='15' />
+              <column datatype='integer' name='Philippines' ordinal='16' />
+              <column datatype='integer' name='Saudi Arabia' ordinal='17' />
+              <column datatype='integer' name='Sri Lanka' ordinal='18' />
+              <column datatype='integer' name='Taiwan' ordinal='19' />
+              <column datatype='integer' name='Thailand' ordinal='20' />
+              <column datatype='integer' name='United Arab Emirates' ordinal='21' />
+              <column datatype='integer' name='Vietnam' ordinal='22' />
+              <column datatype='integer' name='Belgium &amp; Luxembourg' ordinal='23' />
+              <column datatype='integer' name='CIS' ordinal='24' />
+              <column datatype='integer' name='Finland' ordinal='25' />
+              <column datatype='integer' name='France' ordinal='26' />
+              <column datatype='integer' name='Germany' ordinal='27' />
+              <column datatype='integer' name='Ireland' ordinal='28' />
+              <column datatype='integer' name='Italy' ordinal='29' />
+              <column datatype='integer' name='Netherlands' ordinal='30' />
+              <column datatype='integer' name='Spain' ordinal='31' />
+              <column datatype='integer' name='Switzerland' ordinal='32' />
+              <column datatype='integer' name='United Kingdom' ordinal='33' />
+              <column datatype='integer' name='Australia' ordinal='34' />
+              <column datatype='integer' name='New Zealand' ordinal='35' />
+            </columns>
+          </relation>
+        </relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[Data]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:AJ241:no:A1:AJ241:0&quot;</attribute>
+              <attribute datatype='boolean' name='header'>true</attribute>
+              <attribute datatype='integer' name='outcome'>2</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Month-Year</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[Month-Year]</local-name>
+            <parent-name>[Data]</parent-name>
+            <remote-alias>Month-Year</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;DATE&quot;</attribute>
+            </attributes>
+            <object-id>[Data_A7E1963CE96046B1AAAB40855539D49A]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pivot Field Names</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Pivot Field Names]</local-name>
+            <parent-name>[Pivot]</parent-name>
+            <remote-alias>Pivot Field Names</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[Data_A7E1963CE96046B1AAAB40855539D49A]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pivot Field Values</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Pivot Field Values]</local-name>
+            <parent-name>[Pivot]</parent-name>
+            <remote-alias>Pivot Field Values</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[Data_A7E1963CE96046B1AAAB40855539D49A]</object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Selected Country' datatype='string' name='[Calculation_501306946840453121]' role='measure' type='nominal'>
+        <calculation class='tableau' formula='IF ISNULL(MIN([Pivot Field Names])) THEN &quot;All Countries&quot; ELSE MIN([Pivot Field Names]) END' />
+      </column>
+      <column caption='Country' datatype='string' name='[Pivot Field Names]' role='dimension' semantic-role='[County].[Name]' type='nominal' />
+      <column caption='Arrival' datatype='integer' name='[Pivot Field Values]' role='measure' type='quantitative' />
+      <column caption='Data' datatype='table' name='[__tableau_internal_object_id__].[Data_A7E1963CE96046B1AAAB40855539D49A]' role='measure' type='quantitative' />
+      <extract _.fcp.VConnDownstreamExtractsWithWarnings.true...user-specific='false' count='-1' enabled='true' object-id='' units='records'>
+        <connection access_mode='readonly' author-locale='en_US' class='hyper' dbname='C:/Users/dreyw/AppData/Local/Temp/TableauTemp/#TableauTemp_0e33h661ct604k146nd670v4o5uc.hyper' default-settings='hyper' schema='Extract' sslmode='' tablename='Extract' update-time='05/24/2025 07:54:32 AM' username='tableau_internal_user'>
+          <relation name='Extract' table='[Extract].[Extract]' type='table' />
+          <metadata-records>
+            <metadata-record class='column'>
+              <remote-name>Month-Year</remote-name>
+              <remote-type>133</remote-type>
+              <local-name>[Month-Year]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Month-Year</remote-alias>
+              <ordinal>0</ordinal>
+              <family>Data</family>
+              <local-type>date</local-type>
+              <aggregation>Year</aggregation>
+              <approx-count>267</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[Data_A7E1963CE96046B1AAAB40855539D49A]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Pivot Field Names</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Pivot Field Names]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Pivot Field Names</remote-alias>
+              <ordinal>1</ordinal>
+              <family>Pivot</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>35</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='binary' />
+              <object-id>[Data_A7E1963CE96046B1AAAB40855539D49A]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Pivot Field Values</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Pivot Field Values]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Pivot Field Values</remote-alias>
+              <ordinal>2</ordinal>
+              <family>Pivot</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>4292</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[Data_A7E1963CE96046B1AAAB40855539D49A]</object-id>
+            </metadata-record>
+          </metadata-records>
+        </connection>
+      </extract>
+      <layout dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;Singapore&quot;' />
+      </semantic-values>
+      <object-graph>
+        <objects>
+          <object caption='Data' id='Data_A7E1963CE96046B1AAAB40855539D49A'>
+            <properties context=''>
+              <relation name='Pivot' type='pivot'>
+                <columns>
+                  <column datatype='string' name='Pivot Field Names' />
+                  <column datatype='integer' name='Pivot Field Values' />
+                </columns>
+                <tag name='Pivot Field Names'>
+                  <value name='[Australia]' />
+                  <value name='[Bangladesh]' />
+                  <value name='[Belgium &amp; Luxembourg]' />
+                  <value name='[Brunei]' />
+                  <value name='[CIS]' />
+                  <value name='[Canada]' />
+                  <value name='[China]' />
+                  <value name='[Finland]' />
+                  <value name='[France]' />
+                  <value name='[Germany]' />
+                  <value name='[Hong Kong SAR (China)]' />
+                  <value name='[India]' />
+                  <value name='[Indonesia]' />
+                  <value name='[Ireland]' />
+                  <value name='[Italy]' />
+                  <value name='[Japan]' />
+                  <value name='[Kuwait]' />
+                  <value name='[Malaysia]' />
+                  <value name='[Myanmar]' />
+                  <value name='[Netherlands]' />
+                  <value name='[New Zealand]' />
+                  <value name='[Pakistan]' />
+                  <value name='[Philippines]' />
+                  <value name='[Republic of South Africa]' />
+                  <value name='[Saudi Arabia]' />
+                  <value name='[South Korea]' />
+                  <value name='[Spain]' />
+                  <value name='[Sri Lanka]' />
+                  <value name='[Switzerland]' />
+                  <value name='[Taiwan]' />
+                  <value name='[Thailand]' />
+                  <value name='[USA]' />
+                  <value name='[United Arab Emirates]' />
+                  <value name='[United Kingdom]' />
+                  <value name='[Vietnam]' />
+                </tag>
+                <groups>
+                  <group name='Pivot Field Values'>
+                    <field name='[Data].[Australia]' />
+                    <field name='[Data].[Bangladesh]' />
+                    <field name='[Data].[Belgium &amp; Luxembourg]' />
+                    <field name='[Data].[Brunei]' />
+                    <field name='[Data].[CIS]' />
+                    <field name='[Data].[Canada]' />
+                    <field name='[Data].[China]' />
+                    <field name='[Data].[Finland]' />
+                    <field name='[Data].[France]' />
+                    <field name='[Data].[Germany]' />
+                    <field name='[Data].[Hong Kong SAR (China)]' />
+                    <field name='[Data].[India]' />
+                    <field name='[Data].[Indonesia]' />
+                    <field name='[Data].[Ireland]' />
+                    <field name='[Data].[Italy]' />
+                    <field name='[Data].[Japan]' />
+                    <field name='[Data].[Kuwait]' />
+                    <field name='[Data].[Malaysia]' />
+                    <field name='[Data].[Myanmar]' />
+                    <field name='[Data].[Netherlands]' />
+                    <field name='[Data].[New Zealand]' />
+                    <field name='[Data].[Pakistan]' />
+                    <field name='[Data].[Philippines]' />
+                    <field name='[Data].[Republic of South Africa]' />
+                    <field name='[Data].[Saudi Arabia]' />
+                    <field name='[Data].[South Korea]' />
+                    <field name='[Data].[Spain]' />
+                    <field name='[Data].[Sri Lanka]' />
+                    <field name='[Data].[Switzerland]' />
+                    <field name='[Data].[Taiwan]' />
+                    <field name='[Data].[Thailand]' />
+                    <field name='[Data].[USA]' />
+                    <field name='[Data].[United Arab Emirates]' />
+                    <field name='[Data].[United Kingdom]' />
+                    <field name='[Data].[Vietnam]' />
+                  </group>
+                </groups>
+                <relation connection='excel-direct.1vdsyt50sk145r10nf0ml0i0fjc2' name='Data' table='[Data$]' type='table'>
+                  <columns gridOrigin='A1:AJ241:no:A1:AJ241:0' header='yes' outcome='2'>
+                    <column datatype='date' name='Month-Year' ordinal='0' />
+                    <column datatype='integer' name='Republic of South Africa' ordinal='1' />
+                    <column datatype='integer' name='Canada' ordinal='2' />
+                    <column datatype='integer' name='USA' ordinal='3' />
+                    <column datatype='integer' name='Bangladesh' ordinal='4' />
+                    <column datatype='integer' name='Brunei' ordinal='5' />
+                    <column datatype='integer' name='China' ordinal='6' />
+                    <column datatype='integer' name='Hong Kong SAR (China)' ordinal='7' />
+                    <column datatype='integer' name='India' ordinal='8' />
+                    <column datatype='integer' name='Indonesia' ordinal='9' />
+                    <column datatype='integer' name='Japan' ordinal='10' />
+                    <column datatype='integer' name='South Korea' ordinal='11' />
+                    <column datatype='integer' name='Kuwait' ordinal='12' />
+                    <column datatype='integer' name='Malaysia' ordinal='13' />
+                    <column datatype='integer' name='Myanmar' ordinal='14' />
+                    <column datatype='integer' name='Pakistan' ordinal='15' />
+                    <column datatype='integer' name='Philippines' ordinal='16' />
+                    <column datatype='integer' name='Saudi Arabia' ordinal='17' />
+                    <column datatype='integer' name='Sri Lanka' ordinal='18' />
+                    <column datatype='integer' name='Taiwan' ordinal='19' />
+                    <column datatype='integer' name='Thailand' ordinal='20' />
+                    <column datatype='integer' name='United Arab Emirates' ordinal='21' />
+                    <column datatype='integer' name='Vietnam' ordinal='22' />
+                    <column datatype='integer' name='Belgium &amp; Luxembourg' ordinal='23' />
+                    <column datatype='integer' name='CIS' ordinal='24' />
+                    <column datatype='integer' name='Finland' ordinal='25' />
+                    <column datatype='integer' name='France' ordinal='26' />
+                    <column datatype='integer' name='Germany' ordinal='27' />
+                    <column datatype='integer' name='Ireland' ordinal='28' />
+                    <column datatype='integer' name='Italy' ordinal='29' />
+                    <column datatype='integer' name='Netherlands' ordinal='30' />
+                    <column datatype='integer' name='Spain' ordinal='31' />
+                    <column datatype='integer' name='Switzerland' ordinal='32' />
+                    <column datatype='integer' name='United Kingdom' ordinal='33' />
+                    <column datatype='integer' name='Australia' ordinal='34' />
+                    <column datatype='integer' name='New Zealand' ordinal='35' />
+                  </columns>
+                </relation>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='Extract' table='[Extract].[Extract]' type='table' />
+            </properties>
+          </object>
+        </objects>
+      </object-graph>
+    </datasource>
+  </datasources>
+  <mapsources>
+    <mapsource name='Tableau' />
+  </mapsources>
+  <shared-views>
+    <shared-view name='federated.11hoel01wfk2kf15m9evv0ve7kz6'>
+      <datasources>
+        <datasource caption='Data (arrivals_by_air)' name='federated.11hoel01wfk2kf15m9evv0ve7kz6' />
+      </datasources>
+      <datasource-dependencies datasource='federated.11hoel01wfk2kf15m9evv0ve7kz6'>
+        <column caption='Country' datatype='string' name='[Pivot Field Names]' role='dimension' semantic-role='[County].[Name]' type='nominal' />
+        <column-instance column='[Pivot Field Names]' derivation='None' name='[none:Pivot Field Names:nk]' pivot='key' type='nominal' />
+      </datasource-dependencies>
+      <filter class='categorical' column='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[none:Pivot Field Names:nk]'>
+        <groupfilter function='level-members' level='[none:Pivot Field Names:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+      </filter>
+    </shared-view>
+  </shared-views>
+  <worksheets>
+    <worksheet name='Cycle Plot'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Data (arrivals_by_air)' name='federated.11hoel01wfk2kf15m9evv0ve7kz6' />
+          </datasources>
+          <datasource-dependencies datasource='federated.11hoel01wfk2kf15m9evv0ve7kz6'>
+            <column datatype='date' name='[Month-Year]' role='dimension' type='ordinal' />
+            <column caption='Country' datatype='string' name='[Pivot Field Names]' role='dimension' semantic-role='[County].[Name]' type='nominal' />
+            <column caption='Arrival' datatype='integer' name='[Pivot Field Values]' role='measure' type='quantitative' />
+            <column-instance column='[Month-Year]' derivation='Month' name='[mn:Month-Year:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Pivot Field Names]' derivation='None' name='[none:Pivot Field Names:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Pivot Field Values]' derivation='Sum' name='[sum:Pivot Field Values:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Month-Year]' derivation='Year-Trunc' name='[tyr:Month-Year:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Month-Year]' derivation='Year' name='[yr:Month-Year:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Month-Year]' derivation='Year' name='[yr:Month-Year:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='quantitative' column='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[yr:Month-Year:qk]' included-values='in-range'>
+            <min>2010</min>
+            <max>2019</max>
+          </filter>
+          <slices>
+            <column>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[yr:Month-Year:qk]</column>
+            <column>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[none:Pivot Field Names:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='field-labels-decoration'>
+            <format attr='wrap' value='on' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='display' field='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[yr:Month-Year:ok]' value='true' />
+          </style-rule>
+          <style-rule element='refline'>
+            <format attr='fill-above' id='refline0' value='#00000000' />
+            <format attr='fill-below' id='refline0' value='#00000000' />
+            <format attr='stroke-size' id='refline0' value='3' />
+            <format attr='stroke-color' id='refline0' value='#e15759a5' />
+            <format attr='color' id='refline0' value='#000000' />
+            <format attr='text-align' id='refline0' value='center' />
+            <format attr='text-format' id='refline0' value='n#,##0;-#,##0' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <reference-line axis-column='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[sum:Pivot Field Values:qk]' enable-instant-analytics='true' formula='average' id='refline0' label='Avg= &lt;Value&gt;' label-type='custom' probability='95' scope='per-pane' value-column='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[sum:Pivot Field Values:qk]' z-order='1' />
+          </pane>
+        </panes>
+        <rows>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[sum:Pivot Field Values:qk]</rows>
+        <cols>([federated.11hoel01wfk2kf15m9evv0ve7kz6].[mn:Month-Year:ok] / [federated.11hoel01wfk2kf15m9evv0ve7kz6].[tyr:Month-Year:ok])</cols>
+      </table>
+      <simple-id uuid='{8608CD13-2828-4F6D-A681-6137F392E4FA}' />
+    </worksheet>
+    <worksheet name='Selected Country Helper'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run bold='true' fontsize='18'><![CDATA[Visitor Arrival by Country, 2010-2019 (<]]></run>
+            <run bold='true' fontsize='18'>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[usr:Calculation_501306946840453121:nk]</run>
+            <run bold='true' fontsize='18'>&gt;)</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Data (arrivals_by_air)' name='federated.11hoel01wfk2kf15m9evv0ve7kz6' />
+          </datasources>
+          <mapsources>
+            <mapsource name='Tableau' />
+          </mapsources>
+          <datasource-dependencies datasource='federated.11hoel01wfk2kf15m9evv0ve7kz6'>
+            <column caption='Selected Country' datatype='string' name='[Calculation_501306946840453121]' role='measure' type='nominal'>
+              <calculation class='tableau' formula='IF ISNULL(MIN([Pivot Field Names])) THEN &quot;All Countries&quot; ELSE MIN([Pivot Field Names]) END' />
+            </column>
+            <column caption='Country' datatype='string' name='[Pivot Field Names]' role='dimension' semantic-role='[County].[Name]' type='nominal' />
+            <column-instance column='[Pivot Field Names]' derivation='None' name='[none:Pivot Field Names:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Calculation_501306946840453121]' derivation='User' name='[usr:Calculation_501306946840453121:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[usr:Calculation_501306946840453121:nk]'>
+            <groupfilter function='level-members' level='[usr:Calculation_501306946840453121:nk]' />
+          </filter>
+          <slices>
+            <column>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[none:Pivot Field Names:nk]</column>
+            <column>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[usr:Calculation_501306946840453121:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='width' value='59' />
+          </style-rule>
+          <style-rule element='map'>
+            <format attr='washout' value='0.0' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[usr:Calculation_501306946840453121:nk]' />
+            </encodings>
+            <customized-label>
+              <formatted-text>
+                <run>&lt;</run>
+                <run>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[usr:Calculation_501306946840453121:nk]</run>
+                <run>&gt;</run>
+              </formatted-text>
+            </customized-label>
+            <style>
+              <style-rule element='cell'>
+                <format attr='text-align' value='left' />
+              </style-rule>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+              <style-rule element='pane'>
+                <format attr='minwidth' value='-1' />
+                <format attr='maxwidth' value='-1' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{E22EE5FA-F293-49A4-8A9F-136DDECB15B3}' />
+    </worksheet>
+    <worksheet name='Time-series line'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Data (arrivals_by_air)' name='federated.11hoel01wfk2kf15m9evv0ve7kz6' />
+          </datasources>
+          <datasource-dependencies datasource='federated.11hoel01wfk2kf15m9evv0ve7kz6'>
+            <column datatype='date' name='[Month-Year]' role='dimension' type='ordinal' />
+            <column caption='Country' datatype='string' name='[Pivot Field Names]' role='dimension' semantic-role='[County].[Name]' type='nominal' />
+            <column caption='Arrival' datatype='integer' name='[Pivot Field Values]' role='measure' type='quantitative' />
+            <column-instance column='[Pivot Field Names]' derivation='None' name='[none:Pivot Field Names:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Pivot Field Values]' derivation='Sum' name='[sum:Pivot Field Values:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Month-Year]' derivation='Month-Trunc' name='[tmn:Month-Year:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Month-Year]' derivation='Year' name='[yr:Month-Year:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[yr:Month-Year:ok]'>
+            <groupfilter function='union' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[yr:Month-Year:ok]' member='2010' />
+              <groupfilter function='member' level='[yr:Month-Year:ok]' member='2011' />
+              <groupfilter function='member' level='[yr:Month-Year:ok]' member='2012' />
+              <groupfilter function='member' level='[yr:Month-Year:ok]' member='2013' />
+              <groupfilter function='member' level='[yr:Month-Year:ok]' member='2014' />
+              <groupfilter function='member' level='[yr:Month-Year:ok]' member='2015' />
+              <groupfilter function='member' level='[yr:Month-Year:ok]' member='2016' />
+              <groupfilter function='member' level='[yr:Month-Year:ok]' member='2017' />
+              <groupfilter function='member' level='[yr:Month-Year:ok]' member='2018' />
+              <groupfilter function='member' level='[yr:Month-Year:ok]' member='2019' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[yr:Month-Year:ok]</column>
+            <column>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[none:Pivot Field Names:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='0' field='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[tmn:Month-Year:qk]' field-type='quantitative' minor-origin='#2020-12-30 00:00:00#' minor-spacing='1.0' minor-units='months' range-type='uniform' scope='cols' type='space' />
+            <format attr='auto-subtitle' class='0' field='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[tmn:Month-Year:qk]' scope='cols' value='true' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[sum:Pivot Field Values:qk]' />
+              <lod column='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[:Measure Names]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[sum:Pivot Field Values:qk]</rows>
+        <cols>[federated.11hoel01wfk2kf15m9evv0ve7kz6].[tmn:Month-Year:qk]</cols>
+      </table>
+      <simple-id uuid='{29670376-3CEB-4AB9-A2A0-4354DC490E2C}' />
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard enable-sort-zone-taborder='true' name='Dashboard 1'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run bold='true' fontalignment='1'>Visitor Arrival by Country, 2010-2019</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <style />
+      <size sizing-mode='automatic' />
+      <datasources>
+        <datasource caption='Data (arrivals_by_air)' name='federated.11hoel01wfk2kf15m9evv0ve7kz6' />
+      </datasources>
+      <datasource-dependencies datasource='federated.11hoel01wfk2kf15m9evv0ve7kz6'>
+        <column caption='Country' datatype='string' name='[Pivot Field Names]' role='dimension' semantic-role='[County].[Name]' type='nominal' />
+        <column-instance column='[Pivot Field Names]' derivation='None' name='[none:Pivot Field Names:nk]' pivot='key' type='nominal' />
+      </datasource-dependencies>
+      <zones>
+        <zone h='100000' id='4' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='98060' id='12' param='vert' type-v2='layout-flow' w='99034' x='483' y='970'>
+            <zone fixed-size='64' h='7758' id='14' is-fixed='true' param='horz' type-v2='layout-flow' w='99034' x='483' y='970'>
+              <zone h='7758' id='15' name='Selected Country Helper' w='99034' x='483' y='970'>
+                <layout-cache cell-count-w='1' fixed-size-h='77' non-cell-size-w='1574' type-h='fixed' type-w='cell' />
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+            </zone>
+            <zone h='90302' id='7' param='horz' type-v2='layout-flow' w='99034' x='483' y='8728'>
+              <zone h='90302' id='5' type-v2='layout-basic' w='89378' x='483' y='8728'>
+                <zone h='45145' id='3' name='Time-series line' w='89378' x='483' y='8728'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='45157' id='10' name='Cycle Plot' w='89378' x='483' y='53873'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+              </zone>
+              <zone fixed-size='160' h='90302' id='6' is-fixed='true' param='vert' type-v2='layout-flow' w='9656' x='89861' y='8728'>
+                <zone h='81453' id='8' mode='radiolist' name='Time-series line' param='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[none:Pivot Field Names:nk]' type-v2='filter' w='9656' x='89861' y='8728'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='8849' id='9' name='Time-series line' pane-specification-id='0' param='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[sum:Pivot Field Values:qk]' type-v2='color' w='9656' x='89861' y='90181'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+              </zone>
+            </zone>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+      <devicelayouts>
+        <devicelayout auto-generated='true' name='Phone'>
+          <layout-options>
+            <title>
+              <formatted-text>
+                <run bold='true' fontalignment='1'>Visitor Arrival by Country, 2010-2019</run>
+              </formatted-text>
+            </title>
+          </layout-options>
+          <size maxheight='800' minheight='800' sizing-mode='vscroll' />
+          <zones>
+            <zone h='100000' id='19' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98262' id='18' param='vert' type-v2='layout-flow' w='99034' x='483' y='869'>
+                <zone fixed-size='48' h='6949' id='15' is-fixed='true' name='Selected Country Helper' w='99034' x='483' y='869'>
+                  <layout-cache cell-count-w='1' fixed-size-h='77' non-cell-size-w='1574' type-h='fixed' type-w='cell' />
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='83386' id='8' mode='dropdown' name='Time-series line' param='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[none:Pivot Field Names:nk]' type-v2='filter' w='9656' x='89861' y='7818'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='45652' id='3' is-fixed='true' name='Time-series line' w='89378' x='483' y='7818'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='7927' id='9' name='Time-series line' pane-specification-id='0' param='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[sum:Pivot Field Values:qk]' type-v2='color' w='9656' x='89861' y='91204'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='45661' id='10' is-fixed='true' name='Cycle Plot' w='89378' x='483' y='53470'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+              </zone>
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='8' />
+              </zone-style>
+            </zone>
+          </zones>
+        </devicelayout>
+      </devicelayouts>
+      <simple-id uuid='{1B261CEC-AA0F-4EF7-82B0-6A1BFBD43217}' />
+    </dashboard>
+  </dashboards>
+  <windows saved-dpi-scale-factor='1.25' source-height='30'>
+    <window class='worksheet' name='Time-series line'>
+      <cards>
+        <edge name='left'>
+          <strip size='200'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='200'>
+            <card mode='radiolist' param='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[none:Pivot Field Names:nk]' type='filter' />
+            <card param='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[yr:Month-Year:ok]' type='filter' />
+            <card pane-specification-id='0' param='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[sum:Pivot Field Values:qk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{2BB1D23C-68FB-4FFC-BA2A-DC12BBB12F0A}' />
+    </window>
+    <window class='worksheet' maximized='true' name='Cycle Plot'>
+      <cards>
+        <edge name='left'>
+          <strip size='200'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='200'>
+            <card param='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[none:Pivot Field Names:nk]' type='filter' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <zoom type='fit-width' />
+      </viewpoint>
+      <simple-id uuid='{07D1F590-961E-4836-97A8-C8DAF0348CD0}' />
+    </window>
+    <window class='worksheet' name='Selected Country Helper'>
+      <cards>
+        <edge name='left'>
+          <strip size='293'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='200'>
+            <card param='[federated.11hoel01wfk2kf15m9evv0ve7kz6].[usr:Calculation_501306946840453121:nk]' show-morefewerbutton='false' type='filter' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <zoom type='fit-width' />
+      </viewpoint>
+      <simple-id uuid='{C88885BE-0BC5-43C6-9D98-909B0A953A3A}' />
+    </window>
+    <window class='dashboard' name='Dashboard 1'>
+      <viewpoints>
+        <viewpoint name='Cycle Plot'>
+          <zoom type='fit-width' />
+        </viewpoint>
+        <viewpoint name='Selected Country Helper'>
+          <zoom type='fit-width' />
+        </viewpoint>
+        <viewpoint name='Time-series line'>
+          <zoom type='entire-view' />
+        </viewpoint>
+      </viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{FDA3F26A-FF49-403F-9AA2-4399FC29F873}' />
+    </window>
+  </windows>
+</workbook>
