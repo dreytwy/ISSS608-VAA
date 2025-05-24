@@ -1153,5 +1153,12 @@
     "title": "In-class_Ex05",
     "section": "Visualising the entire graph",
     "text": "Visualising the entire graph\nIn the code chunk below, ggraph functions are used to visualise the whole graph.\nPlotting the line is done before the node. Force directed layout applied.\n\nggraph(graph, layout = \"fr\") +\n  geom_edge_link(alpha = 0.3, \n                 colour = \"gray\") +\n  geom_node_point(aes(color = `Node Type`), \n                  size = 2) +\n  geom_node_text(aes(label = name), \n                 repel = TRUE, \n                 size = 2.5) +\n  theme_void()\n\n\n\n\n\n\n\n\nNotice that the whole graph is very messy and we can hardy discover any useful patterns. This is always the case in graph visualisation and analysis. In order to gain meaningful visual discovery, it is always useful for us to looking into the details, for example by plotting sub-graphs.\n\nStep 1: Filter edges to only “Memberof”\n\ngraph_memberof &lt;- graph %&gt;%\n  activate(edges) %&gt;%\n  filter(`Edge Type`==\"MemberOf\")\n\nFilter away the edges due to clutter from above.\n\n\nStep 2: Extract only connected nodes\n\nused_node_indices &lt;- graph_memberof %&gt;%\n  activate(edges) %&gt;%\n  as_tibble() %&gt;%\n  select(from, to) %&gt;%\n  unlist() %&gt;%\n  unique()\n\n\n\nStep 3: Keep only those nodes\n\ngraph_memberof &lt;- graph_memberof %&gt;%\n  activate(nodes) %&gt;%\n  mutate(row_id = row_number()) %&gt;%\n  filter(row_id %in% used_node_indices) %&gt;%\n  select(-row_id)  # optional cleanup\n\n\n\nStep 4: Plot the subgraph\n\nggraph(graph_memberof, \n       layout = \"fr\") +\n  geom_edge_link(alpha = 0.5, \n                 colour = \"gray\") +\n  geom_node_point(aes(color = `Node Type`), \n                  size = 1) +\n  geom_node_text(aes(label = name), \n                 repel = TRUE, \n                 size = 2.5) +\n  theme_void()\n\n\n\n\n\n\n\n\nNotice that the sub-graph above is very clear and the relationship between musical group and person can be visualise easily."
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex06/In-class_Ex06.html",
+    "href": "In-class_Ex/In-class_Ex06/In-class_Ex06.html",
+    "title": "In-class_Ex06",
+    "section": "",
+    "text": "View my Tableau profile :"
   }
 ]

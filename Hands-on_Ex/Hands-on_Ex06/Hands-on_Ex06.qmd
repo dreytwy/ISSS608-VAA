@@ -831,8 +831,9 @@ ggplot(crane_heatmap_data_monthly,
 
 #### 6.6.5.1 Data Prepration
 
-:::panel-tabset
+::: panel-tabset
 ## The Code
+
 ```{r}
 # Aggregate the data to count unique cranes per month per day
 crane_counts_9_10 <- crane_data %>%
@@ -851,7 +852,6 @@ crane_counts_9_10 <- crane_counts_9_10 %>%
   mutate(Month_Label = factor(Month_Label, levels = month_order))
 
 ```
-
 :::
 
 #### 6.6.5.2 Slopegraph for sightings- GGPLOT
