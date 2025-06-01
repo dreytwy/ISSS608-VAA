@@ -4,7 +4,12 @@ author: "Audrey Tan"
 date: "01 June 2025"
 date-modified: "last-modified"
 
-format: docx
+format: 
+  html:
+    self-contained: true
+    embed-resources: true
+    code-fold: false
+
 
 editor: visual
 execute:
@@ -682,7 +687,7 @@ VisNetwork provides the user to understand relationships through interactivity. 
 
 ::: no-code-fold
 ```{r, echo=FALSE}
-#| eval: false
+
 # ---- 1. Define styles and legends ----
 
 event_subtypes <- c(
@@ -4118,7 +4123,7 @@ print("---------------------------------------------------------------------")
 
 ::: no-code-fold
 ```{r, echo=FALSE}
-#| eval: false
+
 # Define custom colors for node types (reusing from previous code)
 node_legend_colors_plot <- c(
   "Person" = "#88CCEE",      # Blue
@@ -4305,7 +4310,7 @@ build_visnetwork_plot(edges_sent, "Nadia Sent Ego Network")
 
 ::: no-code-fold
 ```{r, echo=FALSE}
-#| eval: false
+
 build_visnetwork_plot(edges_received, "Nadia Received Ego Network")
 ```
 :::
