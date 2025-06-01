@@ -5364,59 +5364,59 @@ Real Identity from analysis -\> Observed Name from data -\> Community
 #| code-fold: true
 #| code-summary: "Show the code"
 
+# --- Libraries ---
+library(dplyr)
+library(ggplot2)
+library(ggalluvial)
+library(stringr)
+library(plotly)
 
-# --- 2. Build alluvial dataset (original version) ---
+# --- 1. Build Alluvial Dataset ---
 alluvial_data <- name_mapping %>%
-  bind_rows(multi_members) %>%
-  distinct() %>%
+  bind_rows(multi_members) %>% # Combine the two data sources
+  distinct() %>% # Remove any duplicate rows after combining
   filter(!is.na(real_identity) & !is.na(community)) %>%
   count(real_identity, observed_name, community, name = "value") %>%
-  mutate(
-    real_identity_wrapped = str_trunc(real_identity, 30) %>% str_wrap(10),
-    observed_name_wrapped = str_trunc(observed_name, 30) %>% str_wrap(10),
-    community_wrapped      = str_trunc(community, 30) %>% str_wrap(10),
-    
-    tooltip = paste0(
-      "<b>Real Identity:</b> ", real_identity, "<br>",
-      "<b>Observed Name:</b> ", observed_name, "<br>",
-      "<b>Community:</b> ", community, "<br>",
-      "<b>Count:</b> ", value
-    )
-  )
+  mutate(tooltip = paste0( # Create the tooltip string
+    "Real Identity: ", real_identity, "<br>",
+    "Observed Name: ", observed_name, "<br>",
+    "Community: ", community, "<br>",
+    "Count: ", value
+  ))
 
-# --- 3. Create static ggplot object (MODIFIED) ---
+# --- 3. Create static ggplot object (original version) ---
 p <- ggplot(alluvial_data,
-            aes(axis1 = real_identity_wrapped, 
-                axis2 = observed_name_wrapped, 
-                axis3 = community_wrapped,
+            aes(axis1 = real_identity, axis2 = observed_name, axis3 = community,
                 y = value,
-                text = tooltip)) +
-  geom_alluvium(aes(fill = real_identity_wrapped), width = 0.95, alpha = 0.8) +
-  geom_stratum(width = 0.95, fill = "grey90", color = "black", 
-               aes(label = after_stat(stratum))) +
-  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 2)+  # Text in grey boxes
+                text = tooltip # Map the custom tooltip string to the 'text' aesthetic
+            )) +
+  geom_alluvium(aes(fill = real_identity), width = 1/12, alpha = 0.8) +
+  geom_stratum(width = 1/12, fill = "grey90", color = "black", aes(text = NULL)) + # No dual-role fill here
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3.5, hjust = 0) +
   scale_x_discrete(
     limits = c("Real Identity", "Observed Name", "Community"),
-    expand = expansion(mult = c(0.1, 0.7), add = c(1, 1))
+    expand = c(.05, .25)
   ) +
   labs(
-    title = "All Identity Flows (Interactive)",
+    title = "All Identity Flows",
     x = NULL, y = "Link Count"
   ) +
   theme_minimal() +
   theme(
-    legend.position = "none",
+    legend.position = "none", # No legend for fill here
     panel.grid = element_blank(),
     axis.text.y = element_blank(),
     axis.ticks = element_blank(),
-    plot.margin = margin(10, 100, 10, 10),
+    plot.margin = margin(10, 80, 10, 10),
     axis.text.x = element_text(face = "bold")
   )
 
-# --- 3. Convert to interactive Plotly plot ---
-interactive_plot <- ggplotly(p, tooltip = "text", width = 3000, height = 1000)
+# --- 4. Convert to interactive Plotly object ---
+# 'tooltip = "text"' tells Plotly to use the content of the 'text' aesthetic
+interactive_plot <- ggplotly(p, tooltip = "text", height = 800, width = 1000)
+interactive_plot # This line will print the Plotly object in  Quarto output
 
-interactive_plot
+
 ```
 
 We created a graph with the character's original name, pseudonyms, and supplemented with any background information we learnt of. For instance, we learnt that Davis was a captain, or that Serenity was a private luxury yacht.
