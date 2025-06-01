@@ -1,5 +1,6 @@
 project:
   type: website
+  
   render:
     - index.qmd
     - about.qmd
@@ -18,12 +19,14 @@ project:
     - In-class_Ex/In-class_Ex05/In-class_Ex05.qmd
     - In-class_Ex/In-class_Ex06/In-class_Ex06.qmd
     - Take-home_Ex/Take-home_Ex01/Take-home_Ex01.qmd
+    - Take-home_Ex/Take-home_Ex02/Take-home_Ex02.qmd
+
   output-dir: _site #for the logo to appear
 
 website:
   favicon: bear_heart.png
   announcement:
-    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (24 MAY)** - [**In-class Exercise 6**](https://isss608-ay2024-25-dreytwy.netlify.app/In-class_Ex/In-class_Ex06/In-class_Ex06.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(17 MAY)** - [**In-class Exercise 5**](https://isss608-ay2024-25-dreytwy.netlify.app/In-class_Ex/In-class_Ex05/In-class_Ex05.html) published! " 
+    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (01 JUN)** - [**Take-Home_Ex02**](https://isss608-ay2024-25-dreytwy.netlify.app/Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(MSG)** - Sorry for the long assignment content... " 
     type: warning
     position: below-navbar
   page-navigation: true
@@ -94,5 +97,6 @@ format:
     toc: true
     css: styles.css
     logo: bear_heart.png
+    
       
 editor: visual

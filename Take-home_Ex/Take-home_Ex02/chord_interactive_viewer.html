@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+
+  <style>
+      .chord-frame { width: 100%; height: auto; }
+      #slider-container { text-align: center; margin: 20px; }
+    </style>
+  <script>
+      function updateFrame(index) {
+        const frames = document.querySelectorAll('.chord-frame');
+        frames.forEach((el, i) => {
+          el.style.display = i === index ? 'block' : 'none';
+        });
+      }
+    </script>
+</head>
+<html>
+  <body>
+    <div id="slider-container">
+      <input type="range" min="0" max="39" value="0" id="frameSlider" oninput="updateFrame(parseInt(this.value))"/>
+      <p>Use the slider to view communication over time</p>
+    </div>
+    <img src="chord_frames/frame_001.png" style="display:block;" class="chord-frame"/>
+    <img src="chord_frames/frame_002.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_003.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_004.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_005.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_006.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_007.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_008.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_009.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_010.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_011.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_012.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_013.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_014.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_015.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_016.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_017.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_018.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_019.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_020.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_021.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_022.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_023.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_024.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_025.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_026.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_027.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_028.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_029.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_030.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_031.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_032.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_033.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_034.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_035.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_036.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_037.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_038.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_039.png" style="display:none;" class="chord-frame"/>
+    <img src="chord_frames/frame_040.png" style="display:none;" class="chord-frame"/>
+  </body>
+</html>
+</html>
