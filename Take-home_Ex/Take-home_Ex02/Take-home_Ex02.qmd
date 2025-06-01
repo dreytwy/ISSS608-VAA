@@ -121,7 +121,7 @@ To answer these questions, we investigated the communications and relationships 
 |                                                                                                                            |                                                                                                                              |
 | -   [tidytext](https://cran.r-project.org/web/packages/tidytext/index.html) - For functions text mining                    | -   [ggh4x](https://cran.r-project.org/web/packages/ggh4x/index.html) - For axis, strip, and facet customizations            |
 |                                                                                                                            |                                                                                                                              |
-| -   [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html) - For transforming, filtering, summarising data      | -   [vizNetwork](https://cran.r-project.org/web/packages/visNetwork/index.html) - For interactive visualisation of networks. |
+| -   [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html) - For transforming, filtering, summarising data      | -   [visNetwork](https://cran.r-project.org/web/packages/visNetwork/index.html) - For interactive visualisation of networks. |
 |                                                                                                                            |                                                                                                                              |
 | -   [tm](https://cran.r-project.org/web/packages/tm/index.html) - For text mining                                          | -   [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) - For building plots                               |
 |                                                                                                                            |                                                                                                                              |
@@ -133,9 +133,9 @@ To answer these questions, we investigated the communications and relationships 
 |                                                                                                                            |                                                                                                                              |
 | -   [stringr](https://cran.r-project.org/web/packages/stringr/index.html) - For wrapping                                   | -   [wordcloud2](https://cran.r-project.org/web/packages/wordcloud2/index.html) - For creating wordclouds                    |
 |                                                                                                                            |                                                                                                                              |
-| -   [readr](https://cran.r-project.org/web/packages/readr/index.html) - For reading reactangular data                      |                                                                                                                              |
+| -   [readr](https://cran.r-project.org/web/packages/readr/index.html) - For reading rectangular data                       |                                                                                                                              |
 |                                                                                                                            |                                                                                                                              |
-| -   [reactable](https://cran.r-project.org/web/packages/reactable/index.html) - For interative data tables                 |                                                                                                                              |
+| -   [reactable](https://cran.r-project.org/web/packages/reactable/index.html) - For interactive data tables                |                                                                                                                              |
 +----------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
 
 The code chunk below uses p_load() of pacman package to check if packages are installed in the computer. If they are, then they will be launched into R.
@@ -375,7 +375,7 @@ We will use the EDA findings to determine data to focus on or eliminate. From th
 
 -   Nodes were one of three types (Entity, Event, Relationship), where each of these types have their sub_types. Majority were of event type, followed by relationship, and entity.
 
-    -   There were 25 subtypes. Communications made up the bulk of the sub_type for Events. Coordinates made up the bulk of the sub_type for Relationship. The additional node sub_types not mentioned in the VAST 2025 MC3 Data Description under Node Attributes are: fishing, communication and coordinates.
+    -   There were 25 subtypes. Communications made up the bulk of the sub_type for Events. Coordinates made up the bulk of the sub_type for Relationship. The additional node sub_types not mentioned in the VAST 2025 MC3 Data Description under Node Attributes were: fishing, communication and coordinates.
 
 ## Event Types
 
@@ -459,7 +459,7 @@ ggplot(filtered_edges, aes(x = source, y = n)) +
 ```
 :::
 
-**What we understood from the information provided by Vast Challengage on Directional Edges:**
+**What we understood from the information provided by Vast Challenge on Directional Edges:**
 
 -   For relationship as colleagues node or friends node, the node will have arrows/ edges pointing towards the relationship node.
 
@@ -5360,51 +5360,60 @@ Real Identity from analysis -\> Observed Name from data -\> Community
 ```{r}
 #| code-fold: true
 #| code-summary: "Show the code"
+
+
 # --- 2. Build alluvial dataset (original version) ---
 alluvial_data <- name_mapping %>%
-  bind_rows(multi_members) %>% # Combine the two data sources
-  distinct() %>% # Remove any duplicate rows after combining
+  bind_rows(multi_members) %>%
+  distinct() %>%
   filter(!is.na(real_identity) & !is.na(community)) %>%
   count(real_identity, observed_name, community, name = "value") %>%
-  mutate(tooltip = paste0( # Create the tooltip string
-    "Real Identity: ", real_identity, "<br>",
-    "Observed Name: ", observed_name, "<br>",
-    "Community: ", community, "<br>",
-    "Count: ", value
-  ))
+  mutate(
+    real_identity_wrapped = str_trunc(real_identity, 30) %>% str_wrap(10),
+    observed_name_wrapped = str_trunc(observed_name, 30) %>% str_wrap(10),
+    community_wrapped      = str_trunc(community, 30) %>% str_wrap(10),
+    
+    tooltip = paste0(
+      "<b>Real Identity:</b> ", real_identity, "<br>",
+      "<b>Observed Name:</b> ", observed_name, "<br>",
+      "<b>Community:</b> ", community, "<br>",
+      "<b>Count:</b> ", value
+    )
+  )
 
-# --- 3. Create static ggplot object (original version) ---
+# --- 3. Create static ggplot object (MODIFIED) ---
 p <- ggplot(alluvial_data,
-            aes(axis1 = real_identity, axis2 = observed_name, axis3 = community,
+            aes(axis1 = real_identity_wrapped, 
+                axis2 = observed_name_wrapped, 
+                axis3 = community_wrapped,
                 y = value,
-                text = tooltip # Map the custom tooltip string to the 'text' aesthetic
-            )) +
-  geom_alluvium(aes(fill = real_identity), width = 1/12, alpha = 0.8) +
-  geom_stratum(width = 1/12, fill = "grey90", color = "black", aes(text = NULL)) + # No dual-role fill here
-  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3.5, hjust = 0) +
+                text = tooltip)) +
+  geom_alluvium(aes(fill = real_identity_wrapped), width = 0.95, alpha = 0.8) +
+  geom_stratum(width = 0.95, fill = "grey90", color = "black", 
+               aes(label = after_stat(stratum))) +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 2)+  # Text in grey boxes
   scale_x_discrete(
     limits = c("Real Identity", "Observed Name", "Community"),
-    expand = c(.05, .25)
+    expand = expansion(mult = c(0.1, 0.7), add = c(1, 1))
   ) +
   labs(
-    title = "All Identity Flows",
+    title = "All Identity Flows (Interactive)",
     x = NULL, y = "Link Count"
   ) +
   theme_minimal() +
   theme(
-    legend.position = "none", # No legend for fill here
+    legend.position = "none",
     panel.grid = element_blank(),
     axis.text.y = element_blank(),
     axis.ticks = element_blank(),
-    plot.margin = margin(10, 80, 10, 10),
+    plot.margin = margin(10, 100, 10, 10),
     axis.text.x = element_text(face = "bold")
   )
 
-# --- 4. Convert to interactive Plotly object ---
-# 'tooltip = "text"' tells Plotly to use the content of the 'text' aesthetic
-interactive_plot <- ggplotly(p, tooltip = "text", height = 800, width = 1000)
-interactive_plot # This line will print the Plotly object in  Quarto output
+# --- 3. Convert to interactive Plotly plot ---
+interactive_plot <- ggplotly(p, tooltip = "text", width = 3000, height = 1000)
 
+interactive_plot
 ```
 
 We created a graph with the character's original name, pseudonyms, and supplemented with any background information we learnt of. For instance, we learnt that Davis was a captain, or that Serenity was a private luxury yacht.
@@ -5508,7 +5517,7 @@ p <- ggplot(freq_df, aes(x = comm_date, y = message_count)) +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1),
     plot.title = element_text(face="bold"),
-    plot.margin = margin(10, 30, 10, 10), # Adjust plot margins if needed
+    plot.margin = margin(30, 30, 10, 10), # Adjust plot margins if needed
   )
 
 # --- Step 4: Convert to Interactive Plotly Object ---
@@ -5520,7 +5529,7 @@ p_interactive <- ggplotly(p, tooltip = "text")
 p_interactive
 ```
 
-Hover over the ribbons to see details. Here, we provided a high level summary on the core event on the preparation and production of the music video Nadia was involved in for a period of 2 weeks, and also provided a snippet to the sub-event of the tourism vessels breaching protocols earlier in the week.
+Hover over the red points to see the details. Here, we provided a high level summary on the core event on the preparation and production of the music video Nadia was involved in for a period of 2 weeks, and also provided a snippet to the sub-event of the tourism vessels breaching protocols earlier in the week.
 
 # **10) References**
 
