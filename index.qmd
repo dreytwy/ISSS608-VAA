@@ -8,7 +8,7 @@ listing:
   page-size: 8
   grid-columns: 2
   table-hover: true
-  max-items: 10
+  max-items: 20
   fields: [title, date]
   field-display-names:
     date: "Published"
