@@ -1,8 +1,12 @@
 ---
-title: "Analytical Mapping"
-date: "06 June 2025"
+title: "8c. Analytical Mapping"
+author: "Audrey Tan"
+date: "13 June 2025"
 date-modified: "last-modified"
-format: html
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
 execute: 
   echo: true
   eval: true
@@ -11,7 +15,7 @@ execute:
 editor: visual
 ---
 
-## Overview
+## 8.1 Overview
 
 ### Objectives
 
@@ -27,7 +31,7 @@ By the end of this in-class exercise, we will be able to use appropriate functio
 -   Creating percentile map
 -   Creating boxmap
 
-## Getting Started
+## 8.2 Getting Started
 
 ### Installing and loading packages
 
@@ -63,7 +67,7 @@ NGA_wp <- read_rds("data/rds/NGA_wp.rds")
 ```
 :::
 
-## Basic Choropleth Mapping
+## 8.3 Basic Choropleth Mapping
 
 ### Visualising distribution of non-functional water point
 
@@ -116,7 +120,7 @@ tmap_arrange(p2, p1, nrow = 1)
 ```
 :::
 
-## Choropleth Map for Rates
+## 8.4 Choropleth Map for Rates
 
 In much of our readings we have now seen the importance to map rates rather than counts of things, and that is for the simple reason that water points are not equally distributed in space. That means that if we do not account for how many water points are somewhere, we end up mapping total water point size rather than our topic of interest.
 
@@ -159,7 +163,7 @@ tm_shape(NGA_wp) +
 ```
 :::
 
-## Extreme Value Maps
+## 8.5 Extreme Value Maps
 
 Extreme value maps are variations of common choropleth maps where the classification is designed to highlight extreme values at the lower and upper end of the scale, with the goal of identifying outliers. These maps were developed in the spirit of spatializing EDA, i.e., adding spatial features to commonly used approaches in non-spatial EDA (Anselin 1994).
 
@@ -225,22 +229,33 @@ get.var <- function(vname,df) {
 Next, we will write a percentile mapping function by using the code chunk below.
 
 ```{r}
-percentmap <- function(vnam, df, legtitle=NA, mtitle="Percentile Map"){
-  percent <- c(0,.01,.1,.5,.9,.99,1)
+percentmap <- function(vnam, df, legtitle = NA, mtitle = "Percentile Map") {
+  percent <- c(0, .01, .1, .5, .9, .99, 1)
   var <- get.var(vnam, df)
-  bperc <- quantile(var, percent)
+  bperc <- quantile(var, percent, na.rm = TRUE)  # ensure NA-safe
+
   tm_shape(df) +
-  tm_polygons() +
-  tm_shape(df) +
-     tm_polygons(vnam,
-             title=legtitle,
-             breaks=bperc,
-             palette="Blues",
-          labels=c("< 1%", "1% - 10%", "10% - 50%", "50% - 90%", "90% - 99%", "> 99%"))  +
-  tm_borders() +
-  tm_layout(main.title = mtitle, 
-            title.position = c("right","bottom"))
+    tm_polygons() +
+    tm_shape(df) +
+    tm_polygons(
+      vnam,
+      title = legtitle,
+      breaks = bperc,
+      palette = "Blues",
+      labels = c("< 1%", "1% - 10%", "10% - 50%", "50% - 90%", "90% - 99%", "> 99%")
+    ) +
+    tm_borders() +
+    tm_layout(
+      main.title = mtitle,
+      main.title.position = "center",
+      legend.outside = TRUE,
+      legend.outside.position = "right",  # Right side
+      legend.outside.size = 0.2,          # Ensure enough space
+      outer.margins = c(0, 0.1, 0, 0)     # Add space on right
+    )
 }
+
+
 ```
 
 #### Test drive the percentile mapping function
@@ -259,10 +274,8 @@ In essence, a box map is an augmented quartile map, with an additional lower and
 
 ```{r}
 #| fig-width: 4
-ggplot(data = NGA_wp,
-       aes(x = "",
-           y = wp_nonfunctional)) +
-  geom_boxplot()
+ggplot(data = NGA_wp, aes(x = "", y = wp_nonfunctional)) +
+  geom_boxplot(fill = "steelblue")
 ```
 
 -   Displaying summary statistics on a choropleth map by using the basic principles of boxplot.
@@ -340,38 +353,39 @@ The code chunk below is an R function to create a box map. - arguments: - vnam: 
 
 ```{r}
 boxmap <- function(vnam, df, 
-                   legtitle=NA,
-                   mtitle="Box Map",
-                   mult=1.5){
-  var <- get.var(vnam,df)
-  bb <- boxbreaks(var)
+                   legtitle = NA,
+                   mtitle = "Box Map",
+                   mult = 1.5) {
+  var <- get.var(vnam, df)
+  bb <- boxbreaks(var, mult = mult)
+
   tm_shape(df) +
     tm_polygons() +
-  tm_shape(df) +
-     tm_fill(vnam,title=legtitle,
-             breaks=bb,
-             palette="Blues",
-          labels = c("lower outlier", 
-                     "< 25%", 
-                     "25% - 50%", 
-                     "50% - 75%",
-                     "> 75%", 
-                     "upper outlier"))  +
-  tm_borders() +
-  tm_layout(main.title = mtitle, 
-            title.position = c("left",
-                               "top"))
+    tm_shape(df) +
+    tm_fill(vnam,
+            title = legtitle,
+            breaks = bb,
+            palette = "Blues",
+            labels = c("Lower outlier", 
+                       "< 25%", 
+                       "25% - 50%", 
+                       "50% - 75%",
+                       "> 75%", 
+                       "Upper outlier")) +
+    tm_borders() +
+    tm_layout(
+      main.title = mtitle,
+      main.title.position = "center",
+      legend.outside = TRUE,
+      legend.outside.position = "right",
+      legend.outside.size = 0.2,  # Allocate sufficient space
+      outer.margins = c(0, 0.1, 0, 0)  # Top, right, bottom, left
+    )
 }
+
 ```
 
 ```{r}
 tmap_mode("plot")
 boxmap("wp_nonfunctional", NGA_wp)
-```
-
-```{r}
-#| echo: false
-#| eval: false
-renderthis::to_pdf(from = "https://r4va.netlify.app/chap23.html",
-                   to = "D://ISSS608_AY2022-23Apr/20-r4va/chap23.pdf")
 ```

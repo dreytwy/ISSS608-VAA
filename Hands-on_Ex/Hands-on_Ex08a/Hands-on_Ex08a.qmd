@@ -1,8 +1,12 @@
 ---
-title: 'Choropleth Mapping with R'
-date: "06 June 2025"
+title: '8a. Choropleth Mapping with R'
+author: "Audrey Tan"
+date: "13 June 2025"
 date-modified: "last-modified"
-format: html
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
 execute:
   echo: true
   eval: true
@@ -11,7 +15,7 @@ execute:
 editor: visual  
 ---
 
-## Overview
+## 8.1 Overview
 
 Choropleth mapping involves the symbolisation of enumeration units, such as countries, provinces, states, counties or census units, using area patterns or graduated colors. For example, a social scientist may need to use a choropleth map to portray the spatial distribution of aged population of Singapore by Master Plan 2014 Subzone Boundary.
 
@@ -21,7 +25,7 @@ In this chapter, wewill learn how to plot functional and truthful choropleth map
 It is advisable for us to read the functional description of each function before using them.
 :::
 
-## Getting Started
+## 8.2 Getting Started
 
 In this hands-on exercise, the key R package use is [**tmap**](https://cran.r-project.org/web/packages/tmap/) package in R. Beside **tmap** package, four other R packages will be used. They are:
 
@@ -42,7 +46,7 @@ pacman::p_load(sf, tmap, tidyverse)
 Notice that, we only need to install **tidyverse** instead of **readr**, **tidyr** and **dplyr** individually.
 :::
 
-## Importing Data into R
+## 8.3 Importing Data into R
 
 ### The Data
 
@@ -143,7 +147,7 @@ Thing to learn from the code chunk above:
 write_rds(mpsz_pop2020, "data/rds/mpszpop2020.rds")
 ```
 
-## Choropleth Mapping Geospatial Data Using *tmap*
+## 8.4 Choropleth Mapping Geospatial Data Using *tmap*
 
 Two approaches can be used to prepare thematic map using *tmap*, they are:
 
@@ -285,9 +289,197 @@ Notice that the distribution of quantile data classification method are more eve
 
 > **Warning: Maps Lie!**
 
-> DIY: Using what you had learned, prepare choropleth maps by using different classification methods supported by tmap and compare their differences.
+> DIY 1: Using what we have learnt, prepare choropleth maps by using different classification methods supported by tmap and compare their differences.
 
-> DIY: Preparing choropleth maps by using similar classification method but with different numbers of classes (i.e. 2, 6, 10, 20). Compare the output maps, what observation can you draw?
+> DIY 2: Preparing choropleth maps by using similar classification method but with different numbers of classes (i.e. 2, 6, 10, 20). Compare the output maps, what observation can you draw?
+
+#### DIY 1 (10 different classification methods)
+
+```{r}
+# Set tmap mode
+tmap_mode("plot")
+
+# Classification styles
+styles <- c("fixed", "sd", "equal", "pretty", "quantile", 
+            "kmeans", "hclust", "bclust", "fisher", "jenks")
+
+# Define breaks for 'fixed'
+fixed_breaks <- c(0, 20, 40, 60, 80, 100)
+
+# Create map list
+maps <- lapply(styles, function(style) {
+  scale_obj <- if (style == "fixed") {
+    tm_scale_intervals(breaks = fixed_breaks)
+  } else {
+    tm_scale_intervals(style = style, n = 5)
+  }
+
+  tm_shape(mpsz_pop2020) +
+    tm_polygons(
+      fill = "DEPENDENCY",
+      fill.scale = scale_obj,
+      fill.legend = tm_legend(title = style)
+    ) +
+    tm_borders(fill_alpha = 0.5) +
+    tm_title(paste("Style:", style), size = 0.8)
+})
+
+# Show 2 maps per round (5 rounds total)
+for (i in seq(1, length(maps), by = 2)) {
+  print(tmap_arrange(maps[i:(i + 1)], ncol = 2))  # add print()
+}
+
+```
+
+#### Observations- DIY 1
+
+```{r}
+library(reactable)
+
+# Create the data frame
+style_table <- data.frame(
+  Style = c("fixed", "sd", "equal", "pretty", "quantile", 
+            "kmeans", "hclust", "bclust", "fisher", "jenks"),
+  Description = c(
+    "Use manually defined class boundaries (breaks)",
+    "Standard deviation method",
+    "Equal-width intervals (min-max range split evenly)",
+    '"Nice" rounded breaks (like pretty() in base R)',
+    "Same number of observations per class (percentile bins)",
+    "k-means clustering on values",
+    "Hierarchical clustering on values",
+    "Model-based clustering (Bayesian)",
+    "Fisher-Jenks natural breaks (minimizes within-class variance)",
+    "Jenks natural breaks (same idea as Fisher, implemented differently)"
+  ),
+  Best_Use_Case = c(
+    "When you have domain-specific thresholds (e.g., income bands)",
+    "Good for normally distributed data; highlights values away from the mean",
+    "Good for uniformly distributed data",
+    "Readable breaks for presentation",
+    "Good for skewed data or when emphasizing rank/percentiles",
+    "Good when you want data-driven class discovery",
+    "Highlights group structure based on similarity",
+    "Statistically robust clustering (slow, can fail on poor data)",
+    "Best for choropleth maps with natural groupings",
+    "Most commonly used for thematic mapping"
+  ),
+  Observation = c(
+    "Fills lightbue 0-20; consistent across datasets",
+    "Highlights extreme values",
+    "Highlighted mostly 0.11-3.89, one region 15.22-19.00. Works well if data is evenly distributed",
+    "Good readability; useful in reports",
+    "Visually balanced from highlights, but may hide outliers",
+    "Results vary due to algorithm randomness",
+    "Sensitive to data structure; may produce odd groups",
+    "May fail if data is too uniform or sparse",
+    "Groups look natural; well-suited for spatial patterns",
+    "Similar to Fisher, slightly smoother boundaries"
+  )
+)
+
+# Render reactable with thinner Style column and 5 rows per page
+reactable(style_table,
+  searchable = TRUE,
+  defaultPageSize = 5,
+  columns = list(
+    Style = colDef(
+      name = "Style",
+      width = 80,  # Thinner column
+      style = list(textAlign = "center")
+    ),
+    Description = colDef(
+      name = "Description",
+      style = list(whiteSpace = "normal")
+    ),
+    Best_Use_Case = colDef(
+      name = "Best Use Case",
+      style = list(whiteSpace = "normal")
+    )
+  ),
+  bordered = TRUE,
+  highlight = TRUE,
+  striped = TRUE,
+  theme = reactableTheme(
+    headerStyle = list(background = "#f7f7f8", fontWeight = "bold")
+  )
+)
+
+```
+
+#### DIY 2
+
+```{r}
+# Set tmap to plotting mode
+tmap_mode("plot")
+
+# Fixed classification method and class counts
+method <- "pretty"
+class_counts <- c(2, 6, 10, 20)
+
+# Generate maps
+maps <- lapply(class_counts, function(n) {
+  tm_shape(mpsz_pop2020) +
+    tm_polygons(
+      fill = "DEPENDENCY",
+      fill.scale = tm_scale_intervals(style = method, n = n),
+      fill.legend = tm_legend(title = paste(method, "-", n, "classes"))
+    ) +
+    tm_borders(fill_alpha = 0.5) +
+    tm_title(paste("Pretty classification -", n, "classes"), size = 1)
+})
+
+# Show 2 maps at a time
+for (i in seq(1, length(maps), by = 2)) {
+  end_idx <- min(i + 1, length(maps))  # safely handle last map
+  print(tmap_arrange(maps[i:end_idx], ncol = 2))
+}
+
+
+```
+
+#### Observations- DIY 2 (Four different class counts)
+
+```{r}
+# Load the reactable package
+library(reactable)
+
+# Create a data frame for class counts and observations
+observations_df <- data.frame(
+  class_count = c(2, 6, 10, 20),
+  observation = c(
+    "filled mostly by 0-10 with one region at 10-20",
+    "filled mostly by 0-5, with one region at 15-20",
+    "mostly filled by missing or 0-2, with one region at 18-20",
+    "mostly filled by missing or 0-1, with one region 1-2 and another region 18-19"
+  )
+)
+
+# Render the reactable table with specified styling
+reactable(
+  observations_df,
+  searchable = FALSE,
+  defaultPageSize = 4,
+  bordered = TRUE,
+  striped = TRUE,
+  columns = list(
+    class_count = colDef(
+      name = "Class Count",
+      width = 90,  # Thinner column
+      style = list(whiteSpace = "normal")
+    ),
+    observation = colDef(
+      name = "Observations",
+      style = list(whiteSpace = "normal")
+    )
+  ),
+  theme = reactableTheme(
+    headerStyle = list(background = "#f7f7f8", fontWeight = "bold")
+  )
+)
+```
+
+The more class counts there are, the more detailed or refined the highlighting conditions will be.
 
 #### Plotting choropleth map with custome break
 
@@ -365,11 +557,11 @@ tm_shape(mpsz_pop2020)+
   tm_title("Distribution of Dependency Ratio by planning subzone \n(Jenks classification)")
 ```
 
-#### Map style
+#### Map Style
 
 **tmap** allows a wide variety of layout settings to be changed. They can be called by using *tmap_style()*.
 
-The code chunk below shows the *classic* style is used.
+The code chunk below shows the *classic* style being used.
 
 ```{r}
 tm_shape(mpsz_pop2020)+
@@ -377,7 +569,82 @@ tm_shape(mpsz_pop2020)+
           style = "quantile", 
           palette = "-Greens") +
   tm_borders(alpha = 0.5) +
-  tmap_style("classic")
+  tmap_style("classic")+
+  tm_title("Distribution of Dependency Ratio by planning subzone")
+
+```
+
+The code chunk below shows the *cobalt* style being used.
+
+```{r}
+tm_shape(mpsz_pop2020)+
+  tm_fill("DEPENDENCY", 
+          style = "quantile", 
+          palette = "-Greens") +
+  tm_borders(alpha = 0.5) +
+  tmap_style("cobalt")+
+  tm_title("Distribution of Dependency Ratio by planning subzone")
+
+```
+
+The code chunk below shows the *albatross* style being used.
+
+```{r}
+tm_shape(mpsz_pop2020)+
+  tm_fill("DEPENDENCY", 
+          style = "quantile", 
+          palette = "-Greens") +
+  tm_borders(alpha = 0.5) +
+  tmap_style("albatross")+
+  tm_title("Distribution of Dependency Ratio by planning subzone")
+
+```
+
+The code chunk below shows the *white* style being used. It has a neutral look.
+
+```{r}
+tm_shape(mpsz_pop2020) +
+  tm_polygons(
+    fill = "DEPENDENCY",
+    fill.scale = tm_scale_intervals(style = "pretty", values = "brewer.set2"),
+    fill.legend = tm_legend(title = "Dependency Ratio")
+  ) +
+  tm_borders(fill_alpha = 0.5) +
+  tm_layout(
+    bg.color = "lightblue",
+    inner.bg.color = "lightblue",
+    inner.margins = c(0.1, 0.1, 0.1, 0.1)
+  ) +
+  tmap_style("white") + 
+  tm_compass(position = c("left", "top"), size = 2) +
+  tm_scalebar(position = c("right", "bottom"), text.size = 0.6) +
+  tm_credits("Designer: AT", position = c("right", "bottom"), size = 0.6) +
+  tm_title("Distribution of Dependency Ratio by Planning Subzone")
+
+```
+
+The code chunk below shows the *watercolor* style being used. It has an artistic painted look
+
+```{r}
+tm_shape(mpsz_pop2020) +
+  tm_polygons(
+    fill = "DEPENDENCY",
+    fill.scale = tm_scale_intervals(style = "pretty", 
+                                    values = "brewer.pastel2"),
+    fill.legend = tm_legend(title = "Dependency Ratio")
+  ) +
+  tm_borders(fill_alpha = 0.5) +
+  tm_layout(
+    bg.color = "lightblue",
+    inner.bg.color = "lightblue",
+    inner.margins = c(0.1, 0.1, 0.1, 0.1)
+  ) +
+  tmap_style("watercolor") + # soft painted base
+  tm_compass(position = c("left", "top"), size = 2) +
+  tm_scalebar(position = c("right", "bottom"), text.size = 0.6) +
+  tm_credits("Designer: AT", position = c("right", "bottom"), size = 0.6) +
+  tm_title("Distribution of Dependency Ratio by Planning Subzone")
+
 ```
 
 #### Cartographic Furniture
@@ -387,6 +654,8 @@ Beside map style, **tmap** also also provides arguments to draw other map furnit
 In the code chunk below, *tm_compass()*, *tm_scale_bar()* and *tm_grid()* are used to add compass, scale bar and grid lines onto the choropleth map.
 
 ```{r}
+tmap_style("beaver")
+
 tm_shape(mpsz_pop2020)+
   tm_polygons(fill = "DEPENDENCY", 
               fill.scale = tm_scale_intervals(
@@ -396,12 +665,16 @@ tm_shape(mpsz_pop2020)+
               fill.legend = tm_legend(
                 title = "Dependency ratio")) +
   tm_title("Distribution of Dependency Ratio by planning subzone") +
-  tm_layout(frame = TRUE) +
+  tm_layout(frame = TRUE,
+    legend.outside = TRUE,
+    legend.outside.position = "right",
+    inner.margins = c(0.25, 0.05, 0.25, 0.05))+
   tm_borders(fill_alpha = 0.5) +
-  tm_compass(type="8star", size = 2) +
+  tm_compass(type="8star", size = 2, position=c("left", "top")) +
   tm_grid(alpha =0.2) +
   tm_credits("Source: Planning Sub-zone boundary from Urban Redevelopment Authorithy (URA)\n and Population data from Department of Statistics DOS", 
              position = c("left", "bottom"))
+
 ```
 
 To reset the default style, refer to the code chunk below.
@@ -425,13 +698,17 @@ In **tmap**, small multiple maps can be plotted in three ways:
 In this example, small multiple choropleth maps are created by defining ***ncols*** in **tm_fill()**
 
 ```{r}
-tm_shape(mpsz_pop2020)+
+tm_shape(mpsz_pop2020) +
   tm_fill(c("YOUNG", "AGED"),
           style = "equal", 
-          palette = "Blues") +
-  tm_layout(legend.position = c("right", "bottom")) +
+          palette = "Set2") +
   tm_borders(alpha = 0.5) +
+  tm_layout(
+    legend.outside = TRUE,
+    legend.outside.position = "bottom"
+  ) +
   tmap_style("white")
+
 ```
 
 In this example, small multiple choropleth maps are created by assigning multiple values to at least one of the aesthetic arguments
@@ -441,7 +718,11 @@ tm_shape(mpsz_pop2020)+
   tm_polygons(c("DEPENDENCY","AGED"),
           style = c("equal", "quantile"), 
           palette = list("Blues","Greens")) +
-  tm_layout(legend.position = c("right", "bottom"))
+  tm_layout(
+    legend.outside = TRUE,
+    legend.outside.position = "bottom"
+  ) +
+  tmap_style("white")
 ```
 
 #### By defining a group-by variable in *tm_facets()*
@@ -452,7 +733,7 @@ In this example, multiple small choropleth maps are created by using **tm_facets
 tm_shape(mpsz_pop2020) +
   tm_fill("DEPENDENCY",
           style = "quantile",
-          palette = "Blues",
+          palette = "Set2",
           thres.poly = 0) + 
   tm_facets(by="REGION_N", 
             free.coords=TRUE) +
@@ -470,25 +751,25 @@ In this example, multiple small choropleth maps are created by creating multiple
 youngmap <- tm_shape(mpsz_pop2020)+ 
   tm_polygons("YOUNG", 
               style = "quantile", 
-              palette = "Blues")
+              palette = "Set2")
 
 agedmap <- tm_shape(mpsz_pop2020)+ 
   tm_polygons("AGED", 
               style = "quantile", 
-              palette = "Blues")
+              palette = "set2")
 
 tmap_arrange(youngmap, agedmap, asp=1, ncol=2)
 ```
 
 ### Mappping Spatial Object Meeting a Selection Criterion
 
-Instead of creating small multiple choropleth map, you can also use selection funtion to map spatial objects meeting the selection criterion.
+Instead of creating small multiple choropleth map, we can also use selection funtion to map spatial objects meeting the selection criterion.
 
 ```{r}
 tm_shape(mpsz_pop2020[mpsz_pop2020$REGION_N=="CENTRAL REGION", ])+
   tm_fill("DEPENDENCY", 
           style = "quantile", 
-          palette = "Blues", 
+          palette = "Set2", 
           legend.hist = TRUE, 
           legend.is.portrait = TRUE,
           legend.hist.z = 0.1) +
@@ -500,7 +781,7 @@ tm_shape(mpsz_pop2020[mpsz_pop2020$REGION_N=="CENTRAL REGION", ])+
   tm_borders(alpha = 0.5)
 ```
 
-## Reference
+## 8.5 Reference
 
 ### All about **tmap** package
 
@@ -522,10 +803,3 @@ tm_shape(mpsz_pop2020[mpsz_pop2020$REGION_N=="CENTRAL REGION", ])+
 -   [dplyr](https://dplyr.tidyverse.org/)
 -   [Tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
 -   [tidyr: Easily Tidy Data with 'spread()' and 'gather()' Functions](https://cran.r-project.org/web/packages/tidyr/tidyr.pdf)
-
-```{r}
-#| echo: false
-#| eval: false
-renderthis::to_pdf(from = "https://r4va.netlify.app/chap21.html",
-                   to = "D://ISSS608_AY2022-23Apr/20-r4va/chap21.pdf")
-```
