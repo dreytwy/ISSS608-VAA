@@ -1,5 +1,5 @@
 ---
-title: "9a Creating Ternary Plot with R"
+title: "9a. Creating Ternary Plot with R"
 author: "Audrey Tan"
 date: "13 June 2025"
 date-modified: "last-modified"

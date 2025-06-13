@@ -88,7 +88,7 @@ These are some prototypes of the webpage and shiny application that we are plann
 
 -   Names of characters that are related to each other of certain time period
 
-## Visualisation:
+## **Visualisation:**
 
 -   We added shapes and colours to distinguish the Entity nodes (square, circle, triangle, diamond, short oval), relationship node (long oval), and Event-Communication nodes (star).
 
