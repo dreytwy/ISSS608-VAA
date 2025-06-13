@@ -1,7 +1,7 @@
 ---
-title: "9E. Treemap Visualisation with R"
+title: "9e. Treemap Visualisation with R"
 author: "Audrey Tan"
-date: "06 June 2025"
+date: "13 June 2025"
 date-modified: "last-modified"
 format: html
 editor: visual
@@ -11,8 +11,6 @@ execute:
   warning: false 
   freeze: true
 ---
-
-# **9E. Treemap Visualisation with R**
 
 ## **9.1 Overview**
 

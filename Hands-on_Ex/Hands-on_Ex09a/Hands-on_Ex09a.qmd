@@ -1,7 +1,7 @@
 ---
-title: "Hands-on_Exercise09A"
+title: "9a Creating Ternary Plot with R"
 author: "Audrey Tan"
-date: "06 June 2025"
+date: "13 June 2025"
 date-modified: "last-modified"
 format: 
   html:
@@ -14,8 +14,6 @@ execute:
   warning: false 
   freeze: true
 ---
-
-# **9A  Creating Ternary Plot with R**
 
 ## **9.1 Overview**
 

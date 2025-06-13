@@ -1,7 +1,7 @@
 ---
-title: "9D. Visual Multivariate Analysis with Parallel Coordinates Plot"
+title: "9d. Visual Multivariate Analysis with Parallel Coordinates Plot"
 author: "Audrey Tan"
-date: "06 June 2025"
+date: "13 June 2025"
 date-modified: "last-modified"
 format: html
 editor: visual
@@ -11,8 +11,6 @@ execute:
   warning: false 
   freeze: true
 ---
-
-# **9D. Visual Multivariate Analysis with Parallel Coordinates Plot**
 
 ## **9.1 Overview**
 

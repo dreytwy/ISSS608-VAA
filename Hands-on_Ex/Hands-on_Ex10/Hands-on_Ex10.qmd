@@ -1,6 +1,6 @@
 ---
-title: "Information Dashboard Design: R methods"
-date: "06 June 2025"
+title: "10. Information Dashboard Design: R methods"
+date: "13 June 2025"
 date-modified: "last-modified"
 format: 
   html:

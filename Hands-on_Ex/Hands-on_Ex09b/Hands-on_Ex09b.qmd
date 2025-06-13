@@ -1,7 +1,7 @@
 ---
-title: "9B. Visual Correlation Analysis"
+title: "9b. Visual Correlation Analysis"
 author: "Audrey Tan"
-date: "06 June 2025"
+date: "13 June 2025"
 date-modified: "last-modified"
 format: html
 editor: visual
@@ -11,8 +11,6 @@ execute:
   warning: false 
   freeze: true
 ---
-
-# **9B. Visual Correlation Analysis**
 
 ## **9.1 Overview**
 
