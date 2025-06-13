@@ -16,7 +16,7 @@ editor: visual
 
 ## 10.1 Overview
 
-By the end of this hands-on exercise, you will be able to:
+By the end of this hands-on exercise, we will be able to:
 
 -   create bullet chart by using ggplot2,
 -   create sparklines by using ggplot2 ,
@@ -57,14 +57,14 @@ write_rds(coffeechain, "data/CoffeeChain.rds")
 odbcClose(con)
 ```
 
-Note: Before running the code chunk, you need to change the R system to 32bit version. This is because the `odbcConnectAccess()` is based on 32bit and not 64bit
+Note: Before running the code chunk, we need to change the R system to 32bit version. This is because the `odbcConnectAccess()` is based on 32bit and not 64bit
 
 ### Data Preparation
 
 The code chunk below is used to import *CoffeeChain.rds* into R.
 
 ```{r}
-coffeechain <- read_rds("data/rds/CoffeeChain.rds")
+coffeechain <- read_rds("data/CoffeeChain.rds")
 ```
 
 ```{r echo=FALSE, eval=FALSE}
@@ -110,7 +110,7 @@ ggplot(product, aes(Product, current)) +
 
 ## 10.4 Plotting sparklines using ggplot2
 
-In this section, you will learn how to plot sparklines by using ggplot2.
+In this section, we will learn how to plot sparklines by using ggplot2.
 
 ### Preparing the data
 
@@ -178,11 +178,11 @@ ggplot(sales_report, aes(x=Month, y=Sales)) +
 
 ## 10.5 Static Information Dashboard Design: gt and gtExtras methods
 
-In this section, you will learn how to create static information dashboard by using [gt](https://gt.rstudio.com/index.html) and [gtExtras](https://jthomasmock.github.io/gtExtras/index.html) packages. Before getting started, it is highly recommended for you to visit the webpage of these two packages and review all the materials provided on the webpages at least once. You done not have to understand and remember everything provided but at least have an overview of the purposes and functions provided by them.
+In this section, we will learn how to create static information dashboard by using [gt](https://gt.rstudio.com/index.html) and [gtExtras](https://jthomasmock.github.io/gtExtras/index.html) packages. Before getting started, it is highly recommended for us to visit the webpage of these two packages and review all the materials provided on the webpages at least once. We do not have to understand and remember everything provided but at least have an overview of the purposes and functions provided by them.
 
 ### Plotting a simple bullet chart
 
-In this section, you will learn how to prepare a bullet chart report by using functions of gt and gtExtras packages.
+In this section, we will learn how to prepare a bullet chart report by using functions of gt and gtExtras packages.
 
 ```{r}
 product %>%
@@ -212,7 +212,7 @@ report <- coffeechain %>%
 
 ```
 
-It is important to note that one of the requirement of gtExtras functions is that almost exclusively they require you to pass data.frame with list columns. In view of this, code chunk below will be used to convert the report data.frame into list columns.
+It is important to note that one of the requirement of gtExtras functions is that almost exclusively they require us to pass data.frame with list columns. In view of this, code chunk below will be used to convert the report data.frame into list columns.
 
 ```{r}
 report %>%
@@ -315,7 +315,7 @@ sales_data %>%
 
 ## 10.6 Interactive Information Dashboard Design: reactable and reactablefmtr methods
 
-In this section, you will learn how to create interactive information dashboard by using [reactable](https://glin.github.io/reactable/index.html) and [reactablefmtr](https://kcuilla.github.io/reactablefmtr/index.html) packages. Before getting started, it is highly recommended for you to visit the webpage of these two packages and review all the materials provided on the webpages at least once. You done not have to understand and remember everything provided but at least have an overview of the purposes and functions provided by them.
+In this section, we will learn how to create interactive information dashboard by using [reactable](https://glin.github.io/reactable/index.html) and [reactablefmtr](https://kcuilla.github.io/reactablefmtr/index.html) packages. Before getting started, it is highly recommended for us to visit the webpage of these two packages and review all the materials provided on the webpages at least once. We do not have to understand and remember everything provided but at least have an overview of the purposes and functions provided by them.
 
 In order to build an interactive sparklines, we need to install dataui R package by using the code chunk below.
 
@@ -324,7 +324,7 @@ In order to build an interactive sparklines, we need to install dataui R package
 remotes::install_github("timelyportfolio/dataui")
 ```
 
-Next, you all need to load the package onto R environment by using the code chunk below.
+Next, we need to load the package onto R environment by using the code chunk below.
 
 ```{r}
 library(dataui)
@@ -462,10 +462,3 @@ reactable(
 ```
 
 ## 10.7 Reference
-
-```{r}
-#| echo: false
-#| eval: false
-renderthis::to_pdf(from = "C://tskam/r4va/_book/chap31.html",
-                   to = "C://ISSS608_AY2024-25Jan/20-r4va/chap31.pdf")
-```
