@@ -14,11 +14,11 @@ execute:
 
 ## **9.1 Overview**
 
-In this hands-on exercise, you will gain hands-on experiences on designing treemap using appropriate R packages. The hands-on exercise consists of three main section. First, you will learn how to manipulate transaction data into a treemap strcuture by using selected functions provided in **dplyr** package. Then, you will learn how to plot static treemap by using **treemap** package. In the third section, you will learn how to design interactive treemap by using **d3treeR** package.
+In this hands-on exercise, we will gain hands-on experiences on designing treemap using appropriate R packages. The hands-on exercise consists of three main section. First, we will learn how to manipulate transaction data into a treemap strcuture by using selected functions provided in **dplyr** package. Then, we will learn how to plot static treemap by using **treemap** package. In the third section, we will learn how to design interactive treemap by using **d3treeR** package.
 
 ## **9.2 Installing and Launching R Packages**
 
-Before we get started, you are required to check if **treemap** and **tidyverse** pacakges have been installed in you R.
+Before we get started, we are required to check if **treemap** and **tidyverse** pacakges have been installed in we R.
 
 ```{r}
 pacman::p_load(treemap, treemapify, tidyverse) 
@@ -48,13 +48,13 @@ The data.frame *realis2018* is in trasaction record form, which is highly disagg
 
 Two key verbs of **dplyr** package, namely: *group_by()* and *summarize()* will be used to perform these steps.
 
-*group_by()* breaks down a data.frame into specified groups of rows. When you then apply the verbs above on the resulting object they’ll be automatically applied “by group”.
+*group_by()* breaks down a data.frame into specified groups of rows. When we then apply the verbs above on the resulting object they’ll be automatically applied “by group”.
 
 Grouping affects the verbs as follows:
 
 -   grouped *select()* is the same as ungrouped *select()*, except that grouping variables are always retained.
 
--   grouped *arrange()* is the same as ungrouped; unless you set *.by_group = TRUE*, in which case it orders first by the grouping variables.
+-   grouped *arrange()* is the same as ungrouped; unless we set *.by_group = TRUE*, in which case it orders first by the grouping variables.
 
 -   *mutate()* and *filter()* are most useful in conjunction with window functions (like *rank()*, or *min(x) == x*). They are described in detail in vignette(“window-functions”).
 
@@ -72,7 +72,7 @@ Students who are new to dplyr methods should consult Introduction to dplyr befor
 
 ### **9.3.3 Grouped summaries without the Pipe**
 
-The code chank below shows a typical two lines code approach to perform the steps.
+The code chunk below shows a typical two lines code approach to perform the steps.
 
 ```{r}
 realis2018_grouped <- group_by(realis2018, `Project Name`,
@@ -276,7 +276,7 @@ treemap(realis2018_selected,
 
 ## **9.5 Designing Treemap using treemapify Package**
 
-**treemapify** is a R package specially developed to draw treemaps in **ggplot2**. In this section, you will learn how to designing treemps closely resemble treemaps designing in previous section by using **treemapify**. Before you getting started, you should read [Introduction to “treemapify”](https://cran.r-project.org/web/packages/treemapify/vignettes/introduction-to-treemapify.html) its [user guide](https://cran.r-project.org/web/packages/treemapify/treemapify.pdf).
+**treemapify** is a R package specially developed to draw treemaps in **ggplot2**. In this section, we will learn how to designing treemps closely resemble treemaps designing in previous section by using **treemapify**. Before we get started, we should read [Introduction to “treemapify”](https://cran.r-project.org/web/packages/treemapify/vignettes/introduction-to-treemapify.html) its [user guide](https://cran.r-project.org/web/packages/treemapify/treemapify.pdf).
 
 ### **9.5.1 Designing a basic treemap**
 
@@ -332,23 +332,23 @@ ggplot(data=realis2018_selected,
 
 ### **9.6.1 Installing *d3treeR* package**
 
-This slide shows you how to install a R package which is not available in cran.
+This slide shows us how to install a R package which is not available in cran.
 
-1.  If this is the first time you install a package from github, you should install *devtools* package by using the code below or else you can skip this step.
+1.  If this is the first time we install a package from github, we should install *devtools* package by using the code below or else we can skip this step.
 
 ```{r}
 install.packages("devtools")
 
 ```
 
-2.  Next, you will load the *devtools* library and install the package found in github by using the codes below.
+2.  Next, we will load the *devtools* library and install the package found in github by using the codes below.
 
 ```{r}
 library(devtools)
 install_github("timelyportfolio/d3treeR")
 ```
 
-3.  Now you are ready to launch *d3treeR* package
+3.  Now we are ready to launch *d3treeR* package
 
 ```{r}
 library(d3treeR)
