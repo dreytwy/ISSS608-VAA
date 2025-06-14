@@ -334,12 +334,9 @@ ggplot(data=realis2018_selected,
 
 This slide shows us how to install a R package which is not available in cran.
 
-1.  If this is the first time we install a package from github, we should install *devtools* package by using the code below or else we can skip this step.
+1.  If this is the first time we install a package from github, we should install *devtools* package.
 
-```{r}
-install.packages("devtools")
-
-```
+<!-- -->
 
 2.  Next, we will load the *devtools* library and install the package found in github by using the codes below.
 
