@@ -37,7 +37,7 @@ project:
 website:
   favicon: bear_heart.png
   announcement:
-    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (01 JUN)** - [**Take-Home_Ex02**](https://isss608-ay2024-25-dreytwy.netlify.app/Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(13 JUN)** - Hands on [**Exercises**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex08a/Hands-on_Ex08a.html) published" 
+    content: "<i class=\"bi bi-balloon-heart-fill\"></i> **NEW! (13 JUN)** - [**Take-Home_Ex03**](https://dreytwy-th3.netlify.app/take-home_ex03) published! <br> <i class=\"bi bi-cup-hot-fill\"></i> **(13 JUN)** - Hands on [**Exercises**](https://isss608-ay2024-25-dreytwy.netlify.app/Hands-on_Ex/Hands-on_Ex08a/Hands-on_Ex08a.html) published" 
     type: warning
     position: below-navbar
   page-navigation: true
