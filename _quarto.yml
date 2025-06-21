@@ -28,6 +28,7 @@ project:
     - In-class_Ex/In-class_Ex05/In-class_Ex05.qmd
     - In-class_Ex/In-class_Ex06/In-class_Ex06.qmd
     - In-class_Ex/In-class_Ex09/In-class_Ex08.qmd
+    - In-class_Ex/In-class_Ex09/In-class_Ex09.qmd
     - Take-home_Ex/Take-home_Ex01/Take-home_Ex01.qmd
     - Take-home_Ex/Take-home_Ex02/Take-home_Ex02.qmd
 
@@ -96,6 +97,8 @@ website:
             href: "In-class_Ex/In-class_Ex06/In-class_Ex06.html" 
           - text: "In-class Exercise 8"        
             href: "In-class_Ex/In-class_Ex09/In-class_Ex08.html" 
+          - text: "In-class Exercise 9"        
+            href: "In-class_Ex/In-class_Ex09/In-class_Ex09.html" 
             
       - text: "Take-home Exercise"
         menu:
