@@ -21,7 +21,7 @@
     <WindowsPersistSimpleIdentifiers />
     <WorksheetBackgroundTransparency />
   </document-format-change-manifest>
-  <repository-location id='MasterPlan' path='/workbooks' revision='1.2' />
+  <repository-location id='MasterPlan' path='/workbooks' revision='1.4' />
   <preferences>
     <preference name='ui.encoding.shelf.height' value='24' />
     <preference name='ui.shelf.height' value='26' />
@@ -325,7 +325,7 @@
         </groupfilter>
       </group>
       <extract _.fcp.VConnDownstreamExtractsWithWarnings.true...user-specific='false' count='-1' enabled='true' object-id='' units='records'>
-        <connection access_mode='readonly' author-locale='en_US' class='hyper' dbname='C:/Users/dreyw/AppData/Local/Temp/TableauTemp/#TableauTemp_01i7ak11bcndb5133cj4s09ycw0v.hyper' default-settings='hyper' schema='Extract' sslmode='' tablename='Extract' update-time='' username='tableau_internal_user'>
+        <connection access_mode='readonly' author-locale='en_US' class='hyper' dbname='C:/Users/dreyw/AppData/Local/Temp/TableauTemp/#TableauTemp_0lfu7ii1hjd7j51e2eupf04npbii.hyper' default-settings='hyper' schema='Extract' sslmode='' tablename='Extract' update-time='' username='tableau_internal_user'>
           <relation type='collection'>
             <relation name='MPSZ-2019.shp_FF3E5D0A259E47B989828A2D0BD745CB' table='[Extract].[MPSZ-2019.shp_FF3E5D0A259E47B989828A2D0BD745CB]' type='table' />
             <relation name='respopagesextod2024.csv_ACE98D531EEC486483E3FC4B408C5828' table='[Extract].[respopagesextod2024.csv_ACE98D531EEC486483E3FC4B408C5828]' type='table' />
@@ -1155,8 +1155,8 @@
         <devicelayout auto-generated='true' name='Phone'>
           <size maxheight='1450' minheight='1450' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='24' type-v2='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98262' id='23' param='vert' type-v2='layout-flow' w='98916' x='542' y='869'>
+            <zone h='100000' id='28' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98262' id='27' param='vert' type-v2='layout-flow' w='98916' x='542' y='869'>
                 <zone forceUpdate='true' h='7709' id='3' type-v2='text' w='88076' x='542' y='869'>
                   <formatted-text>
                     <run bold='true' fontalignment='1' fontcolor='#000000' fontsize='20'>Concentration and Scale: A Dual View of Population</run>
@@ -1250,9 +1250,9 @@
       <size sizing-mode='automatic' />
       <zones>
         <zone h='100000' id='4' type-v2='layout-basic' w='100000' x='0' y='0'>
-          <zone h='69164' id='7' param='horz' type-v2='layout-flow' w='98916' x='542' y='7709'>
-            <zone h='69164' id='5' type-v2='layout-basic' w='87873' x='542' y='7709'>
-              <zone h='69164' id='3' name='Population distribution by planning subzone' w='36789' x='542' y='7709'>
+          <zone h='72530' id='7' param='horz' type-v2='layout-flow' w='98916' x='542' y='7709'>
+            <zone h='72530' id='5' type-v2='layout-basic' w='87873' x='542' y='7709'>
+              <zone h='72530' id='3' name='Population distribution by planning subzone' w='36789' x='542' y='7709'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -1260,7 +1260,7 @@
                   <format attr='margin' value='4' />
                 </zone-style>
               </zone>
-              <zone h='69164' id='9' name='Age-sex population Pyramid' w='51084' x='37331' y='7709'>
+              <zone h='72530' id='9' name='Age-sex population Pyramid' w='51084' x='37331' y='7709'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -1269,7 +1269,7 @@
                 </zone-style>
               </zone>
             </zone>
-            <zone fixed-size='163' h='69164' id='6' is-fixed='true' param='vert' type-v2='layout-flow' w='11043' x='88415' y='7709'>
+            <zone fixed-size='163' h='72530' id='6' is-fixed='true' param='vert' type-v2='layout-flow' w='11043' x='88415' y='7709'>
               <zone h='7927' id='8' name='Population distribution by planning subzone' pane-specification-id='0' param='[federated.134cx8108ofil314leiis1ml1mp0].[usr:Calculation_462181934907187203:qk]' type-v2='color' w='11043' x='88415' y='7709'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
@@ -1299,7 +1299,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='22258' id='12' param='horz' type-v2='layout-flow' w='98916' x='542' y='76873' />
+          <zone h='18892' id='12' param='horz' type-v2='layout-flow' w='98916' x='542' y='80239' />
           <zone-style>
             <format attr='border-color' value='#000000' />
             <format attr='border-style' value='none' />
@@ -1312,8 +1312,8 @@
         <devicelayout auto-generated='true' name='Phone'>
           <size maxheight='800' minheight='800' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='22' type-v2='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98262' id='21' param='vert' type-v2='layout-flow' w='98916' x='542' y='869'>
+            <zone h='100000' id='26' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98262' id='25' param='vert' type-v2='layout-flow' w='98916' x='542' y='869'>
                 <zone forceUpdate='true' h='6840' id='11' type-v2='text' w='98916' x='542' y='869'>
                   <formatted-text>
                     <run bold='true' fontalignment='1' fontcolor='#000000' fontsize='20'>Population distribution and Age-sex structure</run>
@@ -1326,7 +1326,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='69164' id='3' is-fixed='true' name='Population distribution by planning subzone' w='36789' x='542' y='7709'>
+                <zone fixed-size='280' h='72530' id='3' is-fixed='true' name='Population distribution by planning subzone' w='36789' x='542' y='7709'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1344,7 +1344,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='69164' id='9' is-fixed='true' name='Age-sex population Pyramid' w='51084' x='37331' y='7709'>
+                <zone fixed-size='280' h='72530' id='9' is-fixed='true' name='Age-sex population Pyramid' w='51084' x='37331' y='7709'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1400,7 +1400,7 @@
               <zone h='92941' id='1' param='vert' removable='false' type-v2='layout-flow' w='98916' x='542' y='6190'>
                 <zone h='10966' id='4' is-fixed='true' paired-zone-id='5' removable='false' type-v2='flipboard-nav' w='98916' x='542' y='6190' />
                 <zone h='81975' id='5' paired-zone-id='4' removable='false' type-v2='flipboard' w='98916' x='542' y='17156'>
-                  <flipboard active-id='1' nav-type='caption' show-nav-arrows='true'>
+                  <flipboard active-id='2' nav-type='caption' show-nav-arrows='true'>
                     <story-points>
                       <story-point caption='Demographic Structure' captured-sheet='Demographic Structure' id='2' />
                       <story-point caption='Concentration and Scale' captured-sheet='Concentration  and Scale' id='1'>
@@ -1428,14 +1428,14 @@
             <format attr='margin' value='8' />
           </zone-style>
         </zone>
-        <zone flipboard-zone-id='5' forceUpdate='true' h='7709' id='6' story-point-id='1' type-v2='text' w='19986' x='1423' y='7166'>
+        <zone flipboard-zone-id='5' forceUpdate='true' h='7492' hidden='true' id='6' story-point-id='1' type-v2='text' w='26558' x='1423' y='7926'>
           <formatted-text>
-            <run>Hover over the map or scatterplot to review</run>
+            <run fontsize='12'>Hover over the map or scatterplot to review</run>
           </formatted-text>
         </zone>
-        <zone flipboard-zone-id='5' forceUpdate='true' h='9881' hidden='true' id='7' story-point-id='2' type-v2='text' w='26287' x='1016' y='6949'>
+        <zone flipboard-zone-id='5' forceUpdate='true' h='8469' id='7' story-point-id='2' type-v2='text' w='26287' x='1016' y='8360'>
           <formatted-text>
-            <run>Click any region in the map to filter to the related  population pyramid</run>
+            <run fontsize='12'>Click any region in the map to filter to the related  population pyramid</run>
           </formatted-text>
         </zone>
       </zones>
@@ -1499,7 +1499,7 @@
       </cards>
       <simple-id uuid='{8F44C735-3F44-4124-8F61-624AC967D8E9}' />
     </window>
-    <window class='worksheet' maximized='true' name='Age-sex population Pyramid'>
+    <window class='worksheet' name='Age-sex population Pyramid'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -1636,7 +1636,7 @@
       <active id='-1' />
       <simple-id uuid='{4F592633-FB44-4DF8-AFE4-F9314FB6BC78}' />
     </window>
-    <window class='dashboard' name='Singapore Population 2024'>
+    <window class='dashboard' maximized='true' name='Singapore Population 2024'>
       <viewpoints />
       <active id='-1' />
       <simple-id uuid='{528A3602-6DC9-4EC9-9084-BDD7B3B4A247}' />
