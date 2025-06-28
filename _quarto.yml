@@ -30,6 +30,7 @@ project:
     - In-class_Ex/In-class_Ex09/In-class_Ex08.qmd
     - In-class_Ex/In-class_Ex09/In-class_Ex09.qmd
     - In-class_Ex/In-class_Ex10/In-class_Ex10.qmd
+    - In-class_Ex/In-class_Ex10/Investment.qmd
     - Take-home_Ex/Take-home_Ex01/Take-home_Ex01.qmd
     - Take-home_Ex/Take-home_Ex02/Take-home_Ex02.qmd
 
@@ -100,9 +101,10 @@ website:
             href: "In-class_Ex/In-class_Ex09/In-class_Ex08.html" 
           - text: "In-class Exercise 9"        
             href: "In-class_Ex/In-class_Ex09/In-class_Ex09.html"
-          - text: "In-class Exercise 10"        
+          - text: "In-class Exercise 10-Part1"        
             href: "In-class_Ex/In-class_Ex10/In-class_Ex10.html"
-                        
+          - text: "In-class Exercise 10-Part2"        
+            href: "In-class_Ex/In-class_Ex10/Investment.html"                        
       - text: "Take-home Exercise"
         menu:
           - text: "Take-home Exercise 1"

@@ -101,7 +101,6 @@ end_lbl <- format(end_date, "%d %B %Y")
 dynamic_title <- glue("DBS Stock Prices from {start_lbl} to {end_lbl}")
 ```
 
-
 ```{r}
 p <- ggplot(data = df, aes(x = date, y = close)) +
   geom_line(color = "steelblue") +
